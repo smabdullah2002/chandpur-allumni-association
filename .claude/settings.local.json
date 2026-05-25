@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(node index.js)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(node -e \"const c = require\\('cloudinary'\\).v2; c.config\\({ url: process.env.CLOUDINARY_URL }\\); console.log\\('cloud_name:', c.config\\(\\).cloud_name\\);\")",
+      "Bash(node:*)",
+      "Bash(pkill -f \"node index.js\")",
+      "Bash(netstat -ano)",
+      "Bash(taskkill /PID 22980 /F)",
+      "Bash(taskkill //PID 22980 //F)",
+      "Bash(taskkill //PID 7508 //F)",
+      "Bash(cmd:*)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Projects\\\\monone-motlob\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Select-Object -ExpandProperty Name)",
+      "Bash(xargs grep -l \"sodosh\\\\|member\\\\|Member\")"
+    ]
+  }
+}

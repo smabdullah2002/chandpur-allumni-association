@@ -1,0 +1,297 @@
+/* ════════════════════════════════════════════════════════════════
+   HeroSlider.css  –  Fancy cinematic hero slider
+   ════════════════════════════════════════════════════════════════ */
+
+/* ─── Stage ─────────────────────────────────────────────────────── */
+.hs-stage {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 580px;
+  overflow: hidden;
+  background: #0a0a0a;
+  font-family: 'Georgia', serif; /* fallback; override with your project font */
+}
+
+/* ─── Background image layers ───────────────────────────────────── */
+.hs-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, opacity;
+  opacity: 1;
+  transform: none;
+}
+
+/* Entering slide */
+.hs-bg--enter-next  { animation: bgEnterNext  0.9s cubic-bezier(0.77,0,0.18,1) both; }
+.hs-bg--enter-prev  { animation: bgEnterPrev  0.9s cubic-bezier(0.77,0,0.18,1) both; }
+
+/* Exiting slide */
+.hs-bg--exit-next   { animation: bgExitNext   0.9s cubic-bezier(0.77,0,0.18,1) both; z-index: 1; }
+.hs-bg--exit-prev   { animation: bgExitPrev   0.9s cubic-bezier(0.77,0,0.18,1) both; z-index: 1; }
+
+@keyframes bgEnterNext {
+  from { transform: translateX(6%) scale(1.04); opacity: 0; }
+  to   { transform: translateX(0)   scale(1);    opacity: 1; }
+}
+@keyframes bgEnterPrev {
+  from { transform: translateX(-6%) scale(1.04); opacity: 0; }
+  to   { transform: translateX(0)   scale(1);    opacity: 1; }
+}
+@keyframes bgExitNext {
+  from { transform: translateX(0)    scale(1); opacity: 1; }
+  to   { transform: translateX(-8%) scale(1.02); opacity: 0; }
+}
+@keyframes bgExitPrev {
+  from { transform: translateX(0)   scale(1); opacity: 1; }
+  to   { transform: translateX(8%)  scale(1.02); opacity: 0; }
+}
+
+/* ─── Gradient overlay ──────────────────────────────────────────── */
+.hs-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 60%, transparent 100%),
+    linear-gradient(to top,    rgba(0,0,0,0.55) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ─── Decorative corner mark ────────────────────────────────────── */
+.hs-corner-mark {
+  position: absolute;
+  top: 2.2rem;
+  right: 2.2rem;
+  z-index: 10;
+  opacity: 0.6;
+  animation: spinSlow 30s linear infinite;
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Slide counter ─────────────────────────────────────────────── */
+.hs-slide-count {
+  position: absolute;
+  top: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-family: 'Courier New', monospace;
+}
+.hs-count-current {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.hs-count-divider {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgba(255,255,255,0.35);
+}
+
+/* ─── Content area ──────────────────────────────────────────────── */
+.hs-content-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 6vw 10rem;
+}
+
+@media (min-width: 900px) {
+  .hs-content-wrap { padding: 0 7vw 8rem; max-width: 720px; }
+}
+
+.hs-content {
+  max-width: 640px;
+}
+
+/* Content enter animations */
+.hs-content--enter-next {
+  animation: contentEnterNext 0.75s cubic-bezier(0.22,1,0.36,1) both;
+  animation-delay: 0.15s;
+}
+.hs-content--enter-prev {
+  animation: contentEnterPrev 0.75s cubic-bezier(0.22,1,0.36,1) both;
+  animation-delay: 0.15s;
+}
+
+@keyframes contentEnterNext {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes contentEnterPrev {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Tag / eyebrow */
+.hs-tag {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 2rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+
+/* Headline */
+.hs-title {
+  font-size: clamp(2rem, 5.5vw, 3.8rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+/* Body copy */
+.hs-desc {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
+  margin: 0 0 2rem;
+  max-width: 480px;
+}
+
+/* ─── CTA buttons ───────────────────────────────────────────────── */
+.hs-actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.hs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.72rem 1.5rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+
+.hs-btn--ghost {
+  border: 1.5px solid rgba(255,255,255,0.55);
+  color: #fff;
+  background: transparent;
+}
+.hs-btn--ghost:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.8);
+}
+
+.hs-btn--solid {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1.5px solid transparent;
+}
+.hs-btn--solid:hover {
+  background: rgba(255,255,255,0.88);
+  transform: translateY(-1px);
+}
+
+/* ─── Progress / dot bar ────────────────────────────────────────── */
+.hs-progress-track {
+  position: absolute;
+  bottom: 4.5rem;
+  left: 6vw;
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hs-progress-seg {
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  width: 40px;
+  position: relative;
+}
+
+.hs-progress-seg::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 2px;
+}
+
+.hs-progress-fill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  width: 0;
+}
+
+.hs-progress-fill.running {
+  animation: fillBar 5s linear forwards;
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ─── Arrow controls ────────────────────────────────────────────── */
+.hs-arrows {
+  position: absolute;
+  bottom: 4rem;
+  right: 6vw;
+  z-index: 10;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.hs-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hs-arrow:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.7);
+  transform: scale(1.08);
+}
+.hs-arrow:active { transform: scale(0.96); }
+
+/* ─── Hide thumbnails on very small screens ─────────────────────── */
+@media (max-width: 640px) {
+  .hs-corner-mark { display: none; }
+  .hs-arrows { bottom: 2.5rem; right: 4vw; }
+  .hs-progress-track { bottom: 3rem; left: 4vw; }
+  .hs-content-wrap { padding: 0 5vw 7rem; }
+}
