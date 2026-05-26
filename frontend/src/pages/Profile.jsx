@@ -1,11 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  FiUser, FiShield, FiAlertTriangle, FiMail, FiCalendar,
-  FiPhone, FiMapPin, FiBook, FiHome, FiEdit2, FiCheck,
-  FiLock, FiCamera, FiCheckCircle, FiAward, FiUpload,
-  FiX, FiDownload, FiEye, FiEyeOff, FiFileText,
-} from "react-icons/fi";
+  AlertTriangle,
+  Award,
+  Book,
+  Calendar,
+  Camera,
+  Check,
+  CheckCircle,
+  Download,
+  Edit2,
+  Eye,
+  EyeOff,
+  FileText,
+  Home,
+  Lock,
+  Mail,
+  MapPin,
+  Phone,
+  Shield,
+  Upload,
+  User,
+  X,
+} from "lucide-react";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
@@ -61,15 +78,15 @@ const Profile = () => {
     : "";
 
   const personalInfo = [
-    { icon: <FiCalendar />, label: "Date of Birth",     value: user?.dateOfBirth,       color: "#3b4fd8" },
-    { icon: <FiPhone />,    label: "Mobile Number",     value: user?.mobileNumber,      color: "#10b981" },
-    { icon: <FiMapPin />,   label: "District",          value: user?.district,          color: "#f59e0b" },
-    { icon: <FiMapPin />,   label: "Upazila",           value: user?.upazila,           color: "#3b4fd8" },
-    { icon: <FiMapPin />,   label: "Village",           value: user?.villageName,       color: "#6d35e8" },
-    { icon: <FiShield />,   label: "Police Station",    value: user?.policeStation,     color: "#6d35e8" },
-    { icon: <FiBook />,     label: "Education",         value: user?.lastEducation,     color: "#10b981" },
-    { icon: <FiHome />,     label: "Present Address",   value: user?.presentAddress,    color: "#ef4444" },
-    { icon: <FiUser />,     label: "Permanent Address", value: user?.permanentAddress,  color: "#6d35e8" },
+    { icon: <Calendar />, label: "Date of Birth",     value: user?.dateOfBirth,       color: "#3b4fd8" },
+    { icon: <Phone />,    label: "Mobile Number",     value: user?.mobileNumber,      color: "#10b981" },
+    { icon: <MapPin />,   label: "District",          value: user?.district,          color: "#f59e0b" },
+    { icon: <MapPin />,   label: "Upazila",           value: user?.upazila,           color: "#3b4fd8" },
+    { icon: <MapPin />,   label: "Village",           value: user?.villageName,       color: "#6d35e8" },
+    { icon: <Shield />,   label: "Police Station",    value: user?.policeStation,     color: "#6d35e8" },
+    { icon: <Book />,     label: "Education",         value: user?.lastEducation,     color: "#10b981" },
+    { icon: <Home />,     label: "Present Address",   value: user?.presentAddress,    color: "#ef4444" },
+    { icon: <User />,     label: "Permanent Address", value: user?.permanentAddress,  color: "#6d35e8" },
   ];
 
   function handlePhoto(file) {
@@ -160,7 +177,7 @@ const Profile = () => {
   const initials = (user?.fullName || "U").split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
 
   return (
-    <div style={{ minHeight:"100vh", fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif", background:"#f1f5f9" }}>
+    <div style={{ minHeight:"100vh", fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif", background:"var(--bg)" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         .prof-root * { font-family:'Plus Jakarta Sans','Segoe UI',sans-serif; box-sizing:border-box; }
@@ -286,14 +303,14 @@ const Profile = () => {
               <p>Manage your profile and account settings</p>
               <div className="chip-row">
                 <span className="chip role">
-                  <FiShield style={{fontSize:12}}/> {user?.role?.toUpperCase() || "MEMBER"}
+                  <Shield style={{fontSize:12}}/> {user?.role?.toUpperCase() || "MEMBER"}
                 </span>
                 <span className="chip">
-                  <FiMail style={{fontSize:12}}/> {user?.email}
+                  <Mail style={{fontSize:12}}/> {user?.email}
                 </span>
                 {joinedDate && (
                   <span className="chip">
-                    <FiCalendar style={{fontSize:12}}/> Joined {joinedDate}
+                    <Calendar style={{fontSize:12}}/> Joined {joinedDate}
                   </span>
                 )}
               </div>
@@ -305,9 +322,9 @@ const Profile = () => {
         <div className="tabs-bar">
           <div className="tabs-pill">
             {[
-              { id:"profile",  label:"Profile",     icon:<FiUser/> },
-              { id:"security", label:"Security",    icon:<FiShield/> },
-              { id:"danger",   label:"Danger Zone", icon:<FiAlertTriangle/>, danger:true },
+              { id:"profile",  label:"Profile",     icon:<User/> },
+              { id:"security", label:"Security",    icon:<Shield/> },
+              { id:"danger",   label:"Danger Zone", icon:<AlertTriangle/>, danger:true },
             ].map(t => (
               <button key={t.id}
                 className={`tab-btn${t.danger?" danger":""}${activeTab===t.id?" active":""}`}
@@ -327,7 +344,7 @@ const Profile = () => {
               <div className="section-card">
                 <div className="card-header">
                   <div className="card-header-left">
-                    <div className="card-icon"><FiUser/></div>
+                    <div className="card-icon"><User/></div>
                     <div>
                       <p className="card-title">Account Details</p>
                       <p className="card-sub">Update your name and profile photo</p>
@@ -345,7 +362,7 @@ const Profile = () => {
                       <label className="field-label">Email Address</label>
                       <input className="field-input" value={user?.email||""} disabled/>
                       <div className="managed-note">
-                        <FiLock style={{fontSize:11}}/> Managed by administration
+                        <Lock style={{fontSize:11}}/> Managed by administration
                       </div>
                     </div>
                   </div>
@@ -358,7 +375,7 @@ const Profile = () => {
                       </div>
                       <div>
                         <button className="choose-btn" onClick={()=>fileRef.current.click()}>
-                          <FiCamera style={{marginRight:6, verticalAlign:"middle"}}/>
+                          <Camera style={{marginRight:6, verticalAlign:"middle"}}/>
                           Choose Photo
                         </button>
                         <input ref={fileRef} type="file" accept=".png,.jpg,.jpeg"
@@ -374,7 +391,7 @@ const Profile = () => {
                   {saveMsg && (
                     <div className={`msg-banner ${saveMsg.type==="success"?"msg-success":"msg-error"}`}
                       style={{marginBottom:16}}>
-                      {saveMsg.type==="success" ? <FiCheckCircle/> : <FiX/>}
+                      {saveMsg.type==="success" ? <CheckCircle/> : <X/>}
                       {saveMsg.text}
                     </div>
                   )}
@@ -382,8 +399,8 @@ const Profile = () => {
                   <button className={`save-btn${saveMsg?.type==="success"?" success":""}`}
                     onClick={handleSave} disabled={saving}>
                     {saving ? "Saving..." : saveMsg?.type==="success"
-                      ? <><FiCheckCircle/> Saved!</>
-                      : <><FiCheck/> Save Changes</>}
+                      ? <><CheckCircle/> Saved!</>
+                      : <><Check/> Save Changes</>}
                   </button>
                 </div>
               </div>
@@ -392,7 +409,7 @@ const Profile = () => {
               <div className="section-card">
                 <div className="card-header">
                   <div className="card-header-left">
-                    <div className="card-icon purple"><FiUser/></div>
+                    <div className="card-icon purple"><User/></div>
                     <div>
                       <p className="card-title">Personal Information</p>
                       <p className="card-sub">Your registered details on file</p>
@@ -414,7 +431,7 @@ const Profile = () => {
               <div className="section-card">
                 <div className="card-header">
                   <div className="card-header-left">
-                    <div className="card-icon" style={{background:"#edfcf3",color:"#10b981"}}><FiPhone/></div>
+                    <div className="card-icon" style={{background:"#edfcf3",color:"#10b981"}}><Phone/></div>
                     <div>
                       <p className="card-title">গোপনীয়তা সেটিংস</p>
                       <p className="card-sub">নিয়ন্ত্রণ করুন কোন তথ্য অন্য সদস্যরা দেখতে পাবেন</p>
@@ -449,7 +466,7 @@ const Profile = () => {
               <div className="section-card">
                 <div className="card-header">
                   <div className="card-header-left">
-                    <div className="card-icon green"><FiFileText/></div>
+                    <div className="card-icon green"><FileText/></div>
                     <div>
                       <p className="card-title">Submitted Documents</p>
                       <p className="card-sub">Click to view or download your files</p>
@@ -460,7 +477,7 @@ const Profile = () => {
                   {/* Certificate */}
                   <div className="doc-card">
                     <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
-                      <div className="card-icon green" style={{width:36,height:36,fontSize:15}}><FiBook/></div>
+                      <div className="card-icon green" style={{width:36,height:36,fontSize:15}}><Book/></div>
                       <div>
                         <p style={{margin:0,fontWeight:800,fontSize:14,color:"#0f172a"}}>Certificate Document</p>
                         <p style={{margin:0,fontSize:11,color:"#94a3b8"}}>Academic record</p>
@@ -470,21 +487,21 @@ const Profile = () => {
                       <>
                         <div className="doc-preview" onClick={() => openDoc(certificateUrl, "Certificate Document")}>
                           {isPdf(certificateUrl)
-                            ? <div className="doc-pdf-placeholder"><FiFileText style={{fontSize:48,color:"#3b4fd8"}}/><span>PDF Document</span></div>
+                            ? <div className="doc-pdf-placeholder"><FileText style={{fontSize:48,color:"#3b4fd8"}}/><span>PDF Document</span></div>
                             : <img src={certificateUrl} alt="Certificate"/>}
                         </div>
                         <div className="doc-actions">
                           <button className="doc-btn primary" onClick={() => openDoc(certificateUrl, "Certificate Document")}>
-                            <FiEye/> View
+                            <Eye/> View
                           </button>
                           <a className="doc-btn" href={getDownloadUrl(certificateUrl)} target="_blank" rel="noopener noreferrer" download>
-                            <FiDownload/> Download
+                            <Download/> Download
                           </a>
                         </div>
                       </>
                     ) : (
                       <div className="doc-preview" style={{cursor:"default"}}>
-                        <div className="doc-pdf-placeholder"><FiUpload style={{fontSize:36}}/><span>Not uploaded</span></div>
+                        <div className="doc-pdf-placeholder"><Upload style={{fontSize:36}}/><span>Not uploaded</span></div>
                       </div>
                     )}
                   </div>
@@ -494,11 +511,11 @@ const Profile = () => {
                   {/* NID */}
                   <div className="doc-card">
                     <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
-                      <div className="card-icon purple" style={{width:36,height:36,fontSize:15}}><FiShield/></div>
+                      <div className="card-icon purple" style={{width:36,height:36,fontSize:15}}><Shield/></div>
                       <div>
                         <p style={{margin:0,fontWeight:800,fontSize:14,color:"#0f172a"}}>NID Document</p>
                         <span className="verified-badge" style={{marginTop:3,display:"inline-flex"}}>
-                          <FiCheckCircle style={{fontSize:10}}/> VERIFIED
+                          <CheckCircle style={{fontSize:10}}/> VERIFIED
                         </span>
                       </div>
                     </div>
@@ -506,21 +523,21 @@ const Profile = () => {
                       <>
                         <div className="doc-preview" onClick={() => openDoc(nidUrl, "NID Document")}>
                           {isPdf(nidUrl)
-                            ? <div className="doc-pdf-placeholder"><FiFileText style={{fontSize:48,color:"#6d35e8"}}/><span>PDF Document</span></div>
+                            ? <div className="doc-pdf-placeholder"><FileText style={{fontSize:48,color:"#6d35e8"}}/><span>PDF Document</span></div>
                             : <img src={nidUrl} alt="NID"/>}
                         </div>
                         <div className="doc-actions">
                           <button className="doc-btn primary" onClick={() => openDoc(nidUrl, "NID Document")}>
-                            <FiEye/> View
+                            <Eye/> View
                           </button>
                           <a className="doc-btn" href={getDownloadUrl(nidUrl)} target="_blank" rel="noopener noreferrer" download>
-                            <FiDownload/> Download
+                            <Download/> Download
                           </a>
                         </div>
                       </>
                     ) : (
                       <div className="doc-preview" style={{cursor:"default"}}>
-                        <div className="doc-pdf-placeholder"><FiUpload style={{fontSize:36}}/><span>Not uploaded</span></div>
+                        <div className="doc-pdf-placeholder"><Upload style={{fontSize:36}}/><span>Not uploaded</span></div>
                       </div>
                     )}
                   </div>
@@ -530,7 +547,7 @@ const Profile = () => {
               {/* Ethical Commitment */}
               <div className="ethics-card">
                 <div className="ethics-left">
-                  <div className="ethics-icon"><FiAward/></div>
+                  <div className="ethics-icon"><Award/></div>
                   <div>
                     <p style={{fontWeight:800,fontSize:17,color:"#fff",margin:"0 0 4px"}}>
                       Ethical Commitment
@@ -541,7 +558,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <span className="auth-pill">
-                  <FiCheck style={{fontSize:13}}/> Authorized
+                  <Check style={{fontSize:13}}/> Authorized
                 </span>
               </div>
             </>
@@ -552,7 +569,7 @@ const Profile = () => {
             <div className="section-card">
               <div className="card-header">
                 <div className="card-header-left">
-                  <div className="card-icon"><FiShield/></div>
+                  <div className="card-icon"><Shield/></div>
                   <div>
                     <p className="card-title">Change Password</p>
                     <p className="card-sub">Keep your account secure with a strong password</p>
@@ -574,21 +591,21 @@ const Profile = () => {
                       <button type="button" className="pwd-eye"
                         onClick={()=>setShowPwds(p=>({...p,[f.key]:!p[f.key]}))}
                         aria-label={showPwds[f.key]?"Hide password":"Show password"}>
-                        {showPwds[f.key] ? <FiEyeOff/> : <FiEye/>}
+                        {showPwds[f.key] ? <EyeOff/> : <Eye/>}
                       </button>
                     </div>
                   </div>
                 ))}
                 {pwdMsg && (
                   <div className={`msg-banner ${pwdMsg.type==="success"?"msg-success":"msg-error"}`}>
-                    {pwdMsg.type==="success" ? <FiCheckCircle/> : <FiX/>}
+                    {pwdMsg.type==="success" ? <CheckCircle/> : <X/>}
                     {pwdMsg.text}
                   </div>
                 )}
                 <button className={`save-btn${pwdMsg?.type==="success"?" success":""}`}
                   style={{alignSelf:"flex-start"}} onClick={handlePasswordChange}
                   disabled={pwdSaving}>
-                  <FiLock/> {pwdSaving ? "Updating..." : "Update Password"}
+                  <Lock/> {pwdSaving ? "Updating..." : "Update Password"}
                 </button>
               </div>
             </div>
@@ -600,7 +617,7 @@ const Profile = () => {
               <div className="card-header">
                 <div className="card-header-left">
                   <div className="card-icon" style={{background:"#fee2e2",color:"#ef4444"}}>
-                    <FiAlertTriangle/>
+                    <AlertTriangle/>
                   </div>
                   <div>
                     <p className="card-title">Danger Zone</p>
@@ -631,7 +648,7 @@ const Profile = () => {
             <div className="doc-modal-hd">
               <span className="doc-modal-hd-title">{docModal.label}</span>
               <button className="doc-modal-close" onClick={() => setDocModal(null)} aria-label="Close">
-                <FiX/>
+                <X/>
               </button>
             </div>
             <div className="doc-modal-body">
@@ -641,10 +658,10 @@ const Profile = () => {
             </div>
             <div className="doc-modal-ft">
               <button className="doc-btn" onClick={() => setDocModal(null)}>
-                <FiX/> Close
+                <X/> Close
               </button>
               <a className="doc-btn primary" href={getDownloadUrl(docModal.url)} target="_blank" rel="noopener noreferrer" download>
-                <FiDownload/> Download
+                <Download/> Download
               </a>
             </div>
           </div>

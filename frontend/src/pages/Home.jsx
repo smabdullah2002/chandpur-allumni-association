@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiCheckCircle, FiX, FiMapPin, FiCalendar, FiClock } from "react-icons/fi";
+import { Calendar, CheckCircle, Clock, MapPin, X } from "lucide-react";
 import SectionTitle from "../components/SectionTitle";
 import { heroSlides, trustPoints } from "../data/siteData";
 import HeroSlider from "../components/Heroslider";
@@ -43,7 +43,7 @@ export default function Home() {
           .sort((a, b) => a.displayOrder - b.displayOrder)
           .map(s => ({
             image: s.imageUrl,
-            tag: s.ctaText || "Monone Matlab",
+            tag: s.ctaText || "Chandpur Allumni Association- Jahangirnagar University",
             title: s.headline || "",
             description: s.subtext || "",
           }));
@@ -86,7 +86,7 @@ export default function Home() {
             <div className="trust-grid">
               {trustPoints.map((point) => (
                 <div key={point} className="trust-item">
-                  <FiCheckCircle style={{ color: "var(--primary)", flexShrink: 0 }} />
+                  <CheckCircle style={{ color: "var(--primary)", flexShrink: 0 }} />
                   {point}
                 </div>
               ))}
@@ -132,10 +132,10 @@ export default function Home() {
           <div className="ev-modal" onClick={e => e.stopPropagation()}>
             <div className="ev-modal-hero">
               <button className="ev-modal-close" onClick={() => setSelectedEvent(null)}>
-                <FiX />
+                <X />
               </button>
               <div className="ev-modal-date">
-                <FiCalendar style={{ fontSize: 12 }} />
+                <Calendar style={{ fontSize: 12 }} />
                 {fmtDateFull(selectedEvent.date)}
               </div>
               <h2 className="ev-modal-title">{selectedEvent.title}</h2>
@@ -144,12 +144,12 @@ export default function Home() {
               <div className="ev-modal-meta">
                 {selectedEvent.location && (
                   <span className="ev-meta-pill location">
-                    <FiMapPin style={{ fontSize: 11 }} />
+                    <MapPin style={{ fontSize: 11 }} />
                     {selectedEvent.location}
                   </span>
                 )}
                 <span className={`ev-meta-pill status-${selectedEvent.status}`}>
-                  <FiClock style={{ fontSize: 11 }} />
+                    <Clock style={{ fontSize: 11 }} />
                   {statusLabel(selectedEvent.status)}
                 </span>
               </div>

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const User = require('../models/User');
-const authMiddleware = require('../middleware/auth');
+const { authMiddleware } = require('../middleware/auth');
 const mailer = require('../config/mailer');
 
 const router = express.Router();
@@ -285,15 +285,15 @@ router.post('/forgot-password', async (req, res) => {
     const resetLink = `${frontendUrl}/reset-password/${token}`;
 
     mailer.sendMail({
-      from: `"Monone Matlab" <${process.env.EMAIL_USER}>`,
+      from: `"Chandpur Allumni Association- Jahangirnagar University" <${process.env.EMAIL_USER}>`,
       to: user.email,
-      subject: 'Password Reset Request — Monone Matlab',
+      subject: 'Password Reset Request — Chandpur Allumni Association- Jahangirnagar University',
       html: `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#f0f2ff;padding:32px 20px;">
           <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(90,78,246,0.12);">
             <div style="background:linear-gradient(135deg,#5a4ef6,#7c5fff);padding:32px 36px 24px;">
               <h1 style="color:#fff;font-size:22px;font-weight:800;margin:0 0 6px;">Reset Your Password</h1>
-              <p style="color:rgba(255,255,255,.75);font-size:14px;margin:0;">Monone Matlab account recovery</p>
+              <p style="color:rgba(255,255,255,.75);font-size:14px;margin:0;">Chandpur Allumni Association- Jahangirnagar University account recovery</p>
             </div>
             <div style="padding:32px 36px;">
               <p style="font-size:15px;color:#334155;line-height:1.7;margin:0 0 24px;">

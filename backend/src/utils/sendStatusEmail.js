@@ -1,6 +1,6 @@
 const transporter = require("../config/mailer");
 
-const ORG_NAME = "Monone Matlab";
+const ORG_NAME = "Chandpur Allumni Association- Jahangirnagar University";
 const SENDER = `"${ORG_NAME}" <${process.env.EMAIL_USER}>`;
 
 function buildHtml(fullName, status) {

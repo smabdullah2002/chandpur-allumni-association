@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { FiLock, FiEye, FiEyeOff, FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import { AlertCircle, CheckCircle, Eye, EyeOff, Lock } from "lucide-react";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -165,7 +165,7 @@ export default function ResetPassword() {
       <div className="rp-root">
         <div className="rp-card">
           <div className="rp-top">
-            <div className="rp-badge"><FiLock /></div>
+            <div className="rp-badge"><Lock /></div>
             <h1 className="rp-title">New Password</h1>
             <p className="rp-sub">Choose a strong password for your account</p>
           </div>
@@ -173,7 +173,7 @@ export default function ResetPassword() {
           {status === "ok" ? (
             <div className="rp-body">
               <div className="rp-msg ok">
-                <FiCheckCircle style={{ flexShrink: 0 }} />
+                <CheckCircle style={{ flexShrink: 0 }} />
                 {message} Redirecting to login…
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function ResetPassword() {
               <div className="rp-field">
                 <label className="rp-lbl" htmlFor="rp-pwd">New Password</label>
                 <div className="rp-row">
-                  <FiLock className="rp-icon" />
+                  <Lock className="rp-icon" />
                   <input
                     id="rp-pwd"
                     className="rp-input"
@@ -196,7 +196,7 @@ export default function ResetPassword() {
                   <button type="button" className="rp-eye"
                     onClick={() => setShowPwd(v => !v)}
                     aria-label={showPwd ? "Hide" : "Show"}>
-                    {showPwd ? <FiEyeOff /> : <FiEye />}
+                    {showPwd ? <EyeOff /> : <Eye />}
                   </button>
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function ResetPassword() {
               <div className="rp-field">
                 <label className="rp-lbl" htmlFor="rp-confirm">Confirm Password</label>
                 <div className="rp-row">
-                  <FiLock className="rp-icon" />
+                  <Lock className="rp-icon" />
                   <input
                     id="rp-confirm"
                     className="rp-input"
@@ -218,20 +218,20 @@ export default function ResetPassword() {
                   <button type="button" className="rp-eye"
                     onClick={() => setShowConfirm(v => !v)}
                     aria-label={showConfirm ? "Hide" : "Show"}>
-                    {showConfirm ? <FiEyeOff /> : <FiEye />}
+                    {showConfirm ? <EyeOff /> : <Eye />}
                   </button>
                 </div>
               </div>
 
               {message && (
                 <div className={`rp-msg error`}>
-                  <FiAlertCircle style={{ flexShrink: 0 }} />
+                  <AlertCircle style={{ flexShrink: 0 }} />
                   {message}
                 </div>
               )}
 
               <button type="submit" className="rp-btn" disabled={loading}>
-                <FiLock />
+                <Lock />
                 {loading ? "Updating…" : "Set New Password"}
               </button>
             </form>

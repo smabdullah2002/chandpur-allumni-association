@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FiLogOut, FiUser, FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiX, FiSend, FiCheck, FiAlertCircle } from "react-icons/fi";
+import { AlertCircle, Check, Facebook, Instagram, Linkedin, LogOut, Send, Twitter, User, X } from "lucide-react";
 import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -11,6 +11,7 @@ export default function Layout() {
   const [newsletter, setNewsletter] = useState({ email: "", status: "idle", message: "" });
   const dropdownRef = useRef(null);
   const location = useLocation();
+  const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     setNavOpen(false);
@@ -47,7 +48,7 @@ export default function Layout() {
   const profileImageUrl = profileImage
     ? profileImage.startsWith("http")
       ? profileImage
-      : `${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/uploads/${profileImage}`
+      : `${apiBase}/uploads/${profileImage}`
     : "";
   const showImage = Boolean(profileImageUrl) && !imageError;
 
@@ -84,7 +85,7 @@ export default function Layout() {
     if (!newsletter.email) return;
     setNewsletter((p) => ({ ...p, status: "loading" }));
     try {
-      const res = await fetch("/api/newsletter/subscribe", {
+      const res = await fetch(`${apiBase}/api/newsletter/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: newsletter.email }),
@@ -112,7 +113,7 @@ export default function Layout() {
           <Link to="/" className="brand">
             <img
               src="/logo.png"
-              alt="Monone Matlab logo"
+              alt="Chandpur Allumni Association- Jahangirnagar University logo"
               className="brand-logo"
             />
           </Link>
@@ -158,7 +159,7 @@ export default function Layout() {
                       className="profile-menu-item"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      <FiUser className="profile-menu-icon" /> Profile
+                        <User className="profile-menu-icon" /> Profile
                     </Link>
                     <div className="profile-menu-divider" />
                     <button
@@ -169,7 +170,7 @@ export default function Layout() {
                         setIsDropdownOpen(false);
                       }}
                     >
-                      <FiLogOut className="profile-menu-icon" /> Logout
+                      <LogOut className="profile-menu-icon" /> Logout
                     </button>
                   </div>
                 )}
@@ -216,7 +217,7 @@ export default function Layout() {
           onClick={() => setNavOpen(false)}
           aria-label="Close navigation"
         >
-          <FiX />
+            <X />
         </button>
         <nav className="mobile-nav-links">
           {navLinks.map((link) => (
@@ -232,16 +233,16 @@ export default function Layout() {
         <div className="mobile-nav-actions">
           {auth ? (
             <>
-              <Link to="/profile" className="primary-button">
-                <FiUser /> Profile
-              </Link>
+                <Link to="/profile" className="primary-button">
+                  <User /> Profile
+                </Link>
               <button
                 type="button"
                 className="text-button"
                 style={{ color: "#ef4444" }}
                 onClick={() => logout()}
               >
-                <FiLogOut /> Logout
+                  <LogOut /> Logout
               </button>
             </>
           ) : (
@@ -261,7 +262,7 @@ export default function Layout() {
           <div>
             <img
               src="/logo.png"
-              alt="Monone Matlab logo"
+              alt="Chandpur Allumni Association- Jahangirnagar University logo"
               className="footer-logo"
             />
             <p className="footer-copy">
@@ -270,16 +271,16 @@ export default function Layout() {
             </p>
             <div className="social-row">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-pill" aria-label="Facebook">
-                <FiFacebook />
+                <Facebook />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-pill" aria-label="Twitter">
-                <FiTwitter />
+                <Twitter />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-pill" aria-label="Instagram">
-                <FiInstagram />
+                <Instagram />
               </a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-pill" aria-label="LinkedIn">
-                <FiLinkedin />
+                <Linkedin />
               </a>
             </div>
           </div>
@@ -316,7 +317,7 @@ export default function Layout() {
             </p>
             {newsletter.status === "success" ? (
               <div className="newsletter-success">
-                <FiCheck className="newsletter-success-icon" />
+                <Check className="newsletter-success-icon" />
                 <span>{newsletter.message}</span>
               </div>
             ) : (
@@ -330,19 +331,19 @@ export default function Layout() {
                   required
                 />
                 <button type="submit" disabled={newsletter.status === "loading"} aria-label="Subscribe">
-                  <FiSend />
+                  <Send />
                 </button>
               </form>
             )}
             {newsletter.status === "error" && (
               <p className="newsletter-error">
-                <FiAlertCircle /> {newsletter.message}
+                <AlertCircle /> {newsletter.message}
               </p>
             )}
           </div>
         </div>
         <div className="container footer-bottom">
-          <span>© 2026 Monone Matlab. All rights reserved.</span>
+          <span>© 2026 Chandpur Allumni Association- Jahangirnagar University. All rights reserved.</span>
           <span style={{
             display:"inline-flex", alignItems:"center", gap:5,
             background:"#fff", border:"1.5px solid #c7d2fe",

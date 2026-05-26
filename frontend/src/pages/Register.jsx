@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiUserPlus, FiEye, FiEyeOff } from "react-icons/fi";
+import { Eye, EyeOff, UserPlus } from "lucide-react";
 import { upazilas, villagesByUpazila } from "../data/siteData";
 
 const emptyForm = {
@@ -23,6 +23,8 @@ const emptyForm = {
   nidDocument: null,
   profileImage: null,
 };
+
+const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export default function Register() {
   const [form, setForm] = useState(emptyForm);
@@ -88,7 +90,7 @@ export default function Register() {
         }
       });
 
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(`${apiBase}/api/auth/register`, {
         method: "POST",
         body: payload,
       });
@@ -113,10 +115,10 @@ export default function Register() {
       <div className="container register-shell">
         <div className="register-hero">
           <div className="register-hero-icon">
-            <FiUserPlus />
+            <UserPlus />
           </div>
           <h1>Create Account</h1>
-          <p>Join Monone Matlab today</p>
+          <p>Join Chandpur Allumni Association- Jahangirnagar University today</p>
         </div>
         <form className="register-card" onSubmit={handleSubmit}>
           <div className="notice-box">
@@ -171,7 +173,7 @@ export default function Register() {
                   onClick={() => setShowPwd((v) => !v)}
                   aria-label={showPwd ? "Hide password" : "Show password"}
                 >
-                  {showPwd ? <FiEyeOff /> : <FiEye />}
+                  {showPwd ? <EyeOff /> : <Eye />}
                 </button>
               </div>
             </label>
@@ -207,7 +209,7 @@ export default function Register() {
                   onClick={() => setShowConfirmPwd((v) => !v)}
                   aria-label={showConfirmPwd ? "Hide password" : "Show password"}
                 >
-                  {showConfirmPwd ? <FiEyeOff /> : <FiEye />}
+                  {showConfirmPwd ? <EyeOff /> : <Eye />}
                 </button>
               </div>
             </label>

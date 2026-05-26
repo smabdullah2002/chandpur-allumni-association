@@ -20,10 +20,10 @@ export const heroSlides = [
 ];
 
 export const trustPoints = [
-  '100% Transparent Operations',
-  'Secure Payment Processing',
-  'Real-time Donation Tracking',
-  'Verified Impact Reports'
+  // '100% Transparent Operations',
+  // 'Secure Payment Processing',
+  // 'Real-time Donation Tracking',
+  // 'Verified Impact Reports'
 ];
 
 export const eventCards = [
@@ -44,7 +44,7 @@ export const eventCards = [
   }
 ];
 
-export const upazilas = ['Matlab North', 'Matlab South'];
+export const upazilas = ['Chandpur Sadar','Matlab North', 'Matlab South', 'Shahrasti', 'Kachua', 'Haimchar', 'Faridgonj', 'Haziganj'];
 
 const matlabNorthVillages = [
   'Sujatpur',

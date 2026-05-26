@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FiImage, FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { ChevronLeft, ChevronRight, Image, X } from "lucide-react";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
@@ -30,7 +30,7 @@ export default function Gallery() {
   }, [lightbox, items.length]);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f0f2f8", padding: "40px 20px",
+    <div style={{ minHeight: "100vh", background: "var(--bg)", padding: "40px 20px",
       fontFamily: "'Hind Siliguri','Plus Jakarta Sans',sans-serif" }}>
       <style>{`
         .pub-gallery-grid {
@@ -69,7 +69,7 @@ export default function Gallery() {
         <p style={{ textAlign: "center", color: "#94a3b8" }}>লোড হচ্ছে…</p>
       ) : items.length === 0 ? (
         <div style={{ textAlign: "center", padding: 64, color: "#94a3b8" }}>
-          <FiImage style={{ fontSize: 40, marginBottom: 10, opacity: .4 }} />
+          <Image style={{ fontSize: 40, marginBottom: 10, opacity: .4 }} />
           <p>এখনো কোনো ছবি যোগ করা হয়নি।</p>
         </div>
       ) : (
@@ -92,7 +92,7 @@ export default function Gallery() {
       {lightbox !== null && (
         <div className="lb-overlay" onClick={() => setLightbox(null)}>
           <button className="lb-nav" onClick={e => { e.stopPropagation(); prev(); }}>
-            <FiChevronLeft />
+            <ChevronLeft />
           </button>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
             padding: "0 12px", maxWidth: 800 }} onClick={e => e.stopPropagation()}>
@@ -106,13 +106,13 @@ export default function Gallery() {
             </p>
           </div>
           <button className="lb-nav" onClick={e => { e.stopPropagation(); next(); }}>
-            <FiChevronRight />
+            <ChevronRight />
           </button>
           <button onClick={() => setLightbox(null)}
             style={{ position: "absolute", top: 16, right: 16, background: "rgba(255,255,255,.15)",
               border: "none", color: "#fff", borderRadius: 8, width: 36, height: 36,
               display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18 }}>
-            <FiX />
+            <X />
           </button>
         </div>
       )}

@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
-  FiMail, FiLock, FiEye, FiEyeOff, FiLogIn,
-  FiArrowLeft, FiCheckCircle, FiSend,
-} from "react-icons/fi";
+  ArrowLeft,
+  CheckCircle,
+  Eye,
+  EyeOff,
+  LogIn,
+  Lock,
+  Mail,
+  Send,
+} from "lucide-react";
+
+const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export default function Login() {
   const [form, setForm]             = useState({ email: "", password: "" });
@@ -25,7 +33,7 @@ export default function Login() {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(`${apiBase}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -46,7 +54,7 @@ export default function Login() {
     setFpLoading(true);
     setFpMsg("");
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch(`${apiBase}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: fpEmail }),
@@ -215,16 +223,16 @@ export default function Login() {
           {view === "login" && (
             <>
               <div className="login-top">
-                <div className="login-badge"><FiLogIn /></div>
+                <div className="login-badge"><LogIn /></div>
                 <h1 className="login-title">Welcome back</h1>
-                <p className="login-sub">Sign in to your Monone Matlab account</p>
+                <p className="login-sub">Sign in to your Chandpur Allumni Association- Jahangirnagar University account</p>
               </div>
 
               <form className="login-body" onSubmit={handleSubmit}>
                 <div className="login-field">
                   <label className="login-lbl" htmlFor="l-email">Email Address</label>
                   <div className="login-input-row">
-                    <FiMail className="login-icon" />
+                    <Mail className="login-icon" />
                     <input
                       id="l-email"
                       className="login-input"
@@ -240,7 +248,7 @@ export default function Login() {
                 <div className="login-field">
                   <label className="login-lbl" htmlFor="l-password">Password</label>
                   <div className="login-input-row">
-                    <FiLock className="login-icon" />
+                    <Lock className="login-icon" />
                     <input
                       id="l-password"
                       className="login-input"
@@ -256,7 +264,7 @@ export default function Login() {
                       onClick={() => setShowPassword((v) => !v)}
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? <FiEyeOff /> : <FiEye />}
+                      {showPassword ? <EyeOff /> : <Eye />}
                     </button>
                   </div>
                   <button
@@ -271,7 +279,7 @@ export default function Login() {
                 {message && <div className="login-error">{message}</div>}
 
                 <button type="submit" className="login-submit" disabled={loading}>
-                  <FiLogIn />
+                  <LogIn />
                   {loading ? "Signing in…" : "Sign In"}
                 </button>
               </form>
@@ -287,14 +295,14 @@ export default function Login() {
           {view === "forgot" && (
             <>
               <div className="login-top">
-                <div className="login-badge"><FiMail /></div>
+                <div className="login-badge"><Mail /></div>
                 <h1 className="login-title">Reset Password</h1>
                 <p className="login-sub">We'll send a reset link to your email</p>
               </div>
 
               <form className="login-body" onSubmit={handleForgot}>
                 <button type="button" className="back-btn" onClick={() => setView("login")}>
-                  <FiArrowLeft /> Back to Sign In
+                  <ArrowLeft /> Back to Sign In
                 </button>
 
                 <div className="fp-info">
@@ -304,7 +312,7 @@ export default function Login() {
                 <div className="login-field">
                   <label className="login-lbl" htmlFor="fp-email">Email Address</label>
                   <div className="login-input-row">
-                    <FiMail className="login-icon" />
+                    <Mail className="login-icon" />
                     <input
                       id="fp-email"
                       className="login-input"
@@ -320,7 +328,7 @@ export default function Login() {
                 {fpMsg && <div className="login-error">{fpMsg}</div>}
 
                 <button type="submit" className="login-submit" disabled={fpLoading}>
-                  <FiSend />
+                  <Send />
                   {fpLoading ? "Sending…" : "Send Reset Link"}
                 </button>
               </form>
@@ -342,7 +350,7 @@ export default function Login() {
           {view === "sent" && (
             <>
               <div className="login-top">
-                <div className="sent-icon"><FiCheckCircle /></div>
+                <div className="sent-icon"><CheckCircle /></div>
                 <h1 className="login-title">Check your email</h1>
                 <p className="login-sub">
                   A reset link has been sent to <strong>{fpEmail}</strong>.
@@ -357,7 +365,7 @@ export default function Login() {
                   className="login-submit"
                   onClick={() => { setView("forgot"); setFpMsg(""); }}
                 >
-                  <FiMail /> Resend Email
+                  <Mail /> Resend Email
                 </button>
               </div>
 

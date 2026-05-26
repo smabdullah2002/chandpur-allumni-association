@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FiImage, FiPlus, FiTrash2, FiX, FiUploadCloud, FiEdit2, FiCheck } from "react-icons/fi";
+import { Check, Edit2, Image, Plus, Trash2, UploadCloud, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -90,7 +90,7 @@ export default function AdminGallery() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f0f2f8", padding: 24,
+    <div style={{ minHeight: "100vh", background: "var(--bg)", padding: 24,
       fontFamily: "'Plus Jakarta Sans','Segoe UI',sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -119,7 +119,7 @@ export default function AdminGallery() {
           <div>
             <div style={{ color: "#a5b4fc", fontSize: 12, fontWeight: 600, letterSpacing: ".08em",
               textTransform: "uppercase", marginBottom: 6, display: "flex", alignItems: "center", gap: 7 }}>
-              <FiImage style={{ fontSize: 14 }} /> Gallery
+              <Image style={{ fontSize: 14 }} /> Gallery
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Photo Gallery</h1>
             <p style={{ color: "rgba(255,255,255,.6)", fontSize: 13, margin: 0 }}>
@@ -130,7 +130,7 @@ export default function AdminGallery() {
             background: "#fff", color: "#1a1f6e", border: "none", borderRadius: 12,
             padding: "11px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer",
             boxShadow: "0 4px 16px rgba(0,0,0,.15)" }}>
-            <FiPlus style={{ fontSize: 15 }} /> Upload Photo
+            <Plus style={{ fontSize: 15 }} /> Upload Photo
           </button>
         </div>
 
@@ -138,7 +138,7 @@ export default function AdminGallery() {
         <div style={{ background: "#fff", borderRadius: 12, padding: "16px 24px",
           boxShadow: "0 1px 4px rgba(0,0,0,.06)", display: "inline-flex", alignItems: "center", gap: 8,
           width: "fit-content" }}>
-          <FiImage style={{ color: "#3b4fd8" }} />
+          <Image style={{ color: "#3b4fd8" }} />
           <span style={{ fontSize: 14, fontWeight: 700, color: "#1e293b" }}>{items.length}</span>
           <span style={{ fontSize: 13, color: "#94a3b8" }}>photo{items.length !== 1 ? "s" : ""}</span>
         </div>
@@ -148,7 +148,7 @@ export default function AdminGallery() {
             padding: "10px 16px", color: "#dc2626", fontSize: 13, display: "flex", alignItems: "center", gap: 8 }}>
             {error}
             <button onClick={() => setError(null)} style={{ marginLeft: "auto", background: "none",
-              border: "none", color: "#dc2626", cursor: "pointer" }}><FiX /></button>
+              border: "none", color: "#dc2626", cursor: "pointer" }}><X /></button>
           </div>
         )}
 
@@ -157,7 +157,7 @@ export default function AdminGallery() {
           <div style={{ textAlign: "center", color: "#94a3b8", padding: 48 }}>Loading…</div>
         ) : items.length === 0 ? (
           <div style={{ textAlign: "center", padding: 64, color: "#94a3b8" }}>
-            <FiImage style={{ fontSize: 40, marginBottom: 12, opacity: .4 }} />
+            <Image style={{ fontSize: 40, marginBottom: 12, opacity: .4 }} />
             <p style={{ fontWeight: 600, color: "#475569" }}>No photos yet</p>
             <p style={{ fontSize: 13 }}>Click "Upload Photo" to add the first one.</p>
           </div>
@@ -176,12 +176,12 @@ export default function AdminGallery() {
                       <button onClick={() => handleRename(item._id)}
                         style={{ background: "#eef2ff", border: "none", borderRadius: 8,
                           color: "#3b4fd8", padding: "6px 8px", cursor: "pointer" }}>
-                        <FiCheck />
+                        <Check />
                       </button>
                       <button onClick={() => setEditId(null)}
                         style={{ background: "#f1f5f9", border: "none", borderRadius: 8,
                           color: "#64748b", padding: "6px 8px", cursor: "pointer" }}>
-                        <FiX />
+                        <X />
                       </button>
                     </div>
                   ) : (
@@ -194,12 +194,12 @@ export default function AdminGallery() {
                         <button onClick={() => { setEditId(item._id); setEditTitle(item.title); }}
                           style={{ background: "#eef2ff", border: "none", borderRadius: 7,
                             color: "#3b4fd8", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
-                          <FiEdit2 />
+                          <Edit2 />
                         </button>
                         <button onClick={() => handleDelete(item._id)}
                           style={{ background: "#fef2f2", border: "none", borderRadius: 7,
                             color: "#ef4444", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
-                          <FiTrash2 />
+                          <Trash2 />
                         </button>
                       </div>
                     </div>
@@ -222,13 +222,13 @@ export default function AdminGallery() {
               display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <h2 style={{ fontSize: 17, fontWeight: 800, color: "#fff", margin: 0,
                 display: "flex", alignItems: "center", gap: 8 }}>
-                <FiUploadCloud /> Upload Photo
+                <UploadCloud /> Upload Photo
               </h2>
               <button onClick={() => setShowModal(false)}
                 style={{ background: "rgba(255,255,255,.15)", border: "none", color: "#fff",
                   borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center",
                   justifyContent: "center", cursor: "pointer", fontSize: 16 }}>
-                <FiX />
+                <X />
               </button>
             </div>
             <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: 16 }}>
@@ -258,12 +258,12 @@ export default function AdminGallery() {
                       style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,.55)",
                         border: "none", color: "#fff", borderRadius: 8, width: 28, height: 28,
                         display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                      <FiX />
+                      <X />
                     </button>
                   </div>
                 ) : (
                   <div className="drop-zone" onClick={() => fileRef.current.click()}>
-                    <FiUploadCloud style={{ fontSize: 28, color: "#3b4fd8", marginBottom: 8 }} />
+                    <UploadCloud style={{ fontSize: 28, color: "#3b4fd8", marginBottom: 8 }} />
                     <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "#3b4fd8" }}>
                       Click to choose a photo
                     </p>

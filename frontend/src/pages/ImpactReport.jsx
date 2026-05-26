@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiTrendingUp, FiDollarSign, FiCheckCircle, FiUsers, FiTag } from "react-icons/fi";
+import { CheckCircle, DollarSign, Tag, TrendingUp, Users } from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
   PieChart, Pie, Cell,
@@ -78,7 +78,7 @@ export default function ImpactReport() {
             justifyContent:"space-between", gap:20, position:"relative", zIndex:1 }}>
             <div>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
-                <FiTrendingUp style={{ color:"#a5b4fc", fontSize:18 }}/>
+                <TrendingUp style={{ color:"#a5b4fc", fontSize:18 }}/>
                 <span style={{ color:"#a5b4fc", fontSize:12, fontWeight:700,
                   letterSpacing:".1em", textTransform:"uppercase" }}>
                   Transparency Report
@@ -130,13 +130,13 @@ export default function ImpactReport() {
             <div className="ir-grid-4" style={{ display:"grid",
               gridTemplateColumns:"repeat(4,1fr)", gap:16 }}>
               {[
-                { icon:<FiDollarSign/>, bg:"#eef2ff", color:"#4f46e5",
+                { icon:<DollarSign/>, bg:"#eef2ff", color:"#4f46e5",
                   label:"Total Raised", val:`৳${data.totalAmount.toLocaleString()}` },
-                { icon:<FiCheckCircle/>, bg:"#dcfce7", color:"#16a34a",
+                { icon:<CheckCircle/>, bg:"#dcfce7", color:"#16a34a",
                   label:"Approved", val:data.statusCounts.approved },
-                { icon:<FiTrendingUp/>, bg:"#fef9c3", color:"#ca8a04",
+                { icon:<TrendingUp/>, bg:"#fef9c3", color:"#ca8a04",
                   label:"Pending Review", val:data.statusCounts.pending },
-                { icon:<FiUsers/>, bg:"#ede9fe", color:"#7c3aed",
+                { icon:<Users/>, bg:"#ede9fe", color:"#7c3aed",
                   label:"Active Members", val:data.memberCount },
               ].map(s => (
                 <div key={s.label} className="ir-stat">
@@ -160,7 +160,7 @@ export default function ImpactReport() {
               {/* Monthly area+bar chart */}
               <div className="ir-card">
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
-                  <FiTrendingUp style={{ color:"#4f46e5", fontSize:18 }}/>
+                  <TrendingUp style={{ color:"#4f46e5", fontSize:18 }}/>
                   <span style={{ fontWeight:800, fontSize:17, color:"#0f172a" }}>
                     Monthly Donation Trend
                   </span>
@@ -243,7 +243,7 @@ export default function ImpactReport() {
               {/* Count per month */}
               <div className="ir-card">
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
-                  <FiCheckCircle style={{ color:"#10b981", fontSize:18 }}/>
+                  <CheckCircle style={{ color:"#10b981", fontSize:18 }}/>
                   <span style={{ fontWeight:800, fontSize:17, color:"#0f172a" }}>
                     Donations per Month
                   </span>
@@ -275,7 +275,7 @@ export default function ImpactReport() {
               {/* Category breakdown horizontal bar */}
               <div className="ir-card">
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
-                  <FiTag style={{ color:"#f59e0b", fontSize:18 }}/>
+                  <Tag style={{ color:"#f59e0b", fontSize:18 }}/>
                   <span style={{ fontWeight:800, fontSize:17, color:"#0f172a" }}>
                     By Category (৳)
                   </span>

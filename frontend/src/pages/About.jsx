@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-  FiCheckCircle, FiChevronDown, FiUsers, FiStar, FiAward,
-  FiMapPin, FiBook, FiPhone, FiPhoneOff,
-} from "react-icons/fi";
+  Award,
+  Book,
+  CheckCircle,
+  ChevronDown,
+  MapPin,
+  Phone,
+  PhoneOff,
+  Star,
+  Users,
+} from "lucide-react";
 import SectionTitle from "../components/SectionTitle";
 import { trustPoints } from "../data/siteData";
 
@@ -14,7 +21,7 @@ const defaultStats = [
   { value: "1k+", label: "সম্প্রদায় পৌঁছানো" },
 ];
 const defaultBody =
-  "মননে মতলব একটি সংগঠিত, অরাজনৈতিক এবং মানবিক প্ল্যাটফর্ম। এটি জনকল্যাণমূলক কাজ, সামাজিক সহায়তা, শিক্ষা সহায়তা এবং জরুরি ত্রাণ কার্যক্রমের মাধ্যমে মানুষের পাশে দাঁড়ায়।";
+  "চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন একটি ঐক্যবদ্ধ, অরাজনৈতিক ও মানবিক সংগঠন, যেখানে বিভিন্ন প্রজন্মের প্রাক্তন শিক্ষার্থীরা সমাজের কল্যাণে একসাথে কাজ করে। শিক্ষা, মানবিক সহায়তা, সামাজিক উন্নয়ন ও দুর্যোগকালীন সহযোগিতার মাধ্যমে এই প্ল্যাটফর্ম মানুষের পাশে থাকার অঙ্গীকার বহন করে।";
 
 /* ── Member grid ── */
 function MembersList() {
@@ -69,24 +76,24 @@ function MembersList() {
               </div>
               {(m.upazila || m.villageName) && (
                 <p className="member-meta">
-                  <FiMapPin size={11} style={{ flexShrink: 0 }} />
+                  <MapPin size={11} style={{ flexShrink: 0 }} />
                   {[m.villageName, m.upazila].filter(Boolean).join(", ")}
                 </p>
               )}
               {m.lastEducation && (
                 <p className="member-meta">
-                  <FiBook size={11} style={{ flexShrink: 0 }} />
+                  <Book size={11} style={{ flexShrink: 0 }} />
                   {m.lastEducation}
                 </p>
               )}
               {m.phonePublic && m.mobileNumber ? (
                 <p className="member-meta member-phone">
-                  <FiPhone size={11} style={{ flexShrink: 0 }} />
+                  <Phone size={11} style={{ flexShrink: 0 }} />
                   {m.mobileNumber}
                 </p>
               ) : (
                 <p className="member-meta member-hidden">
-                  <FiPhoneOff size={11} style={{ flexShrink: 0 }} />
+                  <PhoneOff size={11} style={{ flexShrink: 0 }} />
                   গোপন
                 </p>
               )}
@@ -136,9 +143,9 @@ export default function About() {
   }
 
   const CARDS = [
-    { key: "members",         label: "সদস্যগণ",            icon: FiUsers, color: "#5a4ef6", bg: "#eef1ff", live: true },
-    { key: "lifetimeMembers", label: "আজীবন সদস্য",        icon: FiStar,  color: "#f59e0b", bg: "#fff8ec", live: false },
-    { key: "committee",       label: "কার্যনির্বাহী পরিষদ", icon: FiAward, color: "#10b981", bg: "#edfcf3", live: false },
+    { key: "members",         label: "সদস্যগণ",            icon: Users, color: "#5a4ef6", bg: "#eef1ff", live: true },
+    { key: "lifetimeMembers", label: "আজীবন সদস্য",        icon: Star,  color: "#f59e0b", bg: "#fff8ec", live: false },
+    { key: "committee",       label: "কার্যনির্বাহী পরিষদ", icon: Award, color: "#10b981", bg: "#edfcf3", live: false },
   ];
 
   return (
@@ -287,7 +294,7 @@ export default function About() {
                 <div className="about-trust-list">
                   {content.trustPoints.map((point, i) => (
                     <div key={i} className="about-trust-item">
-                      <FiCheckCircle style={{ color: "var(--primary)", flexShrink: 0, marginTop: 3 }} />
+                      <CheckCircle style={{ color: "var(--primary)", flexShrink: 0, marginTop: 3 }} />
                       <span dangerouslySetInnerHTML={{ __html: point }} />
                     </div>
                   ))}
@@ -317,7 +324,7 @@ export default function About() {
                       <Icon />
                     </span>
                     <span className="about-acc-title">{label}</span>
-                    <FiChevronDown size={18} className={`about-acc-chevron${isOpen ? " open" : ""}`} />
+                    <ChevronDown size={18} className={`about-acc-chevron${isOpen ? " open" : ""}`} />
                   </button>
 
                   <div className={`about-acc-body${isOpen ? " open" : ""}`}>

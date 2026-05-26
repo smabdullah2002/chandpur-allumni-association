@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  FiArrowLeft,
-  FiUploadCloud,
-  FiX,
-  FiCheckCircle,
-  FiCreditCard,
-  FiCalendar,
-  FiHash,
-  FiMessageSquare,
-  FiTag,
-} from "react-icons/fi";
+  ArrowLeft,
+  Calendar,
+  CheckCircle,
+  CreditCard,
+  Hash,
+  MessageSquare,
+  Tag,
+  UploadCloud,
+  X,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -99,7 +99,7 @@ const AddDonation = () => {
       payload.append("message", form.message);
       payload.append("receipt", receipt);
 
-      const response = await fetch("/api/donations", {
+      const response = await fetch(`${apiBase}/api/donations`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${auth.token}`,
@@ -337,7 +337,7 @@ const AddDonation = () => {
                 marginBottom: 8,
               }}
             >
-              <FiCreditCard style={{ color: "#a5b4fc", fontSize: 16 }} />
+              <CreditCard style={{ color: "#a5b4fc", fontSize: 16 }} />
               <span
                 style={{
                   color: "#a5b4fc",
@@ -371,14 +371,14 @@ const AddDonation = () => {
             </p>
           </div>
           <Link to="/donations" className="back-btn">
-            <FiArrowLeft /> Back to List
+            <ArrowLeft /> Back to List
           </Link>
         </div>
 
         {/* Bank Info Panel */}
         <div className="info-panel">
           <div className="info-header">
-            <FiCreditCard /> Payment Information
+            <CreditCard /> Payment Information
           </div>
           <div className="info-grid">
             <div className="info-block">
@@ -402,11 +402,11 @@ const AddDonation = () => {
               <p className="info-block-title">Mobile Banking (bKash)</p>
               <div className="info-row">
                 <span className="info-key">Treasurer:</span> Md. Kabir Hossain,
-                Monone Matlab
+                Chandpur Allumni Association- Jahangirnagar University
               </div>
               <div className="info-row">
                 <span className="info-key">Planning Editor:</span> Md. Billal
-                Hossain, Monone Matlab
+                Hossain, Chandpur Allumni Association- Jahangirnagar University
               </div>
               <div className="info-row">
                 <span className="info-key">bKash No:</span> 01760 227766
@@ -420,7 +420,7 @@ const AddDonation = () => {
           {submitted ? (
             <div className="success-wrap">
               <div className="success-circle">
-                <FiCheckCircle />
+                <CheckCircle />
               </div>
               <h3
                 style={{
@@ -473,7 +473,7 @@ const AddDonation = () => {
               {/* Category */}
               <div>
                 <label className="field-label">
-                  <FiTag style={{ marginRight: 5, verticalAlign: "middle" }} />
+                  <Tag style={{ marginRight: 5, verticalAlign: "middle" }} />
                   Fee Category <span className="opt">(Optional)</span>
                 </label>
                 <select
@@ -520,7 +520,7 @@ const AddDonation = () => {
                 </div>
                 <div>
                   <label className="field-label">
-                    <FiCalendar
+                    <Calendar
                       style={{ marginRight: 5, verticalAlign: "middle" }}
                     />
                     Donation Date <span className="req">*</span>
@@ -537,7 +537,7 @@ const AddDonation = () => {
               {/* TXN */}
               <div>
                 <label className="field-label">
-                  <FiHash style={{ marginRight: 5, verticalAlign: "middle" }} />
+                  <Hash style={{ marginRight: 5, verticalAlign: "middle" }} />
                   Transaction Number (TXN){" "}
                   <span className="opt">(Optional)</span>
                 </label>
@@ -557,14 +557,14 @@ const AddDonation = () => {
               {/* Receipt Upload */}
               <div>
                 <label className="field-label">
-                  <FiUploadCloud
+                  <UploadCloud
                     style={{ marginRight: 5, verticalAlign: "middle" }}
                   />
                   Payment Receipt <span className="req">*</span>
                 </label>
                 {receipt ? (
                   <div className="receipt-preview">
-                    <FiCheckCircle className="receipt-icon" />
+                    <CheckCircle className="receipt-icon" />
                     <span className="receipt-name">{receipt.name}</span>
                     <span
                       style={{
@@ -579,7 +579,7 @@ const AddDonation = () => {
                       className="receipt-remove"
                       onClick={() => setReceipt(null)}
                     >
-                      <FiX />
+                      <X />
                     </button>
                   </div>
                 ) : (
@@ -594,7 +594,7 @@ const AddDonation = () => {
                     onDrop={handleDrop}
                   >
                     <div className="drop-icon">
-                      <FiUploadCloud />
+                      <UploadCloud />
                     </div>
                     <p className="drop-label">Click to upload receipt</p>
                     <p className="drop-sub">or drag and drop here</p>
@@ -615,7 +615,7 @@ const AddDonation = () => {
               {/* Message */}
               <div>
                 <label className="field-label">
-                  <FiMessageSquare
+                  <MessageSquare
                     style={{ marginRight: 5, verticalAlign: "middle" }}
                   />
                   Additional Message <span className="opt">(Optional)</span>

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FiHeart, FiBell, FiTrendingUp, FiShield,
-  FiArrowRight, FiUsers, FiClock, FiAlertCircle, FiAward,
-} from "react-icons/fi";
+  AlertCircle,
+  ArrowRight,
+  Award,
+  Bell,
+  Clock,
+  Heart,
+  Shield,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -44,28 +51,28 @@ const Dashboard = () => {
 
   const cards = [
     {
-      icon: <FiHeart />,
+      icon: <Heart />,
       iconBg: "#eef1ff", iconColor: "#3b4fd8", accentColor: "#3b4fd8",
       title: "My Contributions",
       description: "Every donation you've made is saved here. See your history, track approvals, and feel proud of what you've given.",
       link: "/donations", linkLabel: "See My Giving",
     },
     {
-      icon: <FiBell />,
+      icon: <Bell />,
       iconBg: "#fff8ec", iconColor: "#f59e0b", accentColor: "#f59e0b",
       title: "Notices",
       description: "Stay in the loop with what's happening in your community — announcements, reminders, and updates written just for you.",
       link: "/notice", linkLabel: "Read Notices",
     },
     {
-      icon: <FiUsers />,
+      icon: <Users />,
       iconBg: "#edfcf3", iconColor: "#10b981", accentColor: "#10b981",
       title: "Community Events",
       description: "Come together. See what your neighbors are planning — outreach days, fundraisers, and moments worth showing up for.",
       link: "/events", linkLabel: "Join an Event",
     },
     {
-      icon: <FiTrendingUp />,
+      icon: <TrendingUp />,
       iconBg: "#fdf2f8", iconColor: "#a855f7", accentColor: "#a855f7",
       title: "Give Again",
       description: "A little goes a long way. Submit a new donation, upload your receipt, and let your contribution be counted.",
@@ -145,15 +152,15 @@ const Dashboard = () => {
               </div>
               {userStatus === "approved" ? (
                 <div className="verified-badge">
-                  <FiShield style={{ fontSize:12 }}/> Verified
+                  <Shield style={{ fontSize:12 }}/> Verified
                 </div>
               ) : userStatus === "rejected" ? (
                 <div className="verified-badge" style={{ background:"rgba(239,68,68,0.2)", borderColor:"rgba(239,68,68,0.4)", color:"#fca5a5" }}>
-                  <FiAlertCircle style={{ fontSize:12 }}/> Rejected
+                  <AlertCircle style={{ fontSize:12 }}/> Rejected
                 </div>
               ) : (
                 <div className="verified-badge" style={{ background:"rgba(245,158,11,0.2)", borderColor:"rgba(245,158,11,0.4)", color:"#fcd34d" }}>
-                  <FiClock style={{ fontSize:12 }}/> Pending
+                  <Clock style={{ fontSize:12 }}/> Pending
                 </div>
               )}
             </div>
@@ -184,7 +191,7 @@ const Dashboard = () => {
         {/* Impact banner — only shown once they've donated */}
         {stats.count > 0 && (
           <div className="impact-banner">
-            <div className="impact-icon"><FiAward /></div>
+            <div className="impact-icon"><Award /></div>
             <div>
               <p style={{ margin:0, fontSize:14, fontWeight:700, color:"#0f172a" }}>
                 {stats.approved > 0
@@ -219,7 +226,7 @@ const Dashboard = () => {
               </div>
               <Link to={card.link} className="card-link" style={{ background:card.iconBg, color:card.iconColor }}>
                 {card.linkLabel}
-                <FiArrowRight style={{ fontSize:13 }}/>
+                <ArrowRight style={{ fontSize:13 }}/>
               </Link>
             </div>
           ))}

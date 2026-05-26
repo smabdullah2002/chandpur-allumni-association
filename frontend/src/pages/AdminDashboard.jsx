@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  FiUsers,
-  FiBell,
-  FiCreditCard,
-  FiShield,
-  FiInfo,
-  FiImage,
-  FiCalendar,
-  FiTag,
-  FiSettings,
-  FiUserCheck,
-} from "react-icons/fi";
+  Bell,
+  Calendar,
+  CreditCard,
+  Image,
+  Info,
+  Settings,
+  Shield,
+  Tag,
+  UserCheck,
+  Users,
+} from "lucide-react";
 
 const sections = [
   {
@@ -20,7 +20,7 @@ const sections = [
       {
         title: "Manage Users",
         description: "Review new registrations and manage member accounts.",
-        icon: <FiUsers />,
+        icon: <Users />,
         to: "/admin/users",
         accent: "#3b4fd8",
         bg: "#eef1ff",
@@ -28,7 +28,7 @@ const sections = [
       {
         title: "Manage Roles",
         description: "Assign and configure roles and permissions.",
-        icon: <FiUserCheck />,
+        icon: <UserCheck />,
         to: "/admin/roles",
         accent: "#8b5cf6",
         bg: "#f5f3ff",
@@ -41,7 +41,7 @@ const sections = [
       {
         title: "All Donations",
         description: "Approve or reject submitted donation entries.",
-        icon: <FiCreditCard />,
+        icon: <CreditCard />,
         to: "/admin/donations",
         accent: "#10b981",
         bg: "#edfcf3",
@@ -49,7 +49,7 @@ const sections = [
       {
         title: "Fee Categories",
         description: "Define and manage membership fee categories.",
-        icon: <FiTag />,
+        icon: <Tag />,
         to: "/admin/fee-categories",
         accent: "#f59e0b",
         bg: "#fff8ec",
@@ -62,7 +62,7 @@ const sections = [
       {
         title: "Manage Notices",
         description: "Create, edit, and publish announcements to members.",
-        icon: <FiBell />,
+        icon: <Bell />,
         to: "/admin/notices",
         accent: "#ef4444",
         bg: "#fff1f2",
@@ -70,7 +70,7 @@ const sections = [
       {
         title: "Manage Events",
         description: "Schedule and publish upcoming events.",
-        icon: <FiCalendar />,
+        icon: <Calendar />,
         to: "/admin/events",
         accent: "#0ea5e9",
         bg: "#f0f9ff",
@@ -78,7 +78,7 @@ const sections = [
       {
         title: "Manage Sliders",
         description: "Update homepage banner slides and images.",
-        icon: <FiImage />,
+        icon: <Image />,
         to: "/admin/sliders",
         accent: "#ec4899",
         bg: "#fdf2f8",
@@ -86,7 +86,7 @@ const sections = [
       {
         title: "Photo Gallery",
         description: "Upload and manage community photos.",
-        icon: <FiImage />,
+        icon: <Image />,
         to: "/admin/gallery",
         accent: "#0ea5e9",
         bg: "#f0f9ff",
@@ -99,7 +99,7 @@ const sections = [
       {
         title: "About Us",
         description: "Update the public About Us page content.",
-        icon: <FiInfo />,
+        icon: <Info />,
         to: "/admin/about",
         accent: "#6366f1",
         bg: "#eef2ff",
@@ -107,7 +107,7 @@ const sections = [
       {
         title: "Site Settings",
         description: "Configure global site settings and preferences.",
-        icon: <FiSettings />,
+        icon: <Settings />,
         to: "/admin/sliders",
         accent: "#64748b",
         bg: "#f1f5f9",
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
           <div className="hero-orb-1" />
           <div className="hero-orb-2" />
           <div style={styles.heroBadge}>
-            <FiShield style={{ fontSize: 12 }} />
+            <Shield style={{ fontSize: 12 }} />
             Admin Console
           </div>
           <h1 style={styles.heroTitle}>Admin Dashboard</h1>
@@ -233,7 +233,7 @@ export default function AdminDashboard() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#f0f2f8",
+    background: "var(--bg)",
     padding: "32px 20px",
   },
   inner: {

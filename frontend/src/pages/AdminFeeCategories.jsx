@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  FiTag, FiPlus, FiTrash2, FiEdit2, FiSave,
-  FiX, FiDollarSign, FiAlignLeft,
-} from "react-icons/fi";
+  AlignLeft,
+  DollarSign,
+  Edit2,
+  Plus,
+  Save,
+  Tag,
+  Trash2,
+  X,
+} from "lucide-react";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const emptyForm = { name: "", description: "", amount: "" };
@@ -141,7 +147,7 @@ export default function AdminFeeCategories() {
         <div className="afc-hero">
           <div style={{ zIndex:1, position:"relative" }}>
             <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
-              <FiTag style={{ color:"#a5b4fc", fontSize:16 }}/>
+              <Tag style={{ color:"#a5b4fc", fontSize:16 }}/>
               <span style={{ color:"#a5b4fc", fontSize:12, fontWeight:600,
                 letterSpacing:".08em", textTransform:"uppercase" }}>Admin Panel</span>
             </div>
@@ -153,7 +159,7 @@ export default function AdminFeeCategories() {
             </p>
           </div>
           <button className="add-btn" onClick={openCreate}>
-            <FiPlus style={{ fontSize:15 }}/> Add Category
+            <Plus style={{ fontSize:15 }}/> Add Category
           </button>
         </div>
 
@@ -169,7 +175,7 @@ export default function AdminFeeCategories() {
             {error}
             <button onClick={()=>setError(null)}
               style={{ marginLeft:"auto", background:"none", border:"none",
-                color:"#dc2626", cursor:"pointer" }}><FiX/></button>
+                color:"#dc2626", cursor:"pointer" }}><X/></button>
           </div>
         )}
 
@@ -210,10 +216,10 @@ export default function AdminFeeCategories() {
                 </div>
                 <div style={{ display:"flex", gap:8, flexShrink:0 }}>
                   <button className="edit-btn" onClick={()=>openEdit(cat)}>
-                    <FiEdit2 style={{ fontSize:12 }}/> Edit
+                    <Edit2 style={{ fontSize:12 }}/> Edit
                   </button>
                   <button className="del-btn" onClick={()=>handleDelete(cat._id)}>
-                    <FiTrash2 style={{ fontSize:12 }}/> Delete
+                    <Trash2 style={{ fontSize:12 }}/> Delete
                   </button>
                 </div>
               </div>
@@ -241,23 +247,23 @@ export default function AdminFeeCategories() {
                   color:"#fff", borderRadius:"50%", width:34, height:34,
                   display:"flex", alignItems:"center", justifyContent:"center",
                   cursor:"pointer", fontSize:15 }}>
-                <FiX/>
+                <X/>
               </button>
             </div>
 
             <div style={{ padding:"24px 28px" }}>
               <div className="field-wrap">
-                <label className="field-label"><FiTag style={{fontSize:11}}/> Category Name *</label>
+                <label className="field-label"><Tag style={{fontSize:11}}/> Category Name *</label>
                 <input className="field-input" placeholder="e.g. Annual Membership"
                   value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
               </div>
               <div className="field-wrap">
-                <label className="field-label"><FiDollarSign style={{fontSize:11}}/> Amount (৳) *</label>
+                <label className="field-label"><DollarSign style={{fontSize:11}}/> Amount (৳) *</label>
                 <input type="number" min="0" className="field-input" placeholder="e.g. 500"
                   value={form.amount} onChange={e=>setForm({...form,amount:e.target.value})}/>
               </div>
               <div className="field-wrap" style={{ marginBottom:0 }}>
-                <label className="field-label"><FiAlignLeft style={{fontSize:11}}/> Description</label>
+                <label className="field-label"><AlignLeft style={{fontSize:11}}/> Description</label>
                 <textarea className="field-input" placeholder="Optional description"
                   value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/>
               </div>
@@ -277,7 +283,7 @@ export default function AdminFeeCategories() {
 }
 
 const S = {
-  page: { minHeight:"100vh", background:"#f0f2f8",
+  page: { minHeight:"100vh", background:"var(--bg)",
     padding:"clamp(14px,3vw,24px)",
     fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif" },
   errorBanner: { padding:"10px 16px", background:"#fef2f2",

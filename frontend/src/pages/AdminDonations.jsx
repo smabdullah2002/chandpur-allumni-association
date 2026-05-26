@@ -1,11 +1,28 @@
 import React, { useEffect, useState, useMemo } from "react";
 import {
-  FiCheckCircle, FiClock, FiCreditCard, FiDollarSign,
-  FiSearch, FiX, FiEye, FiTag, FiMessageSquare,
-  FiHash, FiCalendar, FiUser, FiMail, FiPhone,
-  FiMapPin, FiBook, FiTrash2, FiDownload, FiChevronLeft, FiChevronRight,
-  FiTrendingUp,
-} from "react-icons/fi";
+  Book,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  CreditCard,
+  DollarSign,
+  Download,
+  Eye,
+  Hash,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Search,
+  Tag,
+  Trash2,
+  TrendingUp,
+  User,
+  X,
+} from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
   PieChart, Pie, Cell,
@@ -252,25 +269,25 @@ export default function AdminDonations() {
         {/* Hero */}
         <div className="adm-hero">
           <div style={{ zIndex:1, position:"relative" }}>
-            <div style={S.heroBadge}><FiCreditCard style={{fontSize:12}}/> ADMIN PANEL</div>
+            <div style={S.heroBadge}><CreditCard style={{fontSize:12}}/> ADMIN PANEL</div>
             <h1 style={S.heroTitle}>Donation Review</h1>
             <p style={S.heroSub}>Approve, reject, or delete submitted donations from members.</p>
           </div>
           <button className="export-btn export-hero-btn" onClick={exportCSV}
             style={{ background:"rgba(255,255,255,.15)", border:"1px solid rgba(255,255,255,.3)",
               color:"#fff", zIndex:1, position:"relative", flexShrink:0 }}>
-            <FiDownload style={{fontSize:14}}/> Export CSV
+            <Download style={{fontSize:14}}/> Export CSV
           </button>
         </div>
 
         {/* Stats */}
         <div className="adm-stats" style={S.statsRow}>
           {[
-            { icon:<FiDollarSign/>, bg:"#EEF2FF", label:"APPROVED TOTAL",
+            { icon:<DollarSign/>, bg:"#EEF2FF", label:"APPROVED TOTAL",
               val:`৳${totalAmount.toLocaleString()}`, color:"#1e293b" },
-            { icon:<FiCheckCircle/>, bg:"#DCFCE7", label:"APPROVED",
+            { icon:<CheckCircle/>, bg:"#DCFCE7", label:"APPROVED",
               val:approvedCount, color:"#16a34a" },
-            { icon:<FiClock/>, bg:"#FEF9C3", label:"PENDING",
+            { icon:<Clock/>, bg:"#FEF9C3", label:"PENDING",
               val:pendingCount, color:"#ca8a04" },
           ].map(s => (
             <div key={s.label} style={S.statCard}>
@@ -290,7 +307,7 @@ export default function AdminDonations() {
             {/* Monthly bar chart */}
             <div style={S.chartCard}>
               <div style={S.chartTitle}>
-                <FiTrendingUp style={{ color:"#4f46e5", fontSize:16 }}/>
+                <TrendingUp style={{ color:"#4f46e5", fontSize:16 }}/>
                 Monthly Donations
               </div>
               <ResponsiveContainer width="100%" height={190}>
@@ -336,7 +353,7 @@ export default function AdminDonations() {
             {/* Category bar chart */}
             <div style={S.chartCard}>
               <div style={S.chartTitle}>
-                <FiTag style={{ color:"#4f46e5", fontSize:16 }}/>
+                <Tag style={{ color:"#4f46e5", fontSize:16 }}/>
                 Top Categories (Approved ৳)
               </div>
               {categoryData.length === 0 ? (
@@ -390,7 +407,7 @@ export default function AdminDonations() {
               </div>
               {/* Search */}
               <div style={S.searchWrap}>
-                <FiSearch style={S.searchIcon}/>
+                <Search style={S.searchIcon}/>
                 <input type="text" placeholder="Search name, email, TXN…"
                   value={search} onChange={e=>setSearch(e.target.value)}
                   style={S.searchInput}/>
@@ -398,13 +415,13 @@ export default function AdminDonations() {
                   <button onClick={()=>setSearch("")}
                     style={{position:"absolute",right:8,background:"none",border:"none",
                       color:"#94a3b8",cursor:"pointer",padding:0,fontSize:14}}>
-                    <FiX/>
+                    <X/>
                   </button>
                 )}
               </div>
               {/* CSV export (secondary, smaller) */}
               <button className="export-btn" onClick={exportCSV}>
-                <FiDownload style={{fontSize:13}}/> CSV
+                <Download style={{fontSize:13}}/> CSV
               </button>
             </div>
           </div>
@@ -415,7 +432,7 @@ export default function AdminDonations() {
               <button onClick={()=>setError(null)}
                 style={{marginLeft:"auto",background:"none",border:"none",
                   color:"#dc2626",cursor:"pointer",padding:0}}>
-                <FiX/>
+                <X/>
               </button>
             </div>
           )}
@@ -469,24 +486,24 @@ export default function AdminDonations() {
                           <td style={{...S.td, textAlign:"right"}}>
                             <div style={{display:"flex",justifyContent:"flex-end",gap:5,flexWrap:"wrap"}}>
                               <button className="view-btn" onClick={()=>setSelected(d)}>
-                                <FiEye style={{fontSize:12}}/> View
+                                <Eye style={{fontSize:12}}/> View
                               </button>
                               {d.status!=="approved" && (
                                 <button className="act-btn act-approve"
                                   onClick={()=>handleStatusUpdate(d._id,"approved")}>
-                                  ✓
+                                  <Check size={12} />
                                 </button>
                               )}
                               {d.status!=="rejected" && (
                                 <button className="act-btn act-reject"
                                   onClick={()=>handleStatusUpdate(d._id,"rejected")}>
-                                  ✕
+                                  <X size={12} />
                                 </button>
                               )}
                               <button className="del-btn"
                                 disabled={deleting===d._id}
                                 onClick={()=>handleDelete(d._id)}>
-                                <FiTrash2 style={{fontSize:12}}/>
+                                <Trash2 style={{fontSize:12}}/>
                               </button>
                             </div>
                           </td>
@@ -506,12 +523,12 @@ export default function AdminDonations() {
                   <div style={{display:"flex",gap:6,alignItems:"center"}}>
                     <button className="page-btn" disabled={page===1}
                       onClick={()=>setPage(p=>p-1)}>
-                      <FiChevronLeft/>
+                      <ChevronLeft/>
                     </button>
                     <span className="page-num">{page} / {totalPages}</span>
                     <button className="page-btn" disabled={page===totalPages}
                       onClick={()=>setPage(p=>p+1)}>
-                      <FiChevronRight/>
+                      <ChevronRight/>
                     </button>
                   </div>
                 </div>
@@ -543,7 +560,7 @@ export default function AdminDonations() {
                   style={{background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.25)",
                     color:"#fff",borderRadius:"50%",width:36,height:36,display:"flex",
                     alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:16}}>
-                  <FiX/>
+                  <X/>
                 </button>
               </div>
               {/* Status + quick actions */}
@@ -559,53 +576,55 @@ export default function AdminDonations() {
                   <button className="act-btn act-approve"
                     style={{color:"#fff",borderColor:"rgba(255,255,255,.4)"}}
                     onClick={()=>handleStatusUpdate(selected._id,"approved")}>
-                    ✓ Approve
+                    <Check size={12} style={{ marginRight: 6 }} />
+                    Approve
                   </button>
                 )}
                 {selected.status!=="rejected" && (
                   <button className="act-btn act-reject"
                     style={{color:"#fca5a5",borderColor:"rgba(252,165,165,.5)"}}
                     onClick={()=>handleStatusUpdate(selected._id,"rejected")}>
-                    ✕ Reject
+                    <X size={12} style={{ marginRight: 6 }} />
+                    Reject
                   </button>
                 )}
                 <button className="del-btn"
                   style={{marginLeft:"auto",color:"#fca5a5",borderColor:"rgba(252,165,165,.4)"}}
                   disabled={deleting===selected._id}
                   onClick={()=>handleDelete(selected._id)}>
-                  <FiTrash2 style={{fontSize:13}}/> Delete
+                  <Trash2 style={{fontSize:13}}/> Delete
                 </button>
               </div>
             </div>
 
             <div style={{padding:"20px 32px 28px"}}>
               <div className="section-head">Donation Information</div>
-              <DR icon={<FiDollarSign/>} label="Amount"        val={`৳${Number(selected.amount||0).toFixed(2)}`}/>
-              <DR icon={<FiCalendar/>}  label="Date"           val={fmtDate(selected.donationDate)}/>
-              <DR icon={<FiHash/>}      label="Transaction ID" val={selected.transactionId||"—"}/>
-              <DR icon={<FiTag/>}       label="Category"       val={selected.category||"General"}/>
-              {selected.message && <DR icon={<FiMessageSquare/>} label="Message" val={selected.message}/>}
+              <DR icon={<DollarSign/>} label="Amount"        val={`৳${Number(selected.amount||0).toFixed(2)}`}/>
+              <DR icon={<Calendar/>}  label="Date"           val={fmtDate(selected.donationDate)}/>
+              <DR icon={<Hash/>}      label="Transaction ID" val={selected.transactionId||"—"}/>
+              <DR icon={<Tag/>}       label="Category"       val={selected.category||"General"}/>
+              {selected.message && <DR icon={<MessageSquare/>} label="Message" val={selected.message}/>}
               {selected.receipt && (
-                <DR icon={<FiCreditCard/>} label="Receipt"
+                <DR icon={<CreditCard/>} label="Receipt"
                   val={
                     <a href={selected.receipt.startsWith("http") ? selected.receipt : `${apiBase}/uploads/${selected.receipt}`}
                       target="_blank" rel="noopener noreferrer" className="receipt-link">
-                      <FiEye style={{fontSize:13}}/> View Receipt
+                      <Eye style={{fontSize:13}}/> View Receipt
                     </a>
                   }/>
               )}
 
               <div className="section-head" style={{marginTop:8}}>Donor Profile</div>
-              <DR icon={<FiUser/>}   label="Full Name"     val={selected.user?.fullName||"—"}/>
-              <DR icon={<FiMail/>}   label="Email"         val={selected.user?.email||"—"}/>
-              <DR icon={<FiPhone/>}  label="Mobile"        val={selected.user?.mobileNumber||"—"}/>
-              <DR icon={<FiMapPin/>} label="District"      val={selected.user?.district||"Chandpur"}/>
-              <DR icon={<FiMapPin/>} label="Upazila"       val={selected.user?.upazila||"—"}/>
-              <DR icon={<FiMapPin/>} label="Village"       val={selected.user?.villageName||"—"}/>
-              <DR icon={<FiMapPin/>} label="Police Stn."   val={selected.user?.policeStation||"—"}/>
-              <DR icon={<FiBook/>}   label="Education"     val={selected.user?.lastEducation||"—"}/>
-              <DR icon={<FiUser/>}   label="Date of Birth" val={selected.user?.dateOfBirth||"—"}/>
-              <DR icon={<FiUser/>}   label="Political"     val={selected.user?.politicalAffiliation||"—"}/>
+              <DR icon={<User/>}   label="Full Name"     val={selected.user?.fullName||"—"}/>
+              <DR icon={<Mail/>}   label="Email"         val={selected.user?.email||"—"}/>
+              <DR icon={<Phone/>}  label="Mobile"        val={selected.user?.mobileNumber||"—"}/>
+              <DR icon={<MapPin/>} label="District"      val={selected.user?.district||"Chandpur"}/>
+              <DR icon={<MapPin/>} label="Upazila"       val={selected.user?.upazila||"—"}/>
+              <DR icon={<MapPin/>} label="Village"       val={selected.user?.villageName||"—"}/>
+              <DR icon={<MapPin/>} label="Police Stn."   val={selected.user?.policeStation||"—"}/>
+              <DR icon={<Book/>}   label="Education"     val={selected.user?.lastEducation||"—"}/>
+              <DR icon={<User/>}   label="Date of Birth" val={selected.user?.dateOfBirth||"—"}/>
+              <DR icon={<User/>}   label="Political"     val={selected.user?.politicalAffiliation||"—"}/>
             </div>
           </div>
         </div>
@@ -625,7 +644,7 @@ function DR({ icon, label, val }) {
 }
 
 const S = {
-  page: { minHeight:"100vh", background:"#f0f2f8", padding:"clamp(14px,3vw,24px)",
+  page: { minHeight:"100vh", background:"var(--bg)", padding:"clamp(14px,3vw,24px)",
     fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif" },
   hero: {},
   heroBadge: { display:"inline-flex", alignItems:"center", gap:6, marginBottom:12,
@@ -644,40 +663,40 @@ const S = {
   statValue: { fontSize:26, fontWeight:800, color:"#1e293b", lineHeight:1 },
   tableSection: { background:"#fff", borderRadius:14,
     boxShadow:"0 1px 4px rgba(0,0,0,.06)", overflow:"hidden" },
-  tableHeader: { padding:"20px 24px", borderBottom:"1px solid #f1f5f9",
+  tableHeader: { padding:"20px 24px", borderBottom:"1px solid var(--border)",
     display:"flex", alignItems:"flex-start", justifyContent:"space-between",
     flexWrap:"wrap", gap:12 },
   tableTitle: { fontSize:16, fontWeight:700, color:"#1e293b" },
   tableCount: { fontSize:13, color:"#94a3b8", marginTop:2 },
   tableControls: { display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" },
-  filterRow: { display:"flex", gap:4, background:"#f8fafc",
-    border:"1px solid #e2e8f0", borderRadius:10, padding:3 },
+  filterRow: { display:"flex", gap:4, background:"var(--surface-soft)",
+    border:"1px solid var(--border)", borderRadius:10, padding:3 },
   filterBtn: { padding:"5px 12px", borderRadius:8, border:"none",
     background:"transparent", cursor:"pointer", fontSize:13, color:"#64748b",
     fontWeight:500, display:"flex", alignItems:"center", gap:5 },
-  filterBtnActive: { background:"#fff", color:"#3730a3",
+  filterBtnActive: { background:"#fff", color:"var(--primary)",
     fontWeight:700, boxShadow:"0 1px 4px rgba(0,0,0,.1)" },
-  filterCount: { fontSize:11, background:"#e2e8f0", borderRadius:99,
+  filterCount: { fontSize:11, background:"var(--surface-soft)", borderRadius:99,
     padding:"1px 6px", color:"#64748b" },
   searchWrap: { position:"relative", display:"flex", alignItems:"center" },
   searchIcon: { position:"absolute", left:10, fontSize:14, color:"#94a3b8", pointerEvents:"none" },
   searchInput: { paddingLeft:32, paddingRight:28, paddingTop:8, paddingBottom:8,
-    border:"1px solid #e2e8f0", borderRadius:10, fontSize:13, color:"#1e293b",
-    outline:"none", width:"min(220px, 100%)", background:"#f8fafc", fontFamily:"inherit" },
+    border:"1px solid var(--border)", borderRadius:10, fontSize:13, color:"#1e293b",
+    outline:"none", width:"min(220px, 100%)", background:"#fbfaf6", fontFamily:"inherit" },
   errorBanner: { margin:"0 24px 12px", padding:"10px 14px",
     background:"#fef2f2", border:"1px solid #fecaca",
     borderRadius:8, color:"#dc2626", fontSize:13, display:"flex", alignItems:"center", gap:8 },
   table: { width:"100%", borderCollapse:"collapse" },
-  thead: { background:"#f8fafc" },
+  thead: { background:"var(--surface-soft)" },
   th: { padding:"10px 16px", textAlign:"left", fontSize:11, fontWeight:700,
     color:"#94a3b8", letterSpacing:".07em", borderBottom:"1px solid #f1f5f9" },
-  tr: { borderBottom:"1px solid #f8fafc" },
+  tr: { borderBottom:"1px solid var(--surface-soft)" },
   td: { padding:"13px 16px", fontSize:14, color:"#334155", verticalAlign:"middle" },
   donorName: { fontWeight:700, color:"#1e293b", fontSize:14 },
   donorEmail: { fontSize:12, color:"#94a3b8", marginTop:2 },
   amount: { fontWeight:700, color:"#1e293b" },
   dateText: { fontSize:13, color:"#64748b" },
-  txnId: { fontFamily:"monospace", fontSize:12, background:"#f1f5f9",
+  txnId: { fontFamily:"monospace", fontSize:12, background:"var(--surface-soft)",
     padding:"3px 8px", borderRadius:6, color:"#475569" },
   catPill: { fontSize:11, background:"#eef2ff", color:"#3730a3",
     padding:"3px 8px", borderRadius:99, fontWeight:600 },

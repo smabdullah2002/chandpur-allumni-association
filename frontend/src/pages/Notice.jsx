@@ -1,17 +1,24 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  FiBell, FiCalendar, FiChevronDown,
-  FiInfo, FiSearch, FiStar, FiZap,
-  FiFileText, FiDownload, FiFilter,
-} from "react-icons/fi";
+  Bell,
+  Calendar,
+  ChevronDown,
+  Download,
+  FileText,
+  Filter,
+  Info,
+  Search,
+  Star,
+  Zap,
+} from "lucide-react";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const categoryMeta = {
-  general:   { label: "General",   color: "#3b4fd8", bg: "#eef1ff", border: "#c7d2fe", icon: <FiInfo /> },
-  donation:  { label: "Donation",  color: "#10b981", bg: "#edfcf3", border: "#6ee7b7", icon: <FiZap /> },
-  event:     { label: "Event",     color: "#f59e0b", bg: "#fff8ec", border: "#fcd34d", icon: <FiStar /> },
-  emergency: { label: "Emergency", color: "#ef4444", bg: "#fef2f2", border: "#fca5a5", icon: <FiBell /> },
+  general:   { label: "General",   color: "#3b4fd8", bg: "#eef1ff", border: "#c7d2fe", icon: <Info /> },
+  donation:  { label: "Donation",  color: "#10b981", bg: "#edfcf3", border: "#6ee7b7", icon: <Zap /> },
+  event:     { label: "Event",     color: "#f59e0b", bg: "#fff8ec", border: "#fcd34d", icon: <Star /> },
+  emergency: { label: "Emergency", color: "#ef4444", bg: "#fef2f2", border: "#fca5a5", icon: <Bell /> },
 };
 
 async function downloadPdf(e, pdfUrl, noticeTitle) {
@@ -201,7 +208,7 @@ export default function Notice() {
         <div className="nr-hero">
           <div style={{ position: "relative", zIndex: 1 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-              <FiBell style={{ color: "#a5b4fc", fontSize: 18 }} />
+              <Bell style={{ color: "#a5b4fc", fontSize: 18 }} />
               <span style={{ color: "#a5b4fc", fontSize: 12, fontWeight: 600,
                 letterSpacing: ".08em", textTransform: "uppercase" }}>
                 Community Board
@@ -214,7 +221,7 @@ export default function Notice() {
               সর্বশেষ বিজ্ঞপ্তি এবং ইভেন্ট সম্পর্কে আপ-টু-ডেট থাকুন।
             </p>
             <div className="nr-search">
-              <FiSearch className="nr-search-icon" />
+              <Search className="nr-search-icon" />
               <input type="text" placeholder="নোটিশ খুঁজুন…"
                 value={search} onChange={e => setSearch(e.target.value)} />
             </div>
@@ -245,7 +252,7 @@ export default function Notice() {
           ))}
           <span style={{ marginLeft: "auto", fontSize: 12, color: "#94a3b8", alignSelf: "center",
             display: "flex", alignItems: "center", gap: 4 }}>
-            <FiFilter style={{ fontSize: 12 }} />
+            <Filter style={{ fontSize: 12 }} />
             {filtered.length} টি নোটিশ
           </span>
         </div>
@@ -253,19 +260,19 @@ export default function Notice() {
         {/* List */}
         {loading ? (
           <div className="empty-state">
-            <div className="empty-icon"><FiBell /></div>
+            <div className="empty-icon"><Bell /></div>
             <p style={{ fontWeight: 700, color: "#334155", fontSize: 15, margin: "0 0 5px" }}>লোড হচ্ছে…</p>
             <p style={{ color: "#94a3b8", fontSize: 13, margin: 0 }}>একটু অপেক্ষা করুন।</p>
           </div>
         ) : error ? (
           <div className="empty-state">
-            <div className="empty-icon"><FiBell /></div>
+            <div className="empty-icon"><Bell /></div>
             <p style={{ fontWeight: 700, color: "#334155", fontSize: 15, margin: "0 0 5px" }}>লোড করতে সমস্যা হয়েছে</p>
             <p style={{ color: "#94a3b8", fontSize: 13, margin: 0 }}>{error}</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon"><FiBell /></div>
+            <div className="empty-icon"><Bell /></div>
             <p style={{ fontWeight: 700, color: "#334155", fontSize: 15, margin: "0 0 5px" }}>কোনো নোটিশ পাওয়া যায়নি</p>
             <p style={{ color: "#94a3b8", fontSize: 13, margin: 0 }}>
               {search ? "অনুসন্ধান পরিবর্তন করুন।" : "এখনো কোনো নোটিশ প্রকাশিত হয়নি।"}
@@ -292,20 +299,20 @@ export default function Notice() {
                           {meta.label}
                         </span>
                         <span className="date-chip">
-                          <FiCalendar style={{ fontSize: 11 }} />
+                          <Calendar style={{ fontSize: 11 }} />
                           {fmtDate(notice.createdAt)}
                         </span>
                         {notice.pdf && (
                           <span style={{ display: "inline-flex", alignItems: "center", gap: 3,
                             fontSize: 11, fontWeight: 700, color: "#3b4fd8",
                             background: "#eef2ff", padding: "2px 7px", borderRadius: 6 }}>
-                            <FiFileText style={{ fontSize: 10 }} /> PDF
+                            <FileText style={{ fontSize: 10 }} /> PDF
                           </span>
                         )}
                       </div>
                       <h2 className="card-title">{notice.title}</h2>
                     </div>
-                    <FiChevronDown className={`chevron-icon${isOpen ? " open" : ""}`} />
+                    <ChevronDown className={`chevron-icon${isOpen ? " open" : ""}`} />
                   </div>
 
                   <div className={`card-body-wrap${isOpen ? " open" : ""}`}>
@@ -321,7 +328,7 @@ export default function Notice() {
                             setDownloading(null);
                           }}
                         >
-                          <FiDownload style={{ fontSize: 15 }} />
+                          <Download style={{ fontSize: 15 }} />
                           {downloading === notice._id
                             ? "ডাউনলোড হচ্ছে…"
                             : "সংযুক্তি ডাউনলোড করুন (PDF)"}

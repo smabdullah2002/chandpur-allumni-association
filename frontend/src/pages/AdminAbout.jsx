@@ -1,29 +1,29 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
-  FiSave,
-  FiInfo,
-  FiEdit2,
-  FiFileText,
-  FiStar,
-  FiTrendingUp,
-  FiCheckCircle,
-  FiAlertCircle,
-  FiX,
-  FiBold,
-  FiItalic,
-  FiUnderline,
-  FiLink,
-  FiLink2,
-  FiAlignLeft,
-  FiAlignCenter,
-  FiAlignRight,
-  FiList,
-  FiRotateCcw,
-  FiRotateCw,
-  FiType,
-  FiUsers,
-  FiAward,
-} from "react-icons/fi";
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  AlertCircle,
+  Award,
+  Bold,
+  CheckCircle,
+  Edit2,
+  FileText,
+  Info,
+  Italic,
+  Link,
+  Link2,
+  List,
+  RotateCcw,
+  RotateCw,
+  Save,
+  Star,
+  TrendingUp,
+  Type,
+  Underline,
+  Users,
+  X,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { trustPoints as defaultTrustPoints } from "../data/siteData";
 
@@ -36,7 +36,7 @@ const defaultStats = [
 
 const defaultAbout = {
   title: "ভূমিকা",
-  body: "মননে মতলব একটি সংগঠিত, অরাজনৈতিক এবং মানবিক প্ল্যাটফর্ম। এটি জনকল্যাণমূলক কাজ, সামাজিক সহায়তা, শিক্ষা সহায়তা এবং জরুরি ত্রাণ কার্যক্রমের মাধ্যমে মানুষের পাশে দাঁড়ায়।",
+  body: "চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন একটি ঐক্যবদ্ধ, অরাজনৈতিক ও মানবিক সংগঠন, যেখানে বিভিন্ন প্রজন্মের প্রাক্তন শিক্ষার্থীরা সমাজের কল্যাণে একসাথে কাজ করে। শিক্ষা, মানবিক সহায়তা, সামাজিক উন্নয়ন ও দুর্যোগকালীন সহযোগিতার মাধ্যমে এই প্ল্যাটফর্ম মানুষের পাশে থাকার অঙ্গীকার বহন করে।",
   trustPoints: defaultTrustPoints,
   stats: defaultStats,
 };
@@ -221,7 +221,7 @@ function RichToolbar({ editorRef, onLinkOpen }) {
 
       {/* Text color */}
       <label className="color-btn" title="Text Color">
-        <FiType size={12} style={{ marginBottom: 2 }} />
+        <Type size={12} style={{ marginBottom: 2 }} />
         <input
           type="color"
           defaultValue="#1a1235"
@@ -258,19 +258,19 @@ function RichToolbar({ editorRef, onLinkOpen }) {
       <span className="tb-sep" />
 
       <TbBtn cmd="justifyLeft" title="Align Left">
-        <FiAlignLeft size={13} />
+        <AlignLeft size={13} />
       </TbBtn>
       <TbBtn cmd="justifyCenter" title="Align Center">
-        <FiAlignCenter size={13} />
+        <AlignCenter size={13} />
       </TbBtn>
       <TbBtn cmd="justifyRight" title="Align Right">
-        <FiAlignRight size={13} />
+        <AlignRight size={13} />
       </TbBtn>
 
       <span className="tb-sep" />
 
       <TbBtn cmd="insertUnorderedList" title="Bullet List">
-        <FiList size={13} />
+        <List size={13} />
       </TbBtn>
       <TbBtn cmd="insertOrderedList" title="Numbered List">
         <svg
@@ -329,7 +329,7 @@ function RichToolbar({ editorRef, onLinkOpen }) {
           onLinkOpen();
         }}
       >
-        <FiLink size={13} />
+        <Link size={13} />
       </button>
       <button
         type="button"
@@ -340,7 +340,7 @@ function RichToolbar({ editorRef, onLinkOpen }) {
           exec("unlink");
         }}
       >
-        <FiLink2 size={13} />
+        <Link2 size={13} />
       </button>
 
       <span className="tb-sep" />
@@ -378,7 +378,7 @@ function RichToolbar({ editorRef, onLinkOpen }) {
           exec("undo");
         }}
       >
-        <FiRotateCcw size={13} />
+        <RotateCcw size={13} />
       </button>
       <button
         type="button"
@@ -389,7 +389,7 @@ function RichToolbar({ editorRef, onLinkOpen }) {
           exec("redo");
         }}
       >
-        <FiRotateCw size={13} />
+        <RotateCw size={13} />
       </button>
     </div>
   );
@@ -467,7 +467,7 @@ function MiniToolbar({ editorRef }) {
       </button>
       <span className="tb-sep" />
       <label className="color-btn" title="Text Color">
-        <FiType size={12} />
+        <Type size={12} />
         <input
           type="color"
           defaultValue="#475569"
@@ -528,7 +528,7 @@ function MiniToolbar({ editorRef }) {
           exec("undo");
         }}
       >
-        <FiRotateCcw size={13} />
+        <RotateCcw size={13} />
       </button>
     </div>
   );
@@ -893,7 +893,7 @@ export default function AdminAbout() {
                 marginBottom: 8,
               }}
             >
-              <FiEdit2 style={{ color: "#a5b4fc", fontSize: 15 }} />
+              <Edit2 style={{ color: "#a5b4fc", fontSize: 15 }} />
               <span
                 style={{
                   color: "#a5b4fc",
@@ -927,7 +927,7 @@ export default function AdminAbout() {
         {/* Error */}
         {error && (
           <div className="error-banner">
-            <FiAlertCircle style={{ fontSize: 15, flexShrink: 0 }} />
+            <AlertCircle style={{ fontSize: 15, flexShrink: 0 }} />
             {error}
             <button
               onClick={() => setError("")}
@@ -941,7 +941,7 @@ export default function AdminAbout() {
                 padding: 0,
               }}
             >
-              <FiX />
+              <X />
             </button>
           </div>
         )}
@@ -962,7 +962,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#eef1ff", color: "#3b4fd8" }}
                 >
-                  <FiFileText />
+                  <FileText />
                 </div>
                 <div>
                   <p
@@ -1024,7 +1024,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#edfcf3", color: "#10b981" }}
                 >
-                  <FiStar />
+                  <Star />
                 </div>
                 <div>
                   <p
@@ -1080,7 +1080,7 @@ export default function AdminAbout() {
                     <div className="trust-preview">
                       {trustLines.map((line, i) => (
                         <div className="trust-item" key={i}>
-                          <FiCheckCircle
+                          <CheckCircle
                             style={{
                               color: "#10b981",
                               fontSize: 13,
@@ -1104,7 +1104,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#eef1ff", color: "#5a4ef6" }}
                 >
-                  <FiUsers />
+                  <Users />
                 </div>
                 <div>
                   <p
@@ -1147,7 +1147,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#fff8ec", color: "#f59e0b" }}
                 >
-                  <FiStar />
+                  <Star />
                 </div>
                 <div>
                   <p
@@ -1195,7 +1195,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#edfcf3", color: "#10b981" }}
                 >
-                  <FiAward />
+                  <Award />
                 </div>
                 <div>
                   <p
@@ -1238,7 +1238,7 @@ export default function AdminAbout() {
                   className="card-icon"
                   style={{ background: "#fff8ec", color: "#f59e0b" }}
                 >
-                  <FiTrendingUp />
+                  <TrendingUp />
                 </div>
                 <div>
                   <p
@@ -1268,7 +1268,7 @@ export default function AdminAbout() {
                   }
                 />
                 <div className="hint-row">
-                  <FiInfo style={{ fontSize: 12 }} />
+                  <Info style={{ fontSize: 12 }} />
                   <span>
                     Example:{" "}
                     <code
@@ -1337,13 +1337,13 @@ export default function AdminAbout() {
               >
                 {isSaved ? (
                   <>
-                    <FiCheckCircle style={{ fontSize: 15 }} /> Saved!
+                    <CheckCircle style={{ fontSize: 15 }} /> Saved!
                   </>
                 ) : isSaving ? (
                   "Saving…"
                 ) : (
                   <>
-                    <FiSave style={{ fontSize: 15 }} /> Save Changes
+                    <Save style={{ fontSize: 15 }} /> Save Changes
                   </>
                 )}
               </button>

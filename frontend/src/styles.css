@@ -1,15 +1,16 @@
 :root {
-  --bg: #f4f6fb;
+  --bg: #f6f4ef;
   --surface: #ffffff;
-  --surface-soft: #edf0ff;
-  --ink: #0d1730;
-  --muted: #5e6b86;
-  --primary: #5a4ef6;
-  --primary-strong: #4338ca;
-  --primary-soft: rgba(90, 78, 246, 0.12);
-  --shadow: 0 18px 45px rgba(31, 41, 55, 0.12);
-  --radius: 24px;
-  --container: 1180px;
+  --surface-soft: #f1efe8;
+  --ink: #0f172a;
+  --muted: #5f6776;
+  --primary: #1f2937;
+  --primary-strong: #0f172a;
+  --primary-soft: rgba(15, 23, 42, 0.08);
+  --border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  --radius: 20px;
+  --container: 1160px;
 }
 * {
   box-sizing: border-box;
@@ -23,9 +24,7 @@ body {
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
-  background:
-    radial-gradient(circle at top left, rgba(90, 78, 246, 0.12), transparent 28%),
-    linear-gradient(180deg, #f7f8fe 0%, #eef2ff 100%);
+  background: var(--bg);
 }
 
 a {
@@ -54,10 +53,10 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 20;
-  backdrop-filter: blur(22px);
-  background: rgba(255, 255, 255, 0.88);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(18px);
+  background: rgba(246, 244, 239, 0.92);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 }
 
 .header-inner {
@@ -83,7 +82,7 @@ textarea {
 .nav-link {
   position: relative;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--ink);
   padding: 0.25rem 0;
   transition: color 0.2s ease;
 }
@@ -132,9 +131,9 @@ textarea {
 .primary-button,
 .hero-button.solid,
 .newsletter-form button {
-  background: linear-gradient(135deg, var(--primary), #6d56ff);
+  background: var(--primary);
   color: #fff;
-  box-shadow: 0 18px 26px rgba(90, 78, 246, 0.26);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.18);
 }
 
 .primary-button,
@@ -152,13 +151,13 @@ textarea {
 
 .text-button {
   background: transparent;
-  color: #1f2937;
+  color: var(--ink);
 }
 
 .welcome-pill {
   padding: 0.65rem 1rem;
   border-radius: 999px;
-  background: var(--primary-soft);
+  background: var(--surface-soft);
   color: var(--primary);
   font-weight: 700;
   display: inline-flex;
@@ -206,7 +205,7 @@ textarea {
   min-width: 210px;
   background: #fff;
   border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  border: 1px solid var(--border);
   box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
   padding: 0.4rem;
   z-index: 20;
@@ -267,7 +266,7 @@ textarea {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(3, 7, 18, 0.72) 0%, rgba(3, 7, 18, 0.34) 42%, rgba(3, 7, 18, 0.55) 100%);
+  background: linear-gradient(90deg, rgba(15, 23, 42, 0.68) 0%, rgba(15, 23, 42, 0.32) 45%, rgba(15, 23, 42, 0.55) 100%);
 }
 
 .hero-content {
@@ -286,12 +285,12 @@ textarea {
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
   font-size: 0.84rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #dbe1ff;
-  background: rgba(90, 78, 246, 0.3);
-  backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(10px);
 }
 
 .hero-content h1 {
@@ -365,12 +364,12 @@ textarea {
 
 .section,
 .page-section {
-  padding: 5.5rem 0;
+  padding: 5rem 0;
 }
 
 .muted-section,
 .page-band {
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--surface-soft);
 }
 
 .about-grid,
@@ -402,9 +401,9 @@ textarea {
   width: min(260px, calc(100% - 3rem));
   padding: 1.3rem 1.4rem;
   border-radius: 22px;
-  background: linear-gradient(135deg, #2663ff, #1d4ed8);
+  background: var(--primary);
   color: #fff;
-  box-shadow: 0 20px 32px rgba(29, 78, 216, 0.26);
+  box-shadow: 0 20px 32px rgba(15, 23, 42, 0.22);
 }
 
 .floating-stat strong {
@@ -494,8 +493,8 @@ textarea {
 .auth-card,
 .register-card,
 .card-form {
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  background: var(--surface);
   box-shadow: var(--shadow);
 }
 
@@ -598,7 +597,7 @@ textarea {
 }
 
 .ev-modal-hero {
-  background: linear-gradient(135deg, var(--primary-strong) 0%, var(--primary) 100%);
+  background: var(--primary);
   padding: 28px 28px 24px;
   position: relative;
 }
@@ -698,8 +697,8 @@ textarea {
 
 .site-footer {
   padding: 4.5rem 0 2rem;
-  background: #0c1630;
-  color: #d5dcf2;
+  background: var(--primary-strong);
+  color: #e5e7eb;
 }
 
 .footer-grid {
@@ -727,13 +726,13 @@ textarea {
   place-items: center;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.08);
-  color: #aab6d4;
+  color: #e5e7eb;
   font-size: 1.05rem;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .social-pill:hover {
-  background: rgba(90, 78, 246, 0.35);
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
   transform: translateY(-2px);
 }

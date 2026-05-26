@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiX, FiMapPin, FiCalendar, FiClock } from "react-icons/fi";
+import { Calendar, Clock, MapPin, X } from "lucide-react";
 import SectionTitle from "../components/SectionTitle";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -76,10 +76,10 @@ export default function Events() {
           <div className="ev-modal" onClick={e => e.stopPropagation()}>
             <div className="ev-modal-hero">
               <button className="ev-modal-close" onClick={() => setSelected(null)}>
-                <FiX />
+                <X />
               </button>
               <div className="ev-modal-date">
-                <FiCalendar style={{ fontSize: 12 }} />
+                <Calendar style={{ fontSize: 12 }} />
                 {fmtDateFull(selected.date)}
               </div>
               <h2 className="ev-modal-title">{selected.title}</h2>
@@ -88,12 +88,12 @@ export default function Events() {
               <div className="ev-modal-meta">
                 {selected.location && (
                   <span className="ev-meta-pill location">
-                    <FiMapPin style={{ fontSize: 11 }} />
+                    <MapPin style={{ fontSize: 11 }} />
                     {selected.location}
                   </span>
                 )}
                 <span className={`ev-meta-pill status-${selected.status}`}>
-                  <FiClock style={{ fontSize: 11 }} />
+                  <Clock style={{ fontSize: 11 }} />
                   {statusLabel(selected.status)}
                 </span>
               </div>

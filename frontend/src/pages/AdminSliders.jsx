@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  FiEye, FiEyeOff, FiImage, FiPlus, FiEdit2,
-  FiSearch, FiTrash2, FiX, FiUpload, FiType,
-  FiAlignLeft, FiHash,
-} from "react-icons/fi";
+  AlignLeft,
+  Edit2,
+  Eye,
+  EyeOff,
+  Hash,
+  Image,
+  Plus,
+  Search,
+  Trash2,
+  Type,
+  Upload,
+  X,
+} from "lucide-react";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const emptyForm = { headline: "", subtext: "", ctaText: "", displayOrder: 0, status: "visible" };
@@ -203,7 +212,7 @@ export default function AdminSliders() {
         <div style={S.hero}>
           <div style={{ position:"relative", zIndex:1 }}>
             <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
-              <FiImage style={{ color:"#a5b4fc", fontSize:16 }}/>
+              <Image style={{ color:"#a5b4fc", fontSize:16 }}/>
               <span style={{ color:"#a5b4fc", fontSize:12, fontWeight:600,
                 letterSpacing:".08em", textTransform:"uppercase" }}>Admin Panel</span>
             </div>
@@ -215,7 +224,7 @@ export default function AdminSliders() {
             </p>
           </div>
           <button className="add-btn" onClick={openCreate}>
-            <FiPlus style={{ fontSize:15 }}/> Add New Slider
+            <Plus style={{ fontSize:15 }}/> Add New Slider
           </button>
         </div>
 
@@ -238,7 +247,7 @@ export default function AdminSliders() {
             {error}
             <button onClick={()=>setError(null)}
               style={{ marginLeft:"auto", background:"none", border:"none", color:"#dc2626", cursor:"pointer" }}>
-              <FiX/>
+              <X/>
             </button>
           </div>
         )}
@@ -264,7 +273,7 @@ export default function AdminSliders() {
                 ))}
               </div>
               <div style={{ position:"relative" }}>
-                <FiSearch style={{ position:"absolute", left:10, top:"50%",
+                <Search style={{ position:"absolute", left:10, top:"50%",
                   transform:"translateY(-50%)", color:"#94a3b8", fontSize:13 }}/>
                 <input placeholder="Search..." value={search}
                   onChange={e=>setSearch(e.target.value)}
@@ -295,7 +304,7 @@ export default function AdminSliders() {
                       <td style={S.td}>
                         {slider.imageUrl
                           ? <img src={slider.imageUrl} alt={slider.headline} className="preview-img"/>
-                          : <div className="preview-ph"><FiImage/></div>}
+                          : <div className="preview-ph"><Image/></div>}
                       </td>
                       <td style={S.td}>
                         <div style={{ fontWeight:700, color:"#1e293b", fontSize:14, marginBottom:2 }}>
@@ -325,8 +334,8 @@ export default function AdminSliders() {
                           color: slider.status==="visible" ? "#166534" : "#64748b",
                         }}>
                           {slider.status==="visible"
-                            ? <FiEye style={{fontSize:11}}/>
-                            : <FiEyeOff style={{fontSize:11}}/>}
+                            ? <Eye style={{fontSize:11}}/>
+                            : <EyeOff style={{fontSize:11}}/>}
                           {slider.status==="visible" ? "Visible" : "Hidden"}
                         </span>
                       </td>
@@ -335,14 +344,14 @@ export default function AdminSliders() {
                           justifyContent:"flex-end", gap:6 }}>
                           <button className="toggle-btn" onClick={()=>handleToggleStatus(slider)}>
                             {slider.status==="visible"
-                              ? <><FiEyeOff style={{fontSize:12}}/> Hide</>
-                              : <><FiEye style={{fontSize:12}}/> Show</>}
+                              ? <><EyeOff style={{fontSize:12}}/> Hide</>
+                              : <><Eye style={{fontSize:12}}/> Show</>}
                           </button>
                           <button className="icon-btn ib-edit" onClick={()=>openEdit(slider)}>
-                            <FiEdit2/>
+                            <Edit2/>
                           </button>
                           <button className="icon-btn ib-del" onClick={()=>handleDelete(slider._id)}>
-                            <FiTrash2/>
+                            <Trash2/>
                           </button>
                         </div>
                       </td>
@@ -375,21 +384,21 @@ export default function AdminSliders() {
                   color:"#fff", borderRadius:"50%", width:34, height:34,
                   display:"flex", alignItems:"center", justifyContent:"center",
                   cursor:"pointer", fontSize:15 }}>
-                <FiX/>
+                <X/>
               </button>
             </div>
 
             <div style={{ padding:"24px 28px" }}>
               {/* Image Upload */}
               <div className="field-wrap">
-                <label className="field-label"><FiUpload style={{fontSize:12}}/> Slider Image</label>
+                <label className="field-label"><Upload style={{fontSize:12}}/> Slider Image</label>
                 <div className="upload-zone" onClick={()=>fileRef.current?.click()}>
                   <input ref={fileRef} type="file" accept="image/*" onChange={handleFileChange}/>
                   {imagePreview ? (
                     <img src={imagePreview} alt="preview" className="img-preview"/>
                   ) : (
                     <div style={{ color:"#64748b" }}>
-                      <FiUpload style={{ fontSize:28, color:"#3b4fd8", marginBottom:8 }}/>
+                      <Upload style={{ fontSize:28, color:"#3b4fd8", marginBottom:8 }}/>
                       <div style={{ fontSize:13, fontWeight:600 }}>Click to upload image</div>
                       <div style={{ fontSize:11, color:"#94a3b8", marginTop:4 }}>
                         JPG, PNG, WEBP — saved to Cloudinary
@@ -401,21 +410,22 @@ export default function AdminSliders() {
                   <button onClick={()=>{ setImageFile(null); setImagePreview(editing?.imageUrl||""); }}
                     style={{ fontSize:12, color:"#dc2626", background:"none",
                       border:"none", cursor:"pointer", marginTop:4, textAlign:"left" }}>
-                    ✕ Remove image
+                    <X size={12} style={{ marginRight: 6 }} />
+                    Remove image
                   </button>
                 )}
               </div>
 
               {/* Headline */}
               <div className="field-wrap">
-                <label className="field-label"><FiType style={{fontSize:12}}/> Headline</label>
+                <label className="field-label"><Type style={{fontSize:12}}/> Headline</label>
                 <input className="field-input" placeholder="e.g. মননে মতলব"
                   value={form.headline} onChange={e=>setForm({...form,headline:e.target.value})}/>
               </div>
 
               {/* Subtext */}
               <div className="field-wrap">
-                <label className="field-label"><FiAlignLeft style={{fontSize:12}}/> Subtext</label>
+                <label className="field-label"><AlignLeft style={{fontSize:12}}/> Subtext</label>
                 <input className="field-input" placeholder="Short description"
                   value={form.subtext} onChange={e=>setForm({...form,subtext:e.target.value})}/>
               </div>
@@ -430,7 +440,7 @@ export default function AdminSliders() {
               {/* Order + Status */}
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
                 <div className="field-wrap" style={{ marginBottom:0 }}>
-                  <label className="field-label"><FiHash style={{fontSize:12}}/> Display Order</label>
+                  <label className="field-label"><Hash style={{fontSize:12}}/> Display Order</label>
                   <input type="number" min="0" className="field-input"
                     value={form.displayOrder}
                     onChange={e=>setForm({...form,displayOrder:e.target.value})}/>
@@ -460,11 +470,11 @@ export default function AdminSliders() {
 }
 
 const S = {
-  page: { minHeight:"100vh", background:"#f0f2f8", padding:"24px",
+  page: { minHeight:"100vh", background:"var(--bg)", padding:"24px",
     fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif" },
-  hero: { background:"linear-gradient(135deg,#0f1340 0%,#1a1f6e 55%,#2a3190 100%)",
+  hero: { background:"var(--primary)",
     borderRadius:20, padding:"36px 40px", color:"#fff",
-    boxShadow:"0 20px 60px rgba(15,19,64,.3)",
+    boxShadow:"0 20px 60px rgba(15,23,42,.25)",
     display:"flex", alignItems:"center", justifyContent:"space-between", gap:20 },
   statsRow: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 },
   statCard: { background:"#fff", borderRadius:12, padding:"18px 20px",
@@ -474,14 +484,14 @@ const S = {
     fontSize:13, display:"flex", alignItems:"center", gap:8 },
   tableSection: { background:"#fff", borderRadius:14,
     boxShadow:"0 1px 3px rgba(0,0,0,.06)", overflow:"hidden" },
-  tableHeader: { padding:"20px 24px", borderBottom:"1px solid #f1f5f9",
+  tableHeader: { padding:"20px 24px", borderBottom:"1px solid var(--border)",
     display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12 },
   tableTitle: { fontSize:16, fontWeight:700, color:"#1e293b" },
   tableCount: { fontSize:13, color:"#94a3b8", marginTop:2 },
   table: { width:"100%", borderCollapse:"collapse" },
   th: { padding:"10px 16px", textAlign:"left", fontSize:11, fontWeight:700,
-    color:"#94a3b8", letterSpacing:".07em", borderBottom:"1px solid #f1f5f9" },
+    color:"#94a3b8", letterSpacing:".07em", borderBottom:"1px solid var(--border)" },
   td: { padding:"14px 16px", fontSize:14, color:"#334155",
-    verticalAlign:"middle", borderBottom:"1px solid #f8fafc" },
+    verticalAlign:"middle", borderBottom:"1px solid var(--surface-soft)" },
   empty: { padding:48, textAlign:"center", color:"#94a3b8", fontSize:14 },
 };

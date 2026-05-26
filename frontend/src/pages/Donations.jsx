@@ -1,10 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FiCheckCircle, FiClock, FiCreditCard, FiPlus,
-  FiHeart, FiTrendingUp, FiEye, FiX,
-  FiHash, FiTag, FiCalendar, FiMessageSquare, FiFileText,
-} from "react-icons/fi";
+  Calendar,
+  CheckCircle,
+  Clock,
+  CreditCard,
+  Eye,
+  FileText,
+  Hash,
+  Heart,
+  MessageSquare,
+  Plus,
+  Tag,
+  TrendingUp,
+  X,
+} from "lucide-react";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
   PieChart, Pie, Cell, Legend,
@@ -170,7 +180,7 @@ const Donations = () => {
           <div className="hero-row" style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <div style={{ zIndex:1, position:"relative" }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8 }}>
-                <FiHeart style={{ color:"#a5b4fc", fontSize:18 }}/>
+                <Heart style={{ color:"#a5b4fc", fontSize:18 }}/>
                 <span style={{ color:"#a5b4fc", fontSize:13, fontWeight:600,
                   letterSpacing:".08em", textTransform:"uppercase" }}>Donation Portal</span>
               </div>
@@ -182,7 +192,7 @@ const Donations = () => {
               </p>
             </div>
             <Link to="/donations/new" className="add-btn">
-              <FiPlus style={{ fontSize:16 }}/> New Donation
+              <Plus style={{ fontSize:16 }}/> New Donation
             </Link>
           </div>
         </div>
@@ -190,21 +200,21 @@ const Donations = () => {
         {/* Stats — total only counts approved */}
         <div className="grid-stats">
           <div className="stat-card highlight">
-            <div className="icon-wrap icon-white"><FiCreditCard/></div>
+            <div className="icon-wrap icon-white"><CreditCard/></div>
             <div>
               <p className="stat-label on-dark">Approved Total</p>
               <h3 className="stat-value on-dark">৳{stats.total.toFixed(2)}</h3>
             </div>
           </div>
           <div className="stat-card">
-            <div className="icon-wrap icon-amber"><FiClock/></div>
+            <div className="icon-wrap icon-amber"><Clock/></div>
             <div>
               <p className="stat-label">Pending Review</p>
               <h3 className="stat-value">{stats.pending}</h3>
             </div>
           </div>
           <div className="stat-card">
-            <div className="icon-wrap icon-green"><FiCheckCircle/></div>
+            <div className="icon-wrap icon-green"><CheckCircle/></div>
             <div>
               <p className="stat-label">Approved</p>
               <h3 className="stat-value">{stats.approved}</h3>
@@ -219,7 +229,7 @@ const Donations = () => {
             <div style={{ background:"#fff", borderRadius:20, padding:"28px 24px 16px",
               boxShadow:"0 2px 20px rgba(0,0,0,.06)", border:"1px solid rgba(255,255,255,.8)" }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:20 }}>
-                <FiTrendingUp style={{ color:"#3b4fd8", fontSize:18 }}/>
+                <TrendingUp style={{ color:"#3b4fd8", fontSize:18 }}/>
                 <span style={{ fontWeight:800, fontSize:16, color:"#0f172a" }}>Monthly Donations</span>
               </div>
               <ResponsiveContainer width="100%" height={200}>
@@ -277,7 +287,7 @@ const Donations = () => {
         <div className="history-card">
           <div className="history-header">
             <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-              <FiTrendingUp style={{ color:"#3b4fd8", fontSize:20 }}/>
+              <TrendingUp style={{ color:"#3b4fd8", fontSize:20 }}/>
               <h2 style={{ fontSize:20, fontWeight:800, color:"#0f172a", margin:0 }}>
                 Donation History
               </h2>
@@ -311,7 +321,7 @@ const Donations = () => {
                 ) : donations.length === 0 ? (
                   <tr><td colSpan={5}>
                     <div className="empty-state">
-                      <div className="empty-icon"><FiHeart/></div>
+                      <div className="empty-icon"><Heart/></div>
                       <p style={{ fontWeight:700, color:"#334155", fontSize:16, margin:"0 0 6px" }}>
                         No donations yet
                       </p>
@@ -320,7 +330,7 @@ const Donations = () => {
                       </p>
                       <Link to="/donations/new" className="add-btn"
                         style={{ margin:"0 auto", display:"inline-flex" }}>
-                        <FiPlus/> Make Your First Donation
+                        <Plus/> Make Your First Donation
                       </Link>
                     </div>
                   </td></tr>
@@ -357,7 +367,7 @@ const Donations = () => {
                         </td>
                         <td style={{ padding:"14px 20px" }}>
                           <button className="view-btn" onClick={()=>setSelected(d)}>
-                            <FiEye style={{ fontSize:12 }}/> View
+                            <Eye style={{ fontSize:12 }}/> View
                           </button>
                         </td>
                       </tr>
@@ -409,7 +419,7 @@ const Donations = () => {
                       color:"#fff", borderRadius:"50%", width:34, height:34,
                       display:"flex", alignItems:"center", justifyContent:"center",
                       cursor:"pointer", fontSize:15 }}>
-                    <FiX/>
+                    <X/>
                   </button>
                 </div>
               </div>
@@ -417,18 +427,18 @@ const Donations = () => {
 
             <div style={{ padding:"20px 28px 28px" }}>
               <div className="sec-head">Donation Information</div>
-              <DR icon={<FiHash/>}         label="Transaction ID" val={selected.transactionId||"—"}/>
-              <DR icon={<FiTag/>}          label="Category"       val={selected.category||"General"}/>
-              <DR icon={<FiCalendar/>}     label="Date"           val={fmtDate(selected.donationDate)}/>
+              <DR icon={<Hash/>}         label="Transaction ID" val={selected.transactionId||"—"}/>
+              <DR icon={<Tag/>}          label="Category"       val={selected.category||"General"}/>
+              <DR icon={<Calendar/>}     label="Date"           val={fmtDate(selected.donationDate)}/>
               {selected.message && (
-                <DR icon={<FiMessageSquare/>} label="Message"    val={selected.message}/>
+                <DR icon={<MessageSquare/>} label="Message"    val={selected.message}/>
               )}
               {selected.receipt && (
-                <DR icon={<FiFileText/>}   label="Receipt"
+                <DR icon={<FileText/>}   label="Receipt"
                   val={
                     <a href={selected.receipt.startsWith("http") ? selected.receipt : `${apiBase}/uploads/${selected.receipt}`}
                       target="_blank" rel="noopener noreferrer" className="doc-link">
-                      <FiEye style={{fontSize:13}}/> View Receipt
+                      <Eye style={{fontSize:13}}/> View Receipt
                     </a>
                   }/>
               )}

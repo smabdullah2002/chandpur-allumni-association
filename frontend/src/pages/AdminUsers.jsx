@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
 import {
-  FiCheckCircle, FiEdit2, FiUsers, FiXCircle, FiEye,
-  FiX, FiUser, FiMail, FiPhone, FiMapPin, FiBook,
-  FiCalendar, FiShield, FiFileText, FiImage, FiSearch, FiTag,
-} from "react-icons/fi";
+  Book,
+  Calendar,
+  Check,
+  CheckCircle,
+  Edit2,
+  Eye,
+  FileText,
+  Image,
+  Mail,
+  MapPin,
+  Phone,
+  Search,
+  Shield,
+  Tag,
+  Trash2,
+  User,
+  Users,
+  X,
+  XCircle,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -149,18 +165,18 @@ export default function AdminUsers() {
         .modal { background:#fff; border-radius:20px; width:100%; max-width:680px;
           max-height:92vh; overflow-y:auto;
           box-shadow:0 24px 64px rgba(0,0,0,0.22); }
-        .modal-hero { background:linear-gradient(135deg,#1a1f6e,#3b4fd8);
+        .modal-hero { background:var(--primary);
           padding:28px 32px; border-radius:20px 20px 0 0; }
         .sec-head { font-size:11px; font-weight:700; letter-spacing:.1em;
           text-transform:uppercase; color:#94a3b8; padding:14px 0 6px; }
         .detail-row { display:flex; align-items:flex-start; gap:10px;
           padding:11px 0; border-bottom:1px solid #f1f5f9; font-size:14px; }
         .detail-row:last-child { border-bottom:none; }
-        .d-icon { color:#3b4fd8; font-size:15px; margin-top:2px; flex-shrink:0; }
+        .d-icon { color:var(--primary); font-size:15px; margin-top:2px; flex-shrink:0; }
         .d-key { font-weight:700; color:#1e293b; min-width:130px; flex-shrink:0; }
         .d-val { color:#475569; word-break:break-all; }
         .doc-link { display:inline-flex; align-items:center; gap:6px;
-          color:#3b4fd8; font-weight:700; text-decoration:none; font-size:13px; }
+          color:var(--primary); font-weight:700; text-decoration:none; font-size:13px; }
         .doc-link:hover { text-decoration:underline; }
         .act-btn { padding:6px 14px; border-radius:8px; border:1.5px solid;
           cursor:pointer; font-size:12px; font-weight:700;
@@ -170,10 +186,10 @@ export default function AdminUsers() {
         .reject  { color:#dc2626; border-color:#fca5a5; }
         .reject:hover  { background:#dc2626; color:#fff; border-color:#dc2626; }
         .view-btn { display:inline-flex; align-items:center; gap:5px;
-          padding:5px 10px; border-radius:8px; border:1.5px solid #c7d2fe;
-          color:#3730a3; background:transparent; font-size:12px;
+          padding:5px 10px; border-radius:8px; border:1.5px solid var(--border);
+          color:var(--primary); background:transparent; font-size:12px;
           font-weight:700; cursor:pointer; transition:all .15s; }
-        .view-btn:hover { background:#eef2ff; }
+        .view-btn:hover { background:var(--surface-soft); }
         .edit-modal { background:#fff; border-radius:20px; width:100%;
           max-width:480px; box-shadow:0 24px 64px rgba(0,0,0,0.22); }
         .form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
@@ -193,7 +209,7 @@ export default function AdminUsers() {
 
         {/* Hero */}
         <div style={S.hero}>
-          <div style={S.heroBadge}><FiUsers style={{fontSize:12}}/> ADMIN PANEL</div>
+          <div style={S.heroBadge}><Users style={{fontSize:12}}/> ADMIN PANEL</div>
           <h1 style={S.heroTitle}>User Management</h1>
           <p style={S.heroSub}>Review registrations, verify documents, and manage member access.</p>
         </div>
@@ -234,7 +250,7 @@ export default function AdminUsers() {
               </div>
               {/* Search */}
               <div style={S.searchWrap}>
-                <FiSearch style={S.searchIcon}/>
+                <Search style={S.searchIcon}/>
                 <input placeholder="Search users..." value={search}
                   onChange={e=>setSearch(e.target.value)} style={S.searchInput}/>
               </div>
@@ -281,35 +297,35 @@ export default function AdminUsers() {
                         <td style={{...S.td,textAlign:"right"}}>
                           <div style={{display:"flex",justifyContent:"flex-end",gap:5,flexWrap:"wrap"}}>
                             <button className="view-btn" onClick={()=>setViewUser(u)}>
-                              <FiEye style={{fontSize:12}}/> View
+                              <Eye style={{fontSize:12}}/> View
                             </button>
                             {u.role!=="super-admin" && u.status!=="approved" && (
                               <button className="act-btn approve"
                                 onClick={()=>handleStatusUpdate(u._id,"approved")}>
-                                ✓
+                                <Check size={12} />
                               </button>
                             )}
                             {u.role!=="super-admin" && u.status!=="rejected" && (
                               <button className="act-btn reject"
                                 onClick={()=>handleStatusUpdate(u._id,"rejected")}>
-                                ✕
+                                <X size={12} />
                               </button>
                             )}
                             <button className="act-btn" style={{color:"#3b4fd8",borderColor:"#c7d2fe"}}
                               onClick={()=>openEdit(u)}>
-                              <FiEdit2 style={{fontSize:12}}/>
+                              <Edit2 style={{fontSize:12}}/>
                             </button>
                             {u.role!=="super-admin" && (
                               <button className="act-btn" title="Manage Badge"
                                 style={{color:"#7c3aed",borderColor:"#ddd6fe"}}
                                 onClick={()=>openBadge(u)}>
-                                <FiTag style={{fontSize:12}}/>
+                                <Tag style={{fontSize:12}}/>
                               </button>
                             )}
                             {u.role!=="super-admin" && (
                               <button className="act-btn reject"
                                 onClick={()=>handleDelete(u._id)}>
-                                🗑
+                                <Trash2 size={12} />
                               </button>
                             )}
                           </div>
@@ -354,7 +370,7 @@ export default function AdminUsers() {
                     color:"#fff",borderRadius:"50%",width:34,height:34,display:"flex",
                     alignItems:"center",justifyContent:"center",cursor:"pointer",
                     fontSize:15,flexShrink:0}}>
-                  <FiX/>
+                   <X/>
                 </button>
               </div>
 
@@ -371,14 +387,16 @@ export default function AdminUsers() {
                   <button className="act-btn approve"
                     style={{color:"#fff",borderColor:"rgba(255,255,255,.4)"}}
                     onClick={()=>handleStatusUpdate(viewUser._id,"approved")}>
-                    ✓ Approve
+                    <Check size={12} style={{ marginRight: 6 }} />
+                    Approve
                   </button>
                 )}
                 {viewUser.role!=="super-admin" && viewUser.status!=="rejected" && (
                   <button className="act-btn reject"
                     style={{color:"#fca5a5",borderColor:"rgba(252,165,165,.5)"}}
                     onClick={()=>handleStatusUpdate(viewUser._id,"rejected")}>
-                    ✕ Reject
+                    <X size={12} style={{ marginRight: 6 }} />
+                    Reject
                   </button>
                 )}
               </div>
@@ -389,53 +407,53 @@ export default function AdminUsers() {
 
               {/* Personal Info */}
               <div className="sec-head">Personal Information</div>
-              <DR icon={<FiUser/>}     label="Full Name"     val={viewUser.fullName||"—"}/>
-              <DR icon={<FiMail/>}     label="Email"         val={viewUser.email||"—"}/>
-              <DR icon={<FiPhone/>}    label="Mobile"        val={viewUser.mobileNumber||"—"}/>
-              <DR icon={<FiCalendar/>} label="Date of Birth" val={viewUser.dateOfBirth||"—"}/>
-              <DR icon={<FiBook/>}     label="Education"     val={viewUser.lastEducation||"—"}/>
-              <DR icon={<FiShield/>}   label="Political Aff."val={viewUser.politicalAffiliation||"—"}/>
+              <DR icon={<User/>}     label="Full Name"     val={viewUser.fullName||"—"}/>
+              <DR icon={<Mail/>}     label="Email"         val={viewUser.email||"—"}/>
+              <DR icon={<Phone/>}    label="Mobile"        val={viewUser.mobileNumber||"—"}/>
+              <DR icon={<Calendar/>} label="Date of Birth" val={viewUser.dateOfBirth||"—"}/>
+              <DR icon={<Book/>}     label="Education"     val={viewUser.lastEducation||"—"}/>
+              <DR icon={<Shield/>}   label="Political Aff."val={viewUser.politicalAffiliation||"—"}/>
 
               {/* Location */}
               <div className="sec-head" style={{marginTop:4}}>Location</div>
-              <DR icon={<FiMapPin/>}   label="Division"      val={viewUser.division||"—"}/>
-              <DR icon={<FiMapPin/>}   label="District"      val={viewUser.district||"Chandpur"}/>
-              <DR icon={<FiMapPin/>}   label="Upazila"       val={viewUser.upazila||"—"}/>
-              <DR icon={<FiMapPin/>}   label="Village"       val={viewUser.villageName||"—"}/>
-              <DR icon={<FiMapPin/>}   label="Police Station"val={viewUser.policeStation||"—"}/>
-              <DR icon={<FiMapPin/>}   label="Present Address"
+              <DR icon={<MapPin/>}   label="Division"      val={viewUser.division||"—"}/>
+              <DR icon={<MapPin/>}   label="District"      val={viewUser.district||"Chandpur"}/>
+              <DR icon={<MapPin/>}   label="Upazila"       val={viewUser.upazila||"—"}/>
+              <DR icon={<MapPin/>}   label="Village"       val={viewUser.villageName||"—"}/>
+              <DR icon={<MapPin/>}   label="Police Station"val={viewUser.policeStation||"—"}/>
+              <DR icon={<MapPin/>}   label="Present Address"
                 val={viewUser.presentAddress||"—"}/>
-              <DR icon={<FiMapPin/>}   label="Permanent Address"
+              <DR icon={<MapPin/>}   label="Permanent Address"
                 val={viewUser.permanentAddress||"—"}/>
 
               {/* Documents */}
               <div className="sec-head" style={{marginTop:4}}>Submitted Documents</div>
-              <DR icon={<FiFileText/>} label="Certificate"
+              <DR icon={<FileText/>} label="Certificate"
                 val={viewUser.certificateDocument
                   ? <a href={viewUser.certificateDocument.startsWith("http") ? viewUser.certificateDocument : `${apiBase}/uploads/${viewUser.certificateDocument}`}
                       target="_blank" rel="noopener noreferrer" className="doc-link">
-                      <FiEye style={{fontSize:13}}/> View Certificate
+                      <Eye style={{fontSize:13}}/> View Certificate
                     </a>
                   : "Not submitted"}/>
-              <DR icon={<FiFileText/>} label="NID Document"
+              <DR icon={<FileText/>} label="NID Document"
                 val={viewUser.nidDocument
                   ? <a href={viewUser.nidDocument.startsWith("http") ? viewUser.nidDocument : `${apiBase}/uploads/${viewUser.nidDocument}`}
                       target="_blank" rel="noopener noreferrer" className="doc-link">
-                      <FiEye style={{fontSize:13}}/> View NID
+                      <Eye style={{fontSize:13}}/> View NID
                     </a>
                   : "Not submitted"}/>
-              <DR icon={<FiImage/>}    label="Profile Image"
+              <DR icon={<Image/>}    label="Profile Image"
                 val={viewUser.profileImage
                   ? <a href={viewUser.profileImage.startsWith("http") ? viewUser.profileImage : `${apiBase}/uploads/${viewUser.profileImage}`}
                       target="_blank" rel="noopener noreferrer" className="doc-link">
-                      <FiEye style={{fontSize:13}}/> View Photo
+                      <Eye style={{fontSize:13}}/> View Photo
                     </a>
                   : "Not uploaded"}/>
 
               {/* Account */}
               <div className="sec-head" style={{marginTop:4}}>Account</div>
-              <DR icon={<FiShield/>}   label="Role"          val={viewUser.role||"user"}/>
-              <DR icon={<FiCalendar/>} label="Registered"    val={fmtDate(viewUser.createdAt)}/>
+              <DR icon={<Shield/>}   label="Role"          val={viewUser.role||"user"}/>
+              <DR icon={<Calendar/>} label="Registered"    val={fmtDate(viewUser.createdAt)}/>
             </div>
           </div>
         </div>
@@ -453,7 +471,7 @@ export default function AdminUsers() {
               <button onClick={()=>setEditingUser(null)}
                 style={{background:"none",border:"none",cursor:"pointer",
                   fontSize:18,color:"#94a3b8"}}>
-                <FiX/>
+                <X/>
               </button>
             </div>
             <div style={{padding:"24px 28px"}}>
@@ -503,11 +521,11 @@ export default function AdminUsers() {
             <div style={{padding:"24px 28px",borderBottom:"1px solid #f1f5f9",
               display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <h2 style={{fontSize:18,fontWeight:800,color:"#0f172a",margin:0,display:"flex",alignItems:"center",gap:8}}>
-                <FiTag style={{color:"#7c3aed"}}/> Badge — {badgeUser.fullName}
+                <Tag style={{color:"#7c3aed"}}/> Badge — {badgeUser.fullName}
               </h2>
               <button onClick={()=>setBadgeUser(null)}
                 style={{background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#94a3b8"}}>
-                <FiX/>
+                <X/>
               </button>
             </div>
             <div style={{padding:"24px 28px"}}>
@@ -589,9 +607,9 @@ function DR({ icon, label, val }) {
 }
 
 const S = {
-  page: { minHeight:"100vh", background:"#f0f2f8", padding:"24px",
+   page: { minHeight:"100vh", background:"var(--bg)", padding:"24px",
     fontFamily:"'Plus Jakarta Sans','Segoe UI',sans-serif" },
-  hero: { background:"linear-gradient(135deg,#3730a3 0%,#4f46e5 50%,#6366f1 100%)",
+  hero: { background:"var(--primary)",
     borderRadius:16, padding:"36px 40px", marginBottom:24 },
   heroBadge: { display:"inline-flex", alignItems:"center", gap:8, marginBottom:10,
     fontSize:12, fontWeight:600, color:"rgba(255,255,255,.75)", letterSpacing:".1em" },
@@ -608,27 +626,27 @@ const S = {
   tableTitle: { fontSize:16, fontWeight:600, color:"#1e293b" },
   tableCount: { fontSize:13, color:"#94a3b8", marginTop:2 },
   controls: { display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" },
-  filterRow: { display:"flex", gap:3, background:"#f8fafc",
-    border:"1px solid #e2e8f0", borderRadius:10, padding:3 },
+  filterRow: { display:"flex", gap:3, background:"var(--surface-soft)",
+    border:"1px solid var(--border)", borderRadius:10, padding:3 },
   filterBtn: { padding:"5px 10px", borderRadius:8, border:"none",
     background:"transparent", cursor:"pointer", fontSize:12, color:"#64748b",
     fontWeight:500, display:"flex", alignItems:"center", gap:4 },
-  filterActive: { background:"#fff", color:"#3730a3", boxShadow:"0 1px 3px rgba(0,0,0,.1)" },
-  filterCount: { fontSize:11, background:"#e2e8f0", borderRadius:99,
+  filterActive: { background:"#fff", color:"var(--primary)", boxShadow:"0 1px 3px rgba(0,0,0,.1)" },
+  filterCount: { fontSize:11, background:"var(--surface-soft)", borderRadius:99,
     padding:"1px 5px", color:"#64748b" },
   searchWrap: { position:"relative", display:"flex", alignItems:"center" },
   searchIcon: { position:"absolute", left:10, fontSize:14, color:"#94a3b8", pointerEvents:"none" },
   searchInput: { paddingLeft:32, paddingRight:12, paddingTop:7, paddingBottom:7,
-    border:"1px solid #e2e8f0", borderRadius:10, fontSize:13, color:"#1e293b",
-    outline:"none", width:"min(190px, 100%)", background:"#f8fafc" },
+    border:"1px solid var(--border)", borderRadius:10, fontSize:13, color:"#1e293b",
+    outline:"none", width:"min(190px, 100%)", background:"#fbfaf6" },
   errorBanner: { margin:"0 24px 16px", padding:"10px 14px",
     background:"#fef2f2", border:"1px solid #fecaca",
     borderRadius:8, color:"#dc2626", fontSize:13 },
   table: { width:"100%", borderCollapse:"collapse" },
-  thead: { background:"#f8fafc" },
+  thead: { background:"var(--surface-soft)" },
   th: { padding:"10px 16px", textAlign:"left", fontSize:11, fontWeight:600,
     color:"#94a3b8", letterSpacing:".07em", borderBottom:"1px solid #f1f5f9" },
-  tr: { borderBottom:"1px solid #f8fafc" },
+  tr: { borderBottom:"1px solid var(--surface-soft)" },
   td: { padding:"13px 16px", fontSize:14, color:"#334155", verticalAlign:"middle" },
   uName: { fontWeight:600, color:"#1e293b", fontSize:14 },
   uEmail: { fontSize:12, color:"#94a3b8", marginTop:2 },

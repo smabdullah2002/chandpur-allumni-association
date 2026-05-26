@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import {
-  FiBell,
-  FiPlus,
-  FiEdit2,
-  FiTrash2,
-  FiSend,
-  FiX,
-  FiAlertCircle,
-  FiCheckCircle,
-  FiClock,
-  FiSearch,
-  FiPaperclip,
-  FiFileText,
-} from "react-icons/fi";
+  AlertCircle,
+  Bell,
+  CheckCircle,
+  Clock,
+  Edit2,
+  FileText,
+  Paperclip,
+  Plus,
+  Search,
+  Send,
+  Trash2,
+  X,
+} from "lucide-react";
 
 export default function AdminNotices() {
   const { auth } = useAuth();
@@ -189,14 +189,14 @@ export default function AdminNotices() {
       bg: "#f8fafc",
       color: "#64748b",
       border: "#e2e8f0",
-      icon: <FiClock style={{ fontSize: 11 }} />,
+      icon: <Clock style={{ fontSize: 11 }} />,
     },
     published: {
       label: "Published",
       bg: "#edfcf3",
       color: "#10b981",
       border: "#6ee7b7",
-      icon: <FiCheckCircle style={{ fontSize: 11 }} />,
+      icon: <CheckCircle style={{ fontSize: 11 }} />,
     },
   };
 
@@ -442,7 +442,7 @@ export default function AdminNotices() {
                 marginBottom: 8,
               }}
             >
-              <FiBell style={{ color: "#a5b4fc", fontSize: 16 }} />
+              <Bell style={{ color: "#a5b4fc", fontSize: 16 }} />
               <span
                 style={{
                   color: "#a5b4fc",
@@ -472,7 +472,7 @@ export default function AdminNotices() {
             </p>
           </div>
           <button className="create-btn" onClick={openCreate}>
-            <FiPlus style={{ fontSize: 15 }} /> Create Notice
+            <Plus style={{ fontSize: 15 }} /> Create Notice
           </button>
         </div>
 
@@ -484,21 +484,21 @@ export default function AdminNotices() {
               value: notices.length,
               iconBg: "#eef1ff",
               iconColor: "#3b4fd8",
-              icon: <FiBell />,
+              icon: <Bell />,
             },
             {
               label: "Published",
               value: notices.filter((n) => n.status === "published").length,
               iconBg: "#edfcf3",
               iconColor: "#10b981",
-              icon: <FiCheckCircle />,
+              icon: <CheckCircle />,
             },
             {
               label: "Drafts",
               value: notices.filter((n) => n.status === "draft").length,
               iconBg: "#fff8ec",
               iconColor: "#f59e0b",
-              icon: <FiClock />,
+              icon: <Clock />,
             },
           ].map((s) => (
             <div className="stat-card" key={s.label}>
@@ -539,7 +539,7 @@ export default function AdminNotices() {
         {/* Error */}
         {error && (
           <div className="error-banner">
-            <FiAlertCircle style={{ fontSize: 15 }} /> {error}
+            <AlertCircle style={{ fontSize: 15 }} /> {error}
             <button
               onClick={() => setError(null)}
               style={{
@@ -551,7 +551,7 @@ export default function AdminNotices() {
                 fontSize: 14,
               }}
             >
-              <FiX />
+              <X />
             </button>
           </div>
         )}
@@ -575,7 +575,7 @@ export default function AdminNotices() {
               </p>
             </div>
             <div className="search-wrap">
-              <FiSearch className="search-icon" />
+              <Search className="search-icon" />
               <input
                 placeholder="Search notices..."
                 value={search}
@@ -614,7 +614,7 @@ export default function AdminNotices() {
                       <td colSpan={6}>
                         <div className="empty-state">
                           <div className="empty-icon">
-                            <FiBell />
+                            <Bell />
                           </div>
                           <p
                             style={{
@@ -672,7 +672,7 @@ export default function AdminNotices() {
                             </p>
                             {notice.pdf && (
                               <button className="pdf-link-btn" onClick={() => setViewingPdf(notice.pdf)}>
-                                <FiFileText style={{ fontSize: 11 }} /> View Document
+                                <FileText style={{ fontSize: 11 }} /> View Document
                               </button>
                             )}
                           </td>
@@ -727,7 +727,7 @@ export default function AdminNotices() {
                                   title="Publish"
                                   onClick={() => handlePublish(notice)}
                                 >
-                                  <FiSend style={{ fontSize: 13 }} />
+                                  <Send style={{ fontSize: 13 }} />
                                 </button>
                               )}
                               <button
@@ -735,14 +735,14 @@ export default function AdminNotices() {
                                 title="Edit"
                                 onClick={() => openEdit(notice)}
                               >
-                                <FiEdit2 style={{ fontSize: 13 }} />
+                                <Edit2 style={{ fontSize: 13 }} />
                               </button>
                               <button
                                 className="action-btn btn-delete"
                                 title="Delete"
                                 onClick={() => handleDelete(notice._id)}
                               >
-                                <FiTrash2 style={{ fontSize: 13 }} />
+                                <Trash2 style={{ fontSize: 13 }} />
                               </button>
                             </div>
                           </td>
@@ -772,7 +772,7 @@ export default function AdminNotices() {
                 Download
               </a>
               <button className="pdf-btn" onClick={() => setViewingPdf(null)}>
-                <FiX /> Close
+                <X /> Close
               </button>
             </div>
           </div>
@@ -804,7 +804,7 @@ export default function AdminNotices() {
                     fontSize: 16,
                   }}
                 >
-                  <FiBell />
+                  <Bell />
                 </div>
                 <div>
                   <p
@@ -835,7 +835,7 @@ export default function AdminNotices() {
                 className="modal-close"
                 onClick={() => setShowModal(false)}
               >
-                <FiX />
+                <X />
               </button>
             </div>
 
@@ -918,7 +918,7 @@ export default function AdminNotices() {
               {/* PDF attachment (optional) */}
               <div>
                 <label className="field-label" style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                  <FiPaperclip style={{ fontSize: 12 }} /> PDF Attachment
+                  <Paperclip style={{ fontSize: 12 }} /> PDF Attachment
                   <span style={{ color: "#94a3b8", fontWeight: 500, textTransform: "none",
                     letterSpacing: 0, fontSize: 10 }}>(optional)</span>
                 </label>
@@ -929,7 +929,7 @@ export default function AdminNotices() {
                 {editingNotice?.pdf && !removePdf && !pdfFile && (
                   <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px",
                     background: "#f0fdf4", border: "1.5px solid #6ee7b7", borderRadius: 10, marginBottom: 8 }}>
-                    <FiFileText style={{ color: "#10b981", flexShrink: 0 }} />
+                    <FileText style={{ color: "#10b981", flexShrink: 0 }} />
                     <button
                       onClick={() => setViewingPdf(editingNotice.pdf)}
                       style={{ flex: 1, fontSize: 13, color: "#065f46", fontWeight: 600,
@@ -940,7 +940,7 @@ export default function AdminNotices() {
                     <button onClick={() => { setRemovePdf(true); }}
                       style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer",
                         fontSize: 14, display: "flex", alignItems: "center" }}>
-                      <FiX />
+                      <X />
                     </button>
                   </div>
                 )}
@@ -948,7 +948,7 @@ export default function AdminNotices() {
                 {pdfFile ? (
                   <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px",
                     background: "#eef2ff", border: "1.5px solid #c7d2fe", borderRadius: 10 }}>
-                    <FiFileText style={{ color: "#3b4fd8", flexShrink: 0 }} />
+                    <FileText style={{ color: "#3b4fd8", flexShrink: 0 }} />
                     <span style={{ flex: 1, fontSize: 13, color: "#1e293b", fontWeight: 600,
                       overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {pdfFile.name}
@@ -956,7 +956,7 @@ export default function AdminNotices() {
                     <button onClick={() => { setPdfFile(null); if (pdfRef.current) pdfRef.current.value = ""; }}
                       style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer",
                         fontSize: 14, display: "flex", alignItems: "center" }}>
-                      <FiX />
+                      <X />
                     </button>
                   </div>
                 ) : (
@@ -965,7 +965,7 @@ export default function AdminNotices() {
                       padding: "9px 16px", borderRadius: 10, border: "1.5px dashed #c7d2fe",
                       background: "#f8f7ff", color: "#3b4fd8", fontSize: 13, fontWeight: 600,
                       cursor: "pointer", width: "100%", justifyContent: "center" }}>
-                    <FiPaperclip /> Attach PDF
+                    <Paperclip /> Attach PDF
                   </button>
                 )}
               </div>
@@ -1025,11 +1025,11 @@ export default function AdminNotices() {
                   "Saving…"
                 ) : editingNotice ? (
                   <>
-                    <FiEdit2 style={{ fontSize: 13 }} /> Save Changes
+                    <Edit2 style={{ fontSize: 13 }} /> Save Changes
                   </>
                 ) : (
                   <>
-                    <FiPlus style={{ fontSize: 13 }} /> Create Notice
+                    <Plus style={{ fontSize: 13 }} /> Create Notice
                   </>
                 )}
               </button>

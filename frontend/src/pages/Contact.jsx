@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiMapPin, FiPhone, FiMail, FiCheck, FiSend, FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi";
+import { Check, Clock, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const Contact = () => {
@@ -43,7 +43,7 @@ const Contact = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "#f4f6fb",
+        background: "var(--bg)",
         fontFamily: "'Plus Jakarta Sans', 'Segoe UI', sans-serif",
       }}
     >
@@ -53,7 +53,7 @@ const Contact = () => {
 
         /* ── Hero ── */
         .contact-hero {
-          background: linear-gradient(160deg, #5b2edc 0%, #7c3aed 45%, #9d5cf6 100%);
+          background: linear-gradient(160deg, #0f172a 0%, #1f2937 55%, #111827 100%);
           padding: 72px 24px 120px;
           text-align: center;
           position: relative;
@@ -75,6 +75,8 @@ const Contact = () => {
           position: relative; z-index: 1;
         }
         .breadcrumb span { color: rgba(255,255,255,0.5); }
+        .inline-icon { display: inline-flex; align-items: center; color: var(--primary); }
+        .inline-icon svg { width: 14px; height: 14px; }
         .hero-title {
           font-size: clamp(36px, 6vw, 58px);
           font-weight: 800;
@@ -104,8 +106,8 @@ const Contact = () => {
           border-radius: 20px;
           padding: 36px 24px 28px;
           text-align: center;
-          box-shadow: 0 4px 24px rgba(91,46,220,0.10);
-          border: 1px solid #ede9ff;
+          box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+          border: 1px solid var(--border);
           transition: transform 0.22s ease, box-shadow 0.22s ease;
         }
         .contact-card:hover {
@@ -114,16 +116,16 @@ const Contact = () => {
         }
         .card-icon-circle {
           width: 68px; height: 68px;
-          background: linear-gradient(135deg, #6d35e8 0%, #9d5cf6 100%);
+          background: var(--primary);
           border-radius: 18px;
           display: flex; align-items: center; justify-content: center;
           margin: 0 auto 18px;
           font-size: 26px;
           color: #fff;
-          box-shadow: 0 8px 24px rgba(109,53,232,0.35);
+          box-shadow: 0 10px 24px rgba(15,23,42,0.18);
         }
         .card-title {
-          font-size: 17px; font-weight: 800; color: #1a1235; margin: 0 0 8px;
+          font-size: 17px; font-weight: 800; color: var(--ink); margin: 0 0 8px;
         }
         .card-detail {
           font-size: 13px; color: #64748b; line-height: 1.6; margin: 0;
@@ -145,11 +147,11 @@ const Contact = () => {
           background: #fff;
           border-radius: 24px;
           padding: 40px 40px 36px;
-          box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-          border: 1px solid #f1f0ff;
+          box-shadow: 0 8px 24px rgba(15,23,42,0.08);
+          border: 1px solid var(--border);
         }
         .form-title {
-          font-size: 28px; font-weight: 800; color: #1a1235; margin: 0 0 6px;
+          font-size: 28px; font-weight: 800; color: var(--ink); margin: 0 0 6px;
         }
         .form-sub { font-size: 14px; color: #64748b; margin: 0 0 32px; }
         .field-label {
@@ -164,16 +166,16 @@ const Contact = () => {
           width: 100%;
           padding: 13px 16px;
           border-radius: 12px;
-          border: 1.5px solid #e8e5f7;
-          background: #f8f7ff;
-          font-size: 14px; color: #1a1235;
+          border: 1.5px solid var(--border);
+          background: #fbfaf6;
+          font-size: 14px; color: var(--ink);
           font-family: 'Plus Jakarta Sans', sans-serif;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s;
         }
         .contact-input:focus {
-          border-color: #7c3aed;
-          box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(15,23,42,0.12);
           background: #fff;
         }
         .contact-input::placeholder { color: #b0aac8; }
@@ -182,7 +184,7 @@ const Contact = () => {
         .send-btn {
           width: 100%;
           padding: 15px;
-          background: linear-gradient(135deg, #6d35e8 0%, #9d5cf6 100%);
+          background: var(--primary);
           color: #fff;
           border: none;
           border-radius: 14px;
@@ -191,7 +193,7 @@ const Contact = () => {
           cursor: pointer;
           display: flex; align-items: center; justify-content: center; gap: 10px;
           margin-top: 8px;
-          box-shadow: 0 8px 24px rgba(109,53,232,0.35);
+          box-shadow: 0 8px 24px rgba(15,23,42,0.18);
           transition: all 0.22s ease;
         }
         .send-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(109,53,232,0.45); }
@@ -288,7 +290,7 @@ const Contact = () => {
         <div className="cards-row">
           <div className="contact-card">
             <div className="card-icon-circle">
-              <FiMapPin size={26} />
+              <MapPin size={26} />
             </div>
             <h3 className="card-title">Visit Our Office</h3>
             <p className="card-detail">
@@ -299,7 +301,7 @@ const Contact = () => {
           </div>
           <div className="contact-card">
             <div className="card-icon-circle">
-              <FiPhone size={26} />
+              <Phone size={26} />
             </div>
             <h3 className="card-title">Call Support</h3>
             <p className="card-detail">
@@ -310,7 +312,7 @@ const Contact = () => {
           </div>
           <div className="contact-card">
             <div className="card-icon-circle">
-              <FiMail size={26} />
+              <Mail size={26} />
             </div>
             <h3 className="card-title">Email Outreach</h3>
             <p className="card-detail">
@@ -328,7 +330,7 @@ const Contact = () => {
             {sent ? (
               <div className="success-box">
                 <div className="success-icon">
-                  <FiCheck size={30} />
+                  <Check size={30} />
                 </div>
                 <h3
                   style={{
@@ -421,7 +423,7 @@ const Contact = () => {
                   </div>
                 )}
                 <button className="send-btn" onClick={handleSubmit} disabled={sending}>
-                  <FiSend size={16} /> {sending ? "Sending…" : "Send Secure Message"}
+                  <Send size={16} /> {sending ? "Sending…" : "Send Secure Message"}
                 </button>
               </>
             )}
@@ -430,8 +432,8 @@ const Contact = () => {
           {/* Sidebar */}
           <div className="sidebar">
             <div className="sidebar-card">
-              <span className="hq-icon">🗺️</span>
-              <h3 className="hq-title">Monone Matlab Headquarters</h3>
+              <MapPin className="hq-icon" />
+              <h3 className="hq-title">Chandpur Allumni Association- Jahangirnagar University Headquarters</h3>
               <p className="hq-addr">
                 123 Charity Street, City Center, Dhaka, Bangladesh
               </p>
@@ -440,7 +442,7 @@ const Contact = () => {
 
             <div className="sidebar-card">
               <div className="hours-title">
-                <span style={{ color: "#7c3aed" }}>🕐</span> Operating Hours
+                <span className="inline-icon"><Clock /></span> Operating Hours
               </div>
               <p className="hours-row">Monday – Friday: 9:00 AM – 5:00 PM</p>
               <p className="hours-row">Saturday: 10:00 AM – 2:00 PM</p>
@@ -456,13 +458,13 @@ const Contact = () => {
               <div className="social-title">Follow Our Journey</div>
               <div className="social-row">
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-btn s-fb" aria-label="Facebook">
-                  <FiFacebook />
+                  <Facebook />
                 </a>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-btn s-ig" aria-label="Instagram">
-                  <FiInstagram />
+                  <Instagram />
                 </a>
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-btn s-li" aria-label="LinkedIn">
-                  <FiLinkedin />
+                  <Linkedin />
                 </a>
               </div>
             </div>
