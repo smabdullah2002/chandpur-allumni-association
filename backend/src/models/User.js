@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     policeStation: { type: String, trim: true },
     mobileNumber: { type: String, trim: true },
     lastEducation: { type: String, trim: true },
+    profession: { type: String, trim: true },
     presentAddress: { type: String, trim: true },
     permanentAddress: { type: String, trim: true },
     dateOfBirth: { type: String },

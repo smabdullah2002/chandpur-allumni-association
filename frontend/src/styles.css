@@ -830,6 +830,10 @@ textarea {
   padding: 3rem 0 5rem;
 }
 
+.register-page {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(241, 239, 232, 0.7));
+}
+
 .auth-card {
   width: min(100% - 2rem, 460px);
   margin: 0 auto;
@@ -874,9 +878,9 @@ textarea {
   width: 100%;
   margin-top: 0.45rem;
   padding: 0.9rem 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border: 1px solid rgba(100, 116, 139, 0.28);
   border-radius: 14px;
-  background: #fff;
+  background: #f8f6f1;
   color: var(--ink);
 }
 
@@ -938,13 +942,16 @@ textarea {
 .register-card {
   padding: 1.6rem 1.6rem 2rem;
   border-radius: 0 0 30px 30px;
+  background: linear-gradient(180deg, #f5f2ea 0%, #efebe2 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
 }
 
 .notice-box {
   padding: 1rem 1.1rem;
-  border: 1px solid #f5c971;
+  border: 1px solid rgba(197, 128, 29, 0.28);
   border-radius: 14px;
-  background: #fff6d9;
+  background: #f4eddc;
   color: #825c00;
   margin-bottom: 1.2rem;
 }
@@ -1107,6 +1114,27 @@ textarea {
   color: var(--muted);
   cursor: not-allowed;
   opacity: 0.85;
+}
+
+.register-field--error input,
+.register-field--error select,
+.register-field--error textarea {
+  border-color: #dc2626 !important;
+  background: #fff5f5;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+}
+
+.register-field--error .perm-addr-label,
+.register-field--error {
+  color: #b42318;
+}
+
+.field-error-text {
+  display: block;
+  margin-top: 0.35rem;
+  color: #b42318;
+  font-size: 0.84rem;
+  font-weight: 600;
 }
 
 .poly-toggle {
