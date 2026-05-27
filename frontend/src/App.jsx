@@ -16,6 +16,8 @@ import AdminAbout from "./pages/AdminAbout";
 import AdminSliders from "./pages/AdminSliders";
 import AdminFeeCategories from "./pages/AdminFeeCategories";
 import AdminGallery from "./pages/AdminGallery";
+import AdminRoles from "./pages/AdminRoles";
+import AdminEvents from "./pages/AdminEvents";
 import Gallery from "./pages/Gallery";
 import Dashboard from "./pages/Dashboard";
 import Donations from "./pages/Donations";
@@ -65,10 +67,26 @@ export default function App() {
           }
         />
         <Route
+          path="/admin/roles"
+          element={
+            <ProtectedRoute requiredRole="super-admin">
+              <AdminRoles />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin/notices"
           element={
             <ProtectedRoute requiredRole="super-admin">
               <AdminNotices />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/events"
+          element={
+            <ProtectedRoute requiredRole="super-admin">
+              <AdminEvents />
             </ProtectedRoute>
           }
         />

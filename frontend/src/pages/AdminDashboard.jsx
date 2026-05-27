@@ -68,14 +68,6 @@ const sections = [
         bg: "#fff1f2",
       },
       {
-        title: "Manage Events",
-        description: "Schedule and publish upcoming events.",
-        icon: <Calendar />,
-        to: "/admin/events",
-        accent: "#0ea5e9",
-        bg: "#f0f9ff",
-      },
-      {
         title: "Manage Sliders",
         description: "Update homepage banner slides and images.",
         icon: <Image />,

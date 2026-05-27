@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AlertCircle, Check, Facebook, Instagram, Linkedin, LogOut, Send, Twitter, User, X } from "lucide-react";
-import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
+import { NavLink, Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Layout() {
   const { auth, logout } = useAuth();
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
@@ -168,6 +169,7 @@ export default function Layout() {
                       onClick={() => {
                         logout();
                         setIsDropdownOpen(false);
+                        navigate("/");
                       }}
                     >
                       <LogOut className="profile-menu-icon" /> Logout
@@ -240,7 +242,10 @@ export default function Layout() {
                 type="button"
                 className="text-button"
                 style={{ color: "#ef4444" }}
-                onClick={() => logout()}
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
               >
                   <LogOut /> Logout
               </button>
