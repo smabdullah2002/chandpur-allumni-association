@@ -33,6 +33,11 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 });
 
+const documentUpload = multer({
+  storage: registrationStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }
+});
+
 // Cloudinary storage for profile photo updates
 const profileStorage = new CloudinaryStorage({
   cloudinary: cloudinaryClient,
@@ -79,6 +84,17 @@ function sanitizeUser(user) {
     phonePublic: user.phonePublic ?? false,
     createdAt: user.createdAt
   };
+}
+
+function getCloudinaryPublicId(url, folder) {
+  if (!url || !url.includes('cloudinary.com')) return null;
+  const uploadIndex = url.indexOf('/upload/');
+  if (uploadIndex === -1) return null;
+  const uploadedPath = url.slice(uploadIndex + '/upload/'.length).split('?')[0];
+  const segments = uploadedPath.split('/').filter(Boolean);
+  if (segments.length === 0) return null;
+  const fileName = segments[segments.length - 1].split('.')[0];
+  return `${folder}/${fileName}`;
 }
 
 router.post(
@@ -213,7 +229,7 @@ router.put('/profile', authMiddleware, cloudUpload.single('profileImage'), async
       if (user.profileImage && user.profileImage.startsWith('http')) {
         const parts = user.profileImage.split('/');
         const filename = parts[parts.length - 1].split('.')[0];
-        const publicId = `monone-matlab/profiles/${filename}`;
+        const publicId = `chandpur-alumni/profiles/${filename}`;
         const cloudinary = require('../config/cloudinary');
         await cloudinary.uploader.destroy(publicId).catch(() => {});
       }
@@ -226,6 +242,51 @@ router.put('/profile', authMiddleware, cloudUpload.single('profileImage'), async
     return res.status(500).json({ message: error.message || 'Failed to update profile' });
   }
 });
+
+router.put(
+  '/documents',
+  authMiddleware,
+  documentUpload.fields([
+    { name: 'certificateDocument', maxCount: 1 },
+    { name: 'nidDocument', maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+
+      const certificateFile = req.files?.certificateDocument?.[0];
+      const nidFile = req.files?.nidDocument?.[0];
+
+      if (!certificateFile && !nidFile) {
+        return res.status(400).json({ message: 'Upload at least one document to replace' });
+      }
+
+      const updateData = {};
+
+      if (certificateFile) {
+        const oldCertificateId = getCloudinaryPublicId(user.certificateDocument, 'chandpur-alumni/documents');
+        if (oldCertificateId) {
+          await cloudinaryClient.uploader.destroy(oldCertificateId).catch(() => {});
+        }
+        updateData.certificateDocument = certificateFile.path;
+      }
+
+      if (nidFile) {
+        const oldNidId = getCloudinaryPublicId(user.nidDocument, 'chandpur-alumni/documents');
+        if (oldNidId) {
+          await cloudinaryClient.uploader.destroy(oldNidId).catch(() => {});
+        }
+        updateData.nidDocument = nidFile.path;
+      }
+
+      const updated = await User.findByIdAndUpdate(req.user.id, updateData, { new: true });
+      return res.json({ user: sanitizeUser(updated) });
+    } catch (error) {
+      return res.status(500).json({ message: error.message || 'Failed to update documents' });
+    }
+  }
+);
 
 // TOGGLE phone privacy
 router.put('/privacy', authMiddleware, async (req, res) => {

@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./HeroSlider.css";
 
 // ─── Drop-in replacement hero slider ───────────────────────────────────────
 // Props: slides = heroSlides array from siteData
 export default function HeroSlider({ slides }) {
+  const { auth } = useAuth();
   const [active, setActive] = useState(0);
   const [prev, setPrev] = useState(null);
   const [direction, setDirection] = useState("next"); // "next" | "prev"
@@ -106,12 +108,14 @@ export default function HeroSlider({ slides }) {
             <Link to="/about" className="hs-btn hs-btn--ghost">
               Our Mission
             </Link>
-            <Link to="/register" className="hs-btn hs-btn--solid">
-              Join Our Community
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+            {!auth ? (
+              <Link to="/register" className="hs-btn hs-btn--solid">
+                Join Our Community
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

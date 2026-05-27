@@ -52,9 +52,13 @@ const Profile = () => {
   const [phonePublic, setPhonePublic] = useState(user?.phonePublic ?? false);
   const [privacySaving, setPrivacySaving] = useState(false);
   const [privacyMsg, setPrivacyMsg]   = useState(null);
+  const [docMsg, setDocMsg]           = useState(null);
+  const [docSaving, setDocSaving]     = useState(null);
   const [docModal, setDocModal]       = useState(null); // { url, label, isPdf }
   const [showPwds, setShowPwds]       = useState({ current: false, next: false, confirm: false });
   const fileRef = useRef();
+  const certificateFileRef = useRef();
+  const nidFileRef = useRef();
 
   const isPdf = (url) => url && url.toLowerCase().includes(".pdf");
 
@@ -95,6 +99,40 @@ const Profile = () => {
     const reader = new FileReader();
     reader.onload = e => setPhotoPreview(e.target.result);
     reader.readAsDataURL(file);
+  }
+
+  async function handleDocumentUpload(documentType, file) {
+    if (!file) return;
+
+    setDocSaving(documentType);
+    setDocMsg(null);
+
+    try {
+      const fd = new FormData();
+      if (documentType === "certificate") {
+        fd.append("certificateDocument", file);
+      }
+      if (documentType === "nid") {
+        fd.append("nidDocument", file);
+      }
+
+      const res = await fetch(`${apiBase}/api/auth/documents`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${auth.token}` },
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update document");
+
+      setAuth(prev => ({ ...prev, user: data.user }));
+      setDocMsg({ type: "success", text: `${documentType === "certificate" ? "Certificate" : "NID"} updated successfully!` });
+    } catch (err) {
+      setDocMsg({ type: "error", text: err.message });
+    } finally {
+      setDocSaving(null);
+      if (documentType === "certificate" && certificateFileRef.current) certificateFileRef.current.value = "";
+      if (documentType === "nid" && nidFileRef.current) nidFileRef.current.value = "";
+    }
   }
 
   async function handleSave(e) {
@@ -473,6 +511,14 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
+                {docMsg && (
+                  <div style={{ padding: "0 28px 20px" }}>
+                    <div className={`msg-banner ${docMsg.type === "success" ? "msg-success" : "msg-error"}`}>
+                      {docMsg.type === "success" ? <CheckCircle/> : <X/>}
+                      {docMsg.text}
+                    </div>
+                  </div>
+                )}
                 <div className="docs-row">
                   {/* Certificate */}
                   <div className="doc-card">
@@ -491,12 +537,29 @@ const Profile = () => {
                             : <img src={certificateUrl} alt="Certificate"/>}
                         </div>
                         <div className="doc-actions">
-                          <button className="doc-btn primary" onClick={() => openDoc(certificateUrl, "Certificate Document")}>
+                          <button type="button" className="doc-btn primary" onClick={() => openDoc(certificateUrl, "Certificate Document")}>
                             <Eye/> View
                           </button>
                           <a className="doc-btn" href={getDownloadUrl(certificateUrl)} target="_blank" rel="noopener noreferrer" download>
                             <Download/> Download
                           </a>
+                        </div>
+                        <div style={{marginTop:12}}>
+                          <input
+                            ref={certificateFileRef}
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.gif,.pdf"
+                            style={{display:"none"}}
+                            onChange={(e) => handleDocumentUpload("certificate", e.target.files[0])}
+                          />
+                          <button
+                            type="button"
+                            className="doc-btn"
+                            onClick={() => certificateFileRef.current?.click()}
+                            disabled={docSaving === "certificate"}
+                          >
+                            <Upload/> {docSaving === "certificate" ? "Uploading..." : "Reupload"}
+                          </button>
                         </div>
                       </>
                     ) : (
@@ -527,12 +590,29 @@ const Profile = () => {
                             : <img src={nidUrl} alt="NID"/>}
                         </div>
                         <div className="doc-actions">
-                          <button className="doc-btn primary" onClick={() => openDoc(nidUrl, "NID Document")}>
+                          <button type="button" className="doc-btn primary" onClick={() => openDoc(nidUrl, "NID Document")}>
                             <Eye/> View
                           </button>
                           <a className="doc-btn" href={getDownloadUrl(nidUrl)} target="_blank" rel="noopener noreferrer" download>
                             <Download/> Download
                           </a>
+                        </div>
+                        <div style={{marginTop:12}}>
+                          <input
+                            ref={nidFileRef}
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.gif,.pdf"
+                            style={{display:"none"}}
+                            onChange={(e) => handleDocumentUpload("nid", e.target.files[0])}
+                          />
+                          <button
+                            type="button"
+                            className="doc-btn"
+                            onClick={() => nidFileRef.current?.click()}
+                            disabled={docSaving === "nid"}
+                          >
+                            <Upload/> {docSaving === "nid" ? "Uploading..." : "Reupload"}
+                          </button>
                         </div>
                       </>
                     ) : (

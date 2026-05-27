@@ -71,7 +71,7 @@ router.delete('/:id', async (req, res) => {
     if (item.imageUrl) {
       const parts = item.imageUrl.split('/');
       const filename = parts[parts.length - 1].split('.')[0];
-      await cloudinary.uploader.destroy(`monone-matlab/gallery/${filename}`).catch(() => {});
+      await cloudinary.uploader.destroy(`chandpur-alumni/gallery/${filename}`).catch(() => {});
     }
 
     res.json({ message: 'Deleted' });

@@ -419,7 +419,7 @@ export default function AdminSliders() {
               {/* Headline */}
               <div className="field-wrap">
                 <label className="field-label"><Type style={{fontSize:12}}/> Headline</label>
-                <input className="field-input" placeholder="e.g. মননে মতলব"
+                <input className="field-input" placeholder="e.g. চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন"
                   value={form.headline} onChange={e=>setForm({...form,headline:e.target.value})}/>
               </div>
 

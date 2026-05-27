@@ -85,7 +85,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
         // Extract public_id from URL and delete
         const parts = existing.imageUrl.split("/");
         const filename = parts[parts.length - 1].split(".")[0];
-        const publicId = `monone-matlab/sliders/${filename}`;
+        const publicId = `chandpur-alumni/sliders/${filename}`;
         await cloudinary.uploader.destroy(publicId).catch(() => {});
       }
       updateData.imageUrl = req.file.path;
@@ -124,7 +124,7 @@ router.delete("/:id", async (req, res) => {
     if (slider.imageUrl) {
       const parts = slider.imageUrl.split("/");
       const filename = parts[parts.length - 1].split(".")[0];
-      const publicId = `monone-matlab/sliders/${filename}`;
+      const publicId = `chandpur-alumni/sliders/${filename}`;
       await cloudinary.uploader.destroy(publicId).catch(() => {});
     }
 

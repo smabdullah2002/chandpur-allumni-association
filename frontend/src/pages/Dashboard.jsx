@@ -234,7 +234,7 @@ const Dashboard = () => {
 
         {/* Bottom note */}
         <p style={{ textAlign:"center", fontSize:12, color:"#94a3b8", margin:"4px 0 0", lineHeight:1.8 }}>
-          মননে মতলব — built on trust, run by community, powered by people like you.
+          চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন — built on trust, run by community, powered by people like you.
         </p>
 
       </div>

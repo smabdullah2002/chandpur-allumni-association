@@ -2,7 +2,7 @@ export const heroSlides = [
   {
     image: '/cover-photo.jpg',
     tag: 'Impactful Giving',
-    title: 'মননে মতলব',
+    title: 'চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন',
     description: 'একটি স্বচ্ছ, কমিউনিটি-কেন্দ্রিক প্ল্যাটফর্ম যেখানে সহমর্মিতা এবং পরিবর্তন একসাথে কাজ করে।'
   },
   {
