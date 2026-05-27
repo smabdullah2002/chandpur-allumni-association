@@ -156,6 +156,34 @@ router.put("/users/:id/status", async (req, res) => {
   }
 });
 
+// UPDATE user role (super-admin or user)
+router.put("/users/:id/role", async (req, res) => {
+  try {
+    const { role } = req.body;
+    if (!role || !["user", "super-admin"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role" });
+    }
+
+    if (req.user?._id?.toString() === req.params.id) {
+      return res.status(400).json({ error: "Cannot change your own role" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { role },
+      { new: true }
+    ).select("-passwordHash");
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ==================== DONATION MANAGEMENT ====================
 
 // GET all donations
@@ -341,7 +369,7 @@ router.put("/notices/:id", uploadPdf.single("pdf"), async (req, res) => {
     }
 
     // Sync event: if category is "event", upsert the linked Event
-    if (category === "event") {
+    if (notice.category === "event") {
       const existing = await Event.findOne({ noticeRef: notice._id });
       if (existing) {
         await Event.findByIdAndUpdate(existing._id, {
@@ -361,6 +389,8 @@ router.put("/notices/:id", uploadPdf.single("pdf"), async (req, res) => {
           noticeRef: notice._id,
         });
       }
+    } else {
+      await Event.deleteMany({ noticeRef: notice._id });
     }
 
     // Broadcast when notice is set to published
@@ -396,7 +426,73 @@ router.delete("/notices/:id", async (req, res) => {
     if (!notice) {
       return res.status(404).json({ error: "Notice not found" });
     }
+    if (notice.category === "event") {
+      await Event.deleteMany({ noticeRef: notice._id });
+    }
     res.json({ message: "Notice deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==================== EVENT MANAGEMENT ====================
+
+// GET all events
+router.get("/events", async (_req, res) => {
+  try {
+    const events = await Event.find({})
+      .sort({ date: 1 })
+      .lean();
+    res.json({ events });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// CREATE event (also publishes a notice)
+router.post("/events", async (req, res) => {
+  try {
+    const { title, description, date, location } = req.body;
+    if (!title || !date) {
+      return res.status(400).json({ error: "Title and date are required" });
+    }
+
+    const notice = await Notice.create({
+      title,
+      content: description || "",
+      category: "event",
+      status: "published",
+      createdBy: req.user._id,
+    });
+
+    const event = await Event.create({
+      title,
+      description: description || "",
+      date: new Date(date),
+      location: location || "",
+      status: "upcoming",
+      createdBy: req.user._id,
+      noticeRef: notice._id,
+    });
+
+    res.status(201).json({ event });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE event (also removes linked notice)
+router.delete("/events/:id", async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+    if (event.noticeRef) {
+      await Notice.findByIdAndDelete(event.noticeRef);
+    }
+    await Event.findByIdAndDelete(event._id);
+    res.json({ message: "Event deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
