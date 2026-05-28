@@ -26,6 +26,28 @@ npm install
 npm run dev
 ```
 
+## Run with Docker
+
+Build the production image from the repository root:
+
+```bash
+docker build -t monone-motlob .
+```
+
+Run it with your backend environment file:
+
+```bash
+docker run --rm -p 5000:5000 --env-file backend/.env monone-motlob
+```
+
+If you prefer Compose, the repo includes `docker-compose.yml`:
+
+```bash
+docker compose up --build
+```
+
+The frontend is built into the same image and served by the Express app from `/frontend/dist` in production mode.
+
 ## Notes
 
 - The login form uses email and password.

@@ -22,15 +22,13 @@ const ensureSuperAdmin = require('./src/seedSuperAdmin');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const clientDist = path.join(__dirname, '..', 'frontend', 'dist');
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get('/', (_req, res) => {
-  res.json({ status: 'ok', message: 'Monone Motlob API', health: '/api/health' });
-});
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 app.use('/api/auth', authRoutes);
@@ -47,10 +45,14 @@ app.use('/api/gallery', galleryRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/stats', statsRoutes);
 
-const clientDist = path.join(__dirname, '..', 'frontend', 'dist');
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(clientDist));
+  app.get('/', (_req, res) => res.sendFile(path.join(clientDist, 'index.html')));
   app.get('*', (_req, res) => res.sendFile(path.join(clientDist, 'index.html')));
+} else {
+  app.get('/', (_req, res) => {
+    res.json({ status: 'ok', message: 'Monone Motlob API', health: '/api/health' });
+  });
 }
 
 async function startServer() {
