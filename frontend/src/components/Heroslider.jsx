@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "./HeroSlider.css";
+import "./Heroslider.css";
 
 // ─── Drop-in replacement hero slider ───────────────────────────────────────
 // Props: slides = heroSlides array from siteData
