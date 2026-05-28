@@ -33,12 +33,13 @@ router.get('/', async (_req, res) => {
 // CREATE
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, description } = req.body;
     if (!title) return res.status(400).json({ error: 'Title is required' });
     if (!req.file) return res.status(400).json({ error: 'Image is required' });
 
     const item = await Gallery.create({
       title,
+      description: description || '',
       imageUrl: req.file.path,
       createdBy: req.user._id,
     });
@@ -51,9 +52,11 @@ router.post('/', upload.single('image'), async (req, res) => {
 // UPDATE title
 router.put('/:id', async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, description } = req.body;
     const item = await Gallery.findByIdAndUpdate(
-      req.params.id, { title }, { new: true }
+      req.params.id,
+      { title, description: description || '' },
+      { new: true }
     );
     if (!item) return res.status(404).json({ error: 'Not found' });
     res.json(item);

@@ -76,8 +76,8 @@ const sections = [
         bg: "#fdf2f8",
       },
       {
-        title: "Photo Gallery",
-        description: "Upload and manage community photos.",
+        title: "Activity",
+        description: "Upload and manage activity photos and captions.",
         icon: <Image />,
         to: "/admin/gallery",
         accent: "#0ea5e9",

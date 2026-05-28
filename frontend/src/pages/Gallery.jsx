@@ -35,33 +35,60 @@ export default function Gallery() {
       <style>{`
         .pub-gallery-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-          gap: 18px;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 20px;
           max-width: 1100px;
           margin: 0 auto;
         }
         .pub-gallery-card {
-          border-radius: 14px; overflow: hidden; background: #fff;
-          box-shadow: 0 2px 10px rgba(0,0,0,.07); cursor: pointer;
-          transition: transform .2s, box-shadow .2s;
+          border-radius: 22px;
+          overflow: hidden;
+          background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+          box-shadow: 0 10px 28px rgba(15,23,42,.08);
+          border: 1px solid rgba(148,163,184,.16);
+          cursor: pointer;
+          transition: transform .22s ease, box-shadow .22s ease;
         }
-        .pub-gallery-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.13); }
-        .pub-gallery-img { width: 100%; height: 190px; object-fit: cover; display: block; }
+        .pub-gallery-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(15,23,42,.14); }
+        .pub-gallery-img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        .pub-gallery-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+        .pub-gallery-title { margin: 0; font-size: 15px; font-weight: 800; color: #0f172a; }
+        .pub-gallery-description { margin: 0; font-size: 13px; line-height: 1.6; color: #475569; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .lb-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.88);
           display: flex; align-items: center; justify-content: center; z-index: 9999; }
         .lb-nav { background: rgba(255,255,255,.12); border: none; color: #fff; border-radius: 50%;
           width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
           cursor: pointer; font-size: 20px; flex-shrink: 0; transition: background .2s; }
         .lb-nav:hover { background: rgba(255,255,255,.22); }
-        @media(max-width:360px){ .pub-gallery-grid{ grid-template-columns:1fr; } }
+        .lb-description {
+          margin-top: 10px;
+          max-width: 640px;
+          max-height: 22vh;
+          overflow-y: auto;
+          padding: 14px 16px;
+          border-radius: 16px;
+          background: rgba(255,255,255,.1);
+          border: 1px solid rgba(255,255,255,.14);
+          color: rgba(255,255,255,.9);
+          font-size: 15px;
+          line-height: 1.75;
+          text-align: left;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,.35) transparent;
+        }
+        .lb-description::-webkit-scrollbar { width: 8px; }
+        .lb-description::-webkit-scrollbar-track { background: transparent; }
+        .lb-description::-webkit-scrollbar-thumb { background: rgba(255,255,255,.28); border-radius: 999px; }
+        @media(max-width:1100px){ .pub-gallery-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media(max-width:640px){ .pub-gallery-grid{ grid-template-columns:1fr; } }
       `}</style>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", marginBottom: 32 }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, color: "#1a1f6e", margin: "0 0 6px" }}>
-          ফটো গ্যালারি
+          কার্যক্রম
         </h1>
         <p style={{ color: "#64748b", fontSize: 14, margin: 0 }}>
-          সংগঠনের কার্যক্রমের ছবি
+          সংগঠনের কার্যক্রম, মুহূর্ত, এবং গল্প
         </p>
       </div>
 
@@ -70,16 +97,17 @@ export default function Gallery() {
       ) : items.length === 0 ? (
         <div style={{ textAlign: "center", padding: 64, color: "#94a3b8" }}>
           <Image style={{ fontSize: 40, marginBottom: 10, opacity: .4 }} />
-          <p>এখনো কোনো ছবি যোগ করা হয়নি।</p>
+          <p>এখনো কোনো কার্যক্রম যোগ করা হয়নি।</p>
         </div>
       ) : (
         <div className="pub-gallery-grid">
           {items.map((item, idx) => (
             <div className="pub-gallery-card" key={item._id} onClick={() => setLightbox(idx)}>
               <img src={item.imageUrl} alt={item.title} className="pub-gallery-img" />
-              <div style={{ padding: "10px 14px 12px" }}>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "#0f172a" }}>{item.title}</p>
-                <p style={{ margin: "3px 0 0", fontSize: 11, color: "#94a3b8" }}>
+              <div className="pub-gallery-body">
+                <p className="pub-gallery-title">{item.title}</p>
+                {item.description ? <p className="pub-gallery-description">{item.description}</p> : null}
+                <p style={{ margin: "2px 0 0", fontSize: 11, color: "#94a3b8" }}>
                   {new Date(item.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                 </p>
               </div>
@@ -101,6 +129,11 @@ export default function Gallery() {
             <p style={{ color: "#fff", marginTop: 14, fontSize: 15, fontWeight: 600, textAlign: "center" }}>
               {items[lightbox].title}
             </p>
+            {items[lightbox].description ? (
+              <p className="lb-description">
+                {items[lightbox].description}
+              </p>
+            ) : null}
             <p style={{ color: "rgba(255,255,255,.5)", fontSize: 12, margin: 0 }}>
               {lightbox + 1} / {items.length}
             </p>

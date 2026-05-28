@@ -62,14 +62,14 @@ export default function Layout() {
     { to: "/", label: "Home" },
     ...commonLinks,
     { to: "/events", label: "Events" },
-    { to: "/gallery", label: "Gallery" },
+    { to: "/gallery", label: "Activity" },
   ];
 
   const userLinks = [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/donations", label: "Donations" },
     { to: "/notice", label: "Notice" },
-    { to: "/gallery", label: "Gallery" },
+    { to: "/gallery", label: "Activity" },
     ...commonLinks,
   ];
 

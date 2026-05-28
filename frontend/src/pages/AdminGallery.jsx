@@ -12,10 +12,12 @@ export default function AdminGallery() {
   const [showModal, setShowModal] = useState(false);
   const [saving, setSaving]       = useState(false);
   const [title, setTitle]         = useState("");
+  const [description, setDescription] = useState("");
   const [file, setFile]           = useState(null);
   const [preview, setPreview]     = useState(null);
   const [editId, setEditId]       = useState(null);
   const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
   const fileRef = useRef();
 
   useEffect(() => { fetchItems(); }, []);
@@ -33,7 +35,7 @@ export default function AdminGallery() {
   }
 
   function openModal() {
-    setTitle(""); setFile(null); setPreview(null);
+    setTitle(""); setDescription(""); setFile(null); setPreview(null);
     setShowModal(true);
   }
 
@@ -50,6 +52,7 @@ export default function AdminGallery() {
     try {
       const fd = new FormData();
       fd.append("title", title.trim());
+      fd.append("description", description.trim());
       fd.append("image", file);
       const res = await fetch(`${apiBase}/api/admin/gallery`, {
         method: "POST",
@@ -81,10 +84,14 @@ export default function AdminGallery() {
       const res = await fetch(`${apiBase}/api/admin/gallery/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${auth.token}` },
-        body: JSON.stringify({ title: editTitle.trim() }),
+        body: JSON.stringify({ title: editTitle.trim(), description: editDescription.trim() }),
       });
       if (!res.ok) throw new Error("Update failed");
-      setItems(prev => prev.map(i => i._id === id ? { ...i, title: editTitle.trim() } : i));
+      setItems(prev => prev.map(i => i._id === id ? {
+        ...i,
+        title: editTitle.trim(),
+        description: editDescription.trim(),
+      } : i));
       setEditId(null);
     } catch (err) { setError(err.message); }
   }
@@ -95,11 +102,20 @@ export default function AdminGallery() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         .ag-root * { font-family:'Plus Jakarta Sans','Segoe UI',sans-serif; box-sizing:border-box; }
-        .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
-        .gallery-card { background:#fff; border-radius:16px; overflow:hidden;
-          box-shadow:0 2px 12px rgba(0,0,0,.07); transition:transform .2s,box-shadow .2s; }
-        .gallery-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.13); }
-        .gallery-img { width:100%; height:160px; object-fit:cover; display:block; }
+        .gallery-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+        .gallery-card {
+          background: linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
+          border-radius: 22px;
+          overflow:hidden;
+          border: 1px solid rgba(148,163,184,.18);
+          box-shadow:0 8px 24px rgba(15,23,42,.08);
+          transition:transform .22s ease,box-shadow .22s ease;
+        }
+        .gallery-card:hover { transform:translateY(-4px); box-shadow:0 16px 38px rgba(15,23,42,.14); }
+        .gallery-img { width:100%; height:240px; object-fit:cover; display:block; }
+        .gallery-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+        .gallery-title { margin: 0; font-size: 14px; font-weight: 800; color: #0f172a; }
+        .gallery-description { margin: 0; font-size: 12px; line-height: 1.55; color: #475569; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .overlay-modal { position:fixed; inset:0; background:rgba(0,0,0,.5);
           display:flex; align-items:center; justify-content:center; z-index:999; padding:20px; }
         .modal-box { background:#fff; border-radius:20px; width:100%; max-width:460px;
@@ -107,7 +123,8 @@ export default function AdminGallery() {
         .drop-zone { border:2px dashed #c7d2fe; border-radius:12px; padding:32px 20px;
           text-align:center; cursor:pointer; transition:border-color .2s,background .2s; }
         .drop-zone:hover { border-color:#3b4fd8; background:#f5f7ff; }
-        @media(max-width:480px){ .gallery-grid{grid-template-columns:1fr 1fr;} }
+        @media(max-width:1100px){ .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+        @media(max-width:640px){ .gallery-grid{grid-template-columns:1fr;} }
       `}</style>
 
       <div className="ag-root" style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
@@ -119,18 +136,18 @@ export default function AdminGallery() {
           <div>
             <div style={{ color: "#a5b4fc", fontSize: 12, fontWeight: 600, letterSpacing: ".08em",
               textTransform: "uppercase", marginBottom: 6, display: "flex", alignItems: "center", gap: 7 }}>
-              <Image style={{ fontSize: 14 }} /> Gallery
+              <Image style={{ fontSize: 14 }} /> Activity
             </div>
-            <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Photo Gallery</h1>
+            <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", margin: "0 0 4px" }}>Activity Board</h1>
             <p style={{ color: "rgba(255,255,255,.6)", fontSize: 13, margin: 0 }}>
-              Upload and manage community photos.
+              Upload and manage activity photos, titles, and descriptions.
             </p>
           </div>
           <button onClick={openModal} style={{ display: "inline-flex", alignItems: "center", gap: 8,
             background: "#fff", color: "#1a1f6e", border: "none", borderRadius: 12,
             padding: "11px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer",
             boxShadow: "0 4px 16px rgba(0,0,0,.15)" }}>
-            <Plus style={{ fontSize: 15 }} /> Upload Photo
+            <Plus style={{ fontSize: 15 }} /> Upload Activity
           </button>
         </div>
 
@@ -140,7 +157,7 @@ export default function AdminGallery() {
           width: "fit-content" }}>
           <Image style={{ color: "#3b4fd8" }} />
           <span style={{ fontSize: 14, fontWeight: 700, color: "#1e293b" }}>{items.length}</span>
-          <span style={{ fontSize: 13, color: "#94a3b8" }}>photo{items.length !== 1 ? "s" : ""}</span>
+          <span style={{ fontSize: 13, color: "#94a3b8" }}>item{items.length !== 1 ? "s" : ""}</span>
         </div>
 
         {error && (
@@ -158,51 +175,67 @@ export default function AdminGallery() {
         ) : items.length === 0 ? (
           <div style={{ textAlign: "center", padding: 64, color: "#94a3b8" }}>
             <Image style={{ fontSize: 40, marginBottom: 12, opacity: .4 }} />
-            <p style={{ fontWeight: 600, color: "#475569" }}>No photos yet</p>
-            <p style={{ fontSize: 13 }}>Click "Upload Photo" to add the first one.</p>
+            <p style={{ fontWeight: 600, color: "#475569" }}>No activity items yet</p>
+            <p style={{ fontSize: 13 }}>Click "Upload Activity" to add the first one.</p>
           </div>
         ) : (
           <div className="gallery-grid">
             {items.map(item => (
               <div className="gallery-card" key={item._id}>
                 <img src={item.imageUrl} alt={item.title} className="gallery-img" />
-                <div style={{ padding: "10px 12px 12px" }}>
+                <div className="gallery-body">
                   {editId === item._id ? (
-                    <div style={{ display: "flex", gap: 6 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                       <input value={editTitle} onChange={e => setEditTitle(e.target.value)}
-                        style={{ flex: 1, padding: "6px 10px", borderRadius: 8, border: "1.5px solid #c7d2fe",
+                        placeholder="Title"
+                        style={{ width: "100%", padding: "8px 10px", borderRadius: 10, border: "1.5px solid #c7d2fe",
                           fontSize: 13, outline: "none" }}
                         onKeyDown={e => e.key === "Enter" && handleRename(item._id)} autoFocus />
-                      <button onClick={() => handleRename(item._id)}
-                        style={{ background: "#eef2ff", border: "none", borderRadius: 8,
-                          color: "#3b4fd8", padding: "6px 8px", cursor: "pointer" }}>
-                        <Check />
-                      </button>
-                      <button onClick={() => setEditId(null)}
-                        style={{ background: "#f1f5f9", border: "none", borderRadius: 8,
-                          color: "#64748b", padding: "6px 8px", cursor: "pointer" }}>
-                        <X />
-                      </button>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6 }}>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "#0f172a",
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>
-                        {item.title}
-                      </p>
-                      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-                        <button onClick={() => { setEditId(item._id); setEditTitle(item.title); }}
-                          style={{ background: "#eef2ff", border: "none", borderRadius: 7,
-                            color: "#3b4fd8", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
-                          <Edit2 />
+                      <textarea value={editDescription} onChange={e => setEditDescription(e.target.value)}
+                        placeholder="Description"
+                        rows={3}
+                        style={{ width: "100%", padding: "8px 10px", borderRadius: 10, border: "1.5px solid #c7d2fe",
+                          fontSize: 13, outline: "none", resize: "vertical" }} />
+                      <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
+                        <button onClick={() => handleRename(item._id)}
+                          style={{ background: "#eef2ff", border: "none", borderRadius: 8,
+                            color: "#3b4fd8", padding: "6px 8px", cursor: "pointer" }}>
+                          <Check />
                         </button>
-                        <button onClick={() => handleDelete(item._id)}
-                          style={{ background: "#fef2f2", border: "none", borderRadius: 7,
-                            color: "#ef4444", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
-                          <Trash2 />
+                        <button onClick={() => setEditId(null)}
+                          style={{ background: "#f1f5f9", border: "none", borderRadius: 8,
+                            color: "#64748b", padding: "6px 8px", cursor: "pointer" }}>
+                          <X />
                         </button>
                       </div>
                     </div>
+                  ) : (
+                    <>
+                      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
+                        <div style={{ minWidth: 0 }}>
+                          <p className="gallery-title">
+                            {item.title}
+                          </p>
+                          {item.description ? (
+                            <p className="gallery-description">
+                              {item.description}
+                            </p>
+                          ) : null}
+                        </div>
+                        <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+                          <button onClick={() => { setEditId(item._id); setEditTitle(item.title); setEditDescription(item.description || ""); }}
+                            style={{ background: "#eef2ff", border: "none", borderRadius: 7,
+                              color: "#3b4fd8", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
+                            <Edit2 />
+                          </button>
+                          <button onClick={() => handleDelete(item._id)}
+                            style={{ background: "#fef2f2", border: "none", borderRadius: 7,
+                              color: "#ef4444", padding: "5px 7px", cursor: "pointer", fontSize: 13 }}>
+                            <Trash2 />
+                          </button>
+                        </div>
+                      </div>
+                    </>
                   )}
                   <p style={{ margin: "4px 0 0", fontSize: 11, color: "#94a3b8" }}>
                     {new Date(item.createdAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
@@ -222,7 +255,7 @@ export default function AdminGallery() {
               display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <h2 style={{ fontSize: 17, fontWeight: 800, color: "#fff", margin: 0,
                 display: "flex", alignItems: "center", gap: 8 }}>
-                <UploadCloud /> Upload Photo
+                <UploadCloud /> Upload Activity
               </h2>
               <button onClick={() => setShowModal(false)}
                 style={{ background: "rgba(255,255,255,.15)", border: "none", color: "#fff",
@@ -238,7 +271,7 @@ export default function AdminGallery() {
                   Title <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <input value={title} onChange={e => setTitle(e.target.value)}
-                  placeholder="Enter photo title…"
+                  placeholder="Enter activity title…"
                   style={{ width: "100%", padding: "11px 14px", borderRadius: 10,
                     border: "1.5px solid #e8e5f7", background: "#f8f7ff", fontSize: 14,
                     color: "#1a1235", outline: "none" }} />
@@ -246,7 +279,19 @@ export default function AdminGallery() {
               <div>
                 <label style={{ display: "block", fontSize: 11, fontWeight: 700, letterSpacing: ".08em",
                   textTransform: "uppercase", color: "#94a3b8", marginBottom: 7 }}>
-                  Photo <span style={{ color: "#ef4444" }}>*</span>
+                  Description
+                </label>
+                <textarea value={description} onChange={e => setDescription(e.target.value)}
+                  placeholder="Add a short description for this activity…"
+                  rows={4}
+                  style={{ width: "100%", padding: "11px 14px", borderRadius: 10,
+                    border: "1.5px solid #e8e5f7", background: "#f8f7ff", fontSize: 14,
+                    color: "#1a1235", outline: "none", resize: "vertical" }} />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: 11, fontWeight: 700, letterSpacing: ".08em",
+                  textTransform: "uppercase", color: "#94a3b8", marginBottom: 7 }}>
+                  Image <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <input ref={fileRef} type="file" accept="image/*"
                   onChange={handleFile} style={{ display: "none" }} />
@@ -265,7 +310,7 @@ export default function AdminGallery() {
                   <div className="drop-zone" onClick={() => fileRef.current.click()}>
                     <UploadCloud style={{ fontSize: 28, color: "#3b4fd8", marginBottom: 8 }} />
                     <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "#3b4fd8" }}>
-                      Click to choose a photo
+                        Click to choose an image
                     </p>
                     <p style={{ margin: "4px 0 0", fontSize: 11, color: "#94a3b8" }}>
                       JPG, PNG, WEBP · max 10 MB
