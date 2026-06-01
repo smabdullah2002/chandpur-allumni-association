@@ -1,5 +1,7 @@
 services:
   app:
+    image: cp-alumni-app
+    container_name: cp-alumni-app
     build:
       context: .
       dockerfile: Dockerfile
