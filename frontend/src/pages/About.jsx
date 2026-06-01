@@ -11,111 +11,51 @@ import {
   Users,
 } from "lucide-react";
 import SectionTitle from "../components/SectionTitle";
-import { trustPoints } from "../data/siteData";
+import MembersList from "../components/MembersList";
+import { useNavigate } from "react-router-dom";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
-const defaultStats = [
-  { value: "100%", label: "স্বচ্ছ পরিচালনা" },
-  { value: "24/7", label: "স্বেচ্ছাসেবক সমন্বয়" },
-  { value: "1k+", label: "সম্প্রদায় পৌঁছানো" },
+// stats removed — UI no longer displays numeric stat cards
+
+const defaultTrustPoints = [
+  "আলুমনাই ও বিশ্ববিদ্যালয়ের মধ্যে ধারাবাহিক সংযোগ রক্ষা করে।",
+  "পেশাগত উন্নয়ন ও মেন্টরশিপ প্রোগ্রাম পরিচালনা করা।",
+  "শিক্ষা, সামাজিক সেবা ও দাতব্য কার্যক্রমে অংশগ্রহণ বাড়ানো।",
+  "পুনর্মিলনী, নেটওয়ার্কিং সেশন এবং জ্ঞানের বিনিময় ফোরাম আয়োজন করা।",
 ];
-const defaultBody =
-  "চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন একটি ঐক্যবদ্ধ, অরাজনৈতিক ও মানবিক সংগঠন, যেখানে বিভিন্ন প্রজন্মের প্রাক্তন শিক্ষার্থীরা সমাজের কল্যাণে একসাথে কাজ করে। শিক্ষা, মানবিক সহায়তা, সামাজিক উন্নয়ন ও দুর্যোগকালীন সহযোগিতার মাধ্যমে এই প্ল্যাটফর্ম মানুষের পাশে থাকার অঙ্গীকার বহন করে।";
 
-/* ── Member grid ── */
-function MembersList() {
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch(`${apiBaseUrl}/api/members`)
-      .then(r => r.json())
-      .then(d => { setMembers(d.members || []); setLoading(false); })
-      .catch(() => { setError("তথ্য লোড করতে ব্যর্থ হয়েছে।"); setLoading(false); });
-  }, []);
-
-  if (loading) return (
-    <div style={{ padding: "2rem", textAlign: "center", color: "#94a3b8", fontFamily: "'Hind Siliguri',sans-serif" }}>
-      লোড হচ্ছে…
-    </div>
-  );
-  if (error) return (
-    <div style={{ padding: "1.5rem", color: "#ef4444", fontFamily: "'Hind Siliguri',sans-serif" }}>{error}</div>
-  );
-  if (!members.length) return (
-    <div style={{ padding: "1.5rem", color: "#b0aac8", fontStyle: "italic", fontFamily: "'Hind Siliguri',sans-serif" }}>
-      এখনো কোনো সদস্য যোগ করা হয়নি।
-    </div>
-  );
-
-  return (
-    <div className="members-grid">
-      {members.map(m => {
-        const initials = m.fullName.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
-        return (
-          <div className="member-card" key={m.id}>
-            <div className="member-avatar">
-              {m.profileImage
-                ? <img src={m.profileImage} alt={m.fullName} />
-                : <span>{initials}</span>
-              }
-            </div>
-            <div className="member-info">
-              <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
-                <p className="member-name" style={{margin:0}}>{m.fullName}</p>
-                {m.badge && (
-                  <span style={{
-                    display:"inline-flex",alignItems:"center",padding:"1px 8px",
-                    borderRadius:99,fontSize:10,fontWeight:700,lineHeight:1.6,
-                    background:m.badge.color+"22",color:m.badge.color,
-                    border:`1px solid ${m.badge.color}55`,whiteSpace:"nowrap",
-                  }}>{m.badge.name}</span>
-                )}
-              </div>
-              {(m.upazila || m.villageName) && (
-                <p className="member-meta">
-                  <MapPin size={11} style={{ flexShrink: 0 }} />
-                  {[m.villageName, m.upazila].filter(Boolean).join(", ")}
-                </p>
-              )}
-              {m.lastEducation && (
-                <p className="member-meta">
-                  <Book size={11} style={{ flexShrink: 0 }} />
-                  {m.lastEducation}
-                </p>
-              )}
-              {m.phonePublic && m.mobileNumber ? (
-                <p className="member-meta member-phone">
-                  <Phone size={11} style={{ flexShrink: 0 }} />
-                  {m.mobileNumber}
-                </p>
-              ) : (
-                <p className="member-meta member-hidden">
-                  <PhoneOff size={11} style={{ flexShrink: 0 }} />
-                  গোপন
-                </p>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
+const defaultBody = `
+<div>
+  <p>
+    চাঁদপুর অ্যালামনাই অ্যাসোসিয়েশন (CAA) হচ্ছে আমাদের বিশ্ববিদ্যালয়ের সকল স্নাতক ও স্নাতকোত্তর শিক্ষার্থীদের প্রতিনিধিত্বকারী দেহ। এই সংগঠনটি বিশ্ববিদ্যালয় ও তার প্রাক্তন শিক্ষার্থীদের মধ্যে একটি শক্তিশালী ও দায়িত্বশীল সংযোগ গড়ে তোলে।
+  </p>
+  <p>
+    আমরা পুনর্মিলনী, নেটওয়ার্কিং, ক্যারিয়ার উন্নয়ন, মেন্টরশিপ এবং সমাজসেবা সম্পর্কিত বিভিন্ন কর্মকাণ্ড আয়োজন করে থাকি। আমাদের লক্ষ্য হলো সদস্যদের ব্যক্তিগত ও পেশাগত উন্নয়নে সহযোগিতা করা এবং বিশ্ববিদ্যালয়ের অগ্রগতিতে তাদের অংশগ্রহণ নিশ্চিত করা।
+  </p>
+  <p>
+    <strong>ভিশন:</strong> সদস্য, ছাত্র-ছাত্রী ও বিশ্ববিদ্যালয়ের মধ্যে জীবনব্যাপী সম্পর্ক গঠন করে একটি গ্লোবালি সংযুক্ত সম্প্রদায় তৈরি করা।
+  </p>
+  <p>
+    <strong>মিশন:</strong> যোগাযোগ, সহযোগিতা ও সেবার মাধ্যমে বিশ্ববিদ্যালয়-অ্যালামনাই সম্পর্ক শক্তিশালী করা; কর্মসংস্থান ও নেতৃত্ব উন্নয়নে সহায়তা প্রদানে উৎসাহিত করা।
+  </p>
+  <p>
+    <a href="/register" style="color:var(--primary);font-weight:700;">রেজিস্ট্রেশন করুন</a> — আমাদের কার্যক্রমে যুক্ত হতে এবং আপডেট পেতে।
+  </p>
+</div>
+`;
+ 
 /* ── Main page ── */
 export default function About() {
   const [content, setContent] = useState({
     title: "ভূমিকা",
     body: defaultBody,
-    trustPoints,
-    stats: defaultStats,
+    trustPoints: defaultTrustPoints,
     lifetimeMembers: "",
     committee: "",
   });
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => { fetchAbout(); }, []);
 
@@ -129,8 +69,8 @@ export default function About() {
         setContent({
           title: data.about.title || "ভূমিকা",
           body: data.about.body || defaultBody,
-          trustPoints: data.about.trustPoints?.length ? data.about.trustPoints : trustPoints,
-          stats: data.about.stats?.length ? data.about.stats : defaultStats,
+          trustPoints: data.about.trustPoints?.length ? data.about.trustPoints : defaultTrustPoints,
+          stats: data.about.stats?.length ? data.about.stats : [],
           lifetimeMembers: data.about.lifetimeMembers || "",
           committee: data.about.committee || "",
         });
@@ -143,9 +83,8 @@ export default function About() {
   }
 
   const CARDS = [
-    { key: "members",         label: "সদস্যগণ",            icon: Users, color: "#5a4ef6", bg: "#eef1ff", live: true },
-    { key: "lifetimeMembers", label: "আজীবন সদস্য",        icon: Star,  color: "#f59e0b", bg: "#fff8ec", live: false },
-    { key: "committee",       label: "কার্যনির্বাহী পরিষদ", icon: Award, color: "#10b981", bg: "#edfcf3", live: false },
+    { key: "members",   label: "সদস্যগণ",            icon: Users, color: "#5a4ef6", bg: "#eef1ff", action: () => navigate('/members') },
+    { key: "committee", label: "কার্যনির্বাহী পরিষদ", icon: Award, color: "#10b981", bg: "#edfcf3", action: () => navigate('/executive') },
   ];
 
   return (
@@ -165,7 +104,7 @@ export default function About() {
 
         .about-intro-grid {
           display: grid;
-          grid-template-columns: 1fr auto;
+          grid-template-columns: 1fr;
           gap: 2.5rem;
           align-items: start;
         }
@@ -302,24 +241,20 @@ export default function About() {
               )}
             </div>
 
-            <div className="about-stats-col" style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
-              {content.stats.map((stat, i) => (
-                <div className="about-stat-card" key={i}>
-                  <strong>{stat.value}</strong>
-                  <span className="about-bengali">{stat.label}</span>
-                </div>
-              ))}
-            </div>
+            {/* stats column removed as requested */}
           </div>
 
           {/* ── Three Expandable Cards ── */}
           <div className="about-cards-section">
-            {CARDS.map(({ key, label, icon: Icon, color, bg, live }) => {
+            {CARDS.map(({ key, label, icon: Icon, color, bg, action }) => {
               const isOpen = open === key;
               const html = content[key];
               return (
                 <div className="about-acc-card" key={key}>
-                  <button className="about-acc-header" onClick={() => toggle(key)} aria-expanded={isOpen}>
+                  <button className="about-acc-header" onClick={() => {
+                    if (typeof action === 'function') return action();
+                    return toggle(key);
+                  }} aria-expanded={isOpen}>
                     <span className="about-acc-icon" style={{ background: bg, color }}>
                       <Icon />
                     </span>
@@ -328,12 +263,13 @@ export default function About() {
                   </button>
 
                   <div className={`about-acc-body${isOpen ? " open" : ""}`}>
-                    {live ? (
-                      isOpen && <MembersList />
-                    ) : html ? (
-                      <div className="about-acc-content" dangerouslySetInnerHTML={{ __html: html }} />
-                    ) : (
-                      <div className="about-acc-empty">এখনো কোনো তথ্য যোগ করা হয়নি।</div>
+                    {isOpen && key === 'members' && <MembersList />}
+                    {isOpen && key !== 'members' && (
+                      html ? (
+                        <div className="about-acc-content" dangerouslySetInnerHTML={{ __html: html }} />
+                      ) : (
+                        <div className="about-acc-empty">এখনো কোনো তথ্য যোগ করা হয়নি।</div>
+                      )
                     )}
                   </div>
                 </div>

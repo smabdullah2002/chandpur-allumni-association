@@ -18,6 +18,7 @@ import AdminFeeCategories from "./pages/AdminFeeCategories";
 import AdminGallery from "./pages/AdminGallery";
 import AdminRoles from "./pages/AdminRoles";
 import AdminEvents from "./pages/AdminEvents";
+import AdminExecutive from "./pages/AdminExecutive";
 import Gallery from "./pages/Gallery";
 import Dashboard from "./pages/Dashboard";
 import Donations from "./pages/Donations";
@@ -26,6 +27,8 @@ import Notice from "./pages/Notice";
 import Profile from "./pages/Profile";
 import ImpactReport from "./pages/ImpactReport";
 import ResetPassword from "./pages/ResetPassword";
+import Members from "./pages/Members";
+import Executive from "./pages/Executive";
 
 export default function App() {
   return (
@@ -38,6 +41,8 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/impact" element={<ImpactReport />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/members" element={<Members />} />
+        <Route path="/executive" element={<Executive />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
@@ -87,6 +92,14 @@ export default function App() {
           element={
             <ProtectedRoute requiredRole="super-admin">
               <AdminEvents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/executive"
+          element={
+            <ProtectedRoute requiredRole="super-admin">
+              <AdminExecutive />
             </ProtectedRoute>
           }
         />

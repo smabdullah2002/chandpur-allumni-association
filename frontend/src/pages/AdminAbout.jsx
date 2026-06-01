@@ -25,6 +25,7 @@ import {
   X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { trustPoints as defaultTrustPoints } from "../data/siteData";
 
 /* ─── defaults ─────────────────────────────────────────── */
@@ -537,15 +538,12 @@ function MiniToolbar({ editorRef }) {
 /* ─── Main Component ────────────────────────────────────── */
 export default function AdminAbout() {
   const { auth } = useAuth();
+  const navigate = useNavigate();
   const apiBaseUrl =
     import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // Form state
   const [title, setTitle] = useState(defaultAbout.title);
-  const [stats, setStats] = useState(defaultAbout.stats);
-  const [statsText, setStatsText] = useState(
-    defaultAbout.stats.map((s) => `${s.value}|${s.label}`).join("\n"),
-  );
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
   const [charCount, setCharCount] = useState(0);
@@ -554,7 +552,6 @@ export default function AdminAbout() {
   const bodyRef = useRef(null);
   const trustRef = useRef(null);
   const membersRef = useRef(null);
-  const lifetimeMembersRef = useRef(null);
   const committeeRef = useRef(null);
   const savedRangeRef = useRef(null);
 
@@ -563,6 +560,16 @@ export default function AdminAbout() {
 
   // Link modal
   const [linkOpen, setLinkOpen] = useState(false);
+
+  // Simple list editors for trust points, members and committee
+  const [trustItems, setTrustItems] = useState([]);
+  const [newTrustItem, setNewTrustItem] = useState("");
+
+  const [membersList, setMembersList] = useState([]);
+  const [newMember, setNewMember] = useState("");
+
+  const [committeeList, setCommitteeList] = useState([]);
+  const [newCommittee, setNewCommittee] = useState("");
 
   /* ── fetch on mount ── */
   useEffect(() => {
@@ -585,22 +592,23 @@ export default function AdminAbout() {
         setTitle(data.about.title || defaultAbout.title);
         if (bodyRef.current)
           bodyRef.current.innerHTML = data.about.body || defaultAbout.body;
-        if (trustRef.current)
-          trustRef.current.innerHTML = (
-            data.about.trustPoints || defaultAbout.trustPoints
-          ).join("<br/>");
-        if (membersRef.current)
-          membersRef.current.innerHTML = data.about.members || "";
-        if (lifetimeMembersRef.current)
-          lifetimeMembersRef.current.innerHTML =
-            data.about.lifetimeMembers || "";
-        if (committeeRef.current)
-          committeeRef.current.innerHTML = data.about.committee || "";
-        const s = data.about.stats?.length
-          ? data.about.stats
-          : defaultAbout.stats;
-        setStats(s);
-        setStatsText(s.map((x) => `${x.value}|${x.label}`).join("\n"));
+
+        // trustPoints is stored as an array on the server
+        setTrustItems(data.about.trustPoints || defaultAbout.trustPoints);
+
+        // members and committee may be HTML; convert to plain lines for simple editors
+        const htmlToLines = (html) => {
+          try {
+            const div = document.createElement("div");
+            div.innerHTML = html || "";
+            return div.innerText.split(/\n|\r|\u2028/).map((l) => l.trim()).filter(Boolean);
+          } catch (err) {
+            return [];
+          }
+        };
+
+        setMembersList(htmlToLines(data.about.members || ""));
+        setCommitteeList(htmlToLines(data.about.committee || ""));
       }
       setError("");
       setStatus("idle");
@@ -614,9 +622,11 @@ export default function AdminAbout() {
   useEffect(() => {
     if (bodyRef.current && !bodyRef.current.innerHTML)
       bodyRef.current.innerHTML = defaultAbout.body;
-    if (trustRef.current && !trustRef.current.innerHTML)
-      trustRef.current.innerHTML = defaultAbout.trustPoints.join("<br/>");
-    updateTrustPreview();
+
+    // if no trust items yet, seed defaults
+    if (!trustItems || trustItems.length === 0) setTrustItems(defaultAbout.trustPoints);
+
+    // if members/committee empty, keep as empty arrays
     updateCharCount();
   }, []);
 
@@ -624,26 +634,43 @@ export default function AdminAbout() {
     setCharCount(bodyRef.current?.innerText?.length ?? 0);
   }
 
-  function updateTrustPreview() {
-    if (!trustRef.current) return;
-    const html = trustRef.current.innerHTML;
-    const lines = html
-      .split(/<br\s*\/?>/i)
-      .map((l) => l.trim())
-      .filter((l) => l && l !== "&nbsp;");
-    setTrustLines(lines);
+  // helper to turn a list into server-friendly HTML (lines separated by <br/>)
+  function listToHtml(lines) {
+    return (lines || []).map((l) => l.trim()).filter(Boolean).join("<br/>");
   }
 
-  /* ── stats text → objects ── */
-  function handleStatsText(val) {
-    setStatsText(val);
-    const parsed = val
-      .split("\n")
-      .map((l) => l.split("|").map((c) => c.trim()))
-      .filter((p) => p[0] && p[1])
-      .map((p) => ({ value: p[0], label: p[1] }));
-    setStats(parsed);
+  // list manipulation helpers for the simple editors
+  function addTrustItem() {
+    const v = (newTrustItem || "").trim();
+    if (!v) return;
+    setTrustItems((s) => [...s, v]);
+    setNewTrustItem("");
   }
+  function removeTrustItem(idx) {
+    setTrustItems((s) => s.filter((_, i) => i !== idx));
+  }
+
+  function addMember() {
+    const v = (newMember || "").trim();
+    if (!v) return;
+    setMembersList((s) => [...s, v]);
+    setNewMember("");
+  }
+  function removeMember(idx) {
+    setMembersList((s) => s.filter((_, i) => i !== idx));
+  }
+
+  function addCommittee() {
+    const v = (newCommittee || "").trim();
+    if (!v) return;
+    setCommitteeList((s) => [...s, v]);
+    setNewCommittee("");
+  }
+  function removeCommittee(idx) {
+    setCommitteeList((s) => s.filter((_, i) => i !== idx));
+  }
+
+  /* (stats editing removed per request) */
 
   /* ── link modal ── */
   function openLinkModal() {
@@ -688,16 +715,9 @@ export default function AdminAbout() {
       const payload = {
         title,
         body: bodyRef.current?.innerHTML || "",
-        trustPoints: trustRef.current
-          ? trustRef.current.innerHTML
-              .split(/<br\s*\/?>/i)
-              .map((l) => l.trim())
-              .filter(Boolean)
-          : [],
-        stats,
-        members: membersRef.current?.innerHTML || "",
-        lifetimeMembers: lifetimeMembersRef.current?.innerHTML || "",
-        committee: committeeRef.current?.innerHTML || "",
+        trustPoints: trustItems.length ? trustItems : [],
+        members: membersList.length ? listToHtml(membersList) : membersRef.current?.innerHTML || "",
+        committee: committeeList.length ? listToHtml(committeeList) : committeeRef.current?.innerHTML || "",
       };
       const res = await fetch(`${apiBaseUrl}/api/admin/about`, {
         method: "PUT",
@@ -713,9 +733,6 @@ export default function AdminAbout() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save");
       setTitle(data.about.title);
-      const s = data.about.stats;
-      setStats(s);
-      setStatsText(s.map((x) => `${x.value}|${x.label}`).join("\n"));
       setStatus("saved");
       setTimeout(() => setStatus("idle"), 2500);
     } catch (err) {
@@ -921,6 +938,23 @@ export default function AdminAbout() {
             >
               Update the About Us section shown to all visitors.
             </p>
+            <div style={{ marginTop: 12 }}>
+              <button
+                type="button"
+                onClick={() => navigate('/admin/executive')}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: 10,
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'transparent',
+                  color: '#fff',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                Manage Executive Committee
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1017,316 +1051,9 @@ export default function AdminAbout() {
               </div>
             </div>
 
-            {/* ── Trust Points ── */}
-            <div className="section-card">
-              <div className="card-header">
-                <div
-                  className="card-icon"
-                  style={{ background: "#edfcf3", color: "#10b981" }}
-                >
-                  <Star />
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 800,
-                      color: "#0f172a",
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    Trust Points
-                  </p>
-                  <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
-                    Bullet points shown in the trust section — supports rich
-                    text per line
-                  </p>
-                </div>
-              </div>
-              <div className="card-body">
-                <label className="field-label">
-                  One point per line (rich text supported)
-                </label>
-                <div className="editor-wrap">
-                  <MiniToolbar editorRef={trustRef} />
-                  <div
-                    ref={trustRef}
-                    className="rich-area"
-                    contentEditable
-                    suppressContentEditableWarning
-                    data-placeholder={
-                      "Community-driven initiatives\nFully transparent donations\nVerified volunteers"
-                    }
-                    onInput={updateTrustPreview}
-                    style={{ minHeight: 90 }}
-                  />
-                </div>
+         
 
-                {/* Live preview */}
-                {trustLines.length > 0 && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: ".08em",
-                        textTransform: "uppercase",
-                        color: "#94a3b8",
-                        margin: "0 0 8px",
-                      }}
-                    >
-                      Preview
-                    </p>
-                    <div className="trust-preview">
-                      {trustLines.map((line, i) => (
-                        <div className="trust-item" key={i}>
-                          <CheckCircle
-                            style={{
-                              color: "#10b981",
-                              fontSize: 13,
-                              flexShrink: 0,
-                              marginTop: 2,
-                            }}
-                          />
-                          <span dangerouslySetInnerHTML={{ __html: line }} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* ── Members ── */}
-            <div className="section-card">
-              <div className="card-header">
-                <div
-                  className="card-icon"
-                  style={{ background: "#eef1ff", color: "#5a4ef6" }}
-                >
-                  <Users />
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 800,
-                      color: "#0f172a",
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    সদস্যগণ
-                  </p>
-                  <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
-                    Members list — supports rich HTML formatting
-                  </p>
-                </div>
-              </div>
-              <div className="card-body">
-                <label className="field-label">
-                  Members content (HTML / rich text)
-                </label>
-                <div className="editor-wrap">
-                  <MiniToolbar editorRef={membersRef} />
-                  <div
-                    ref={membersRef}
-                    className="rich-area"
-                    contentEditable
-                    suppressContentEditableWarning
-                    data-placeholder="Enter members list…"
-                    style={{ minHeight: 120 }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* ── Lifetime Members ── */}
-            <div className="section-card">
-              <div className="card-header">
-                <div
-                  className="card-icon"
-                  style={{ background: "#fff8ec", color: "#f59e0b" }}
-                >
-                  <Star />
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 800,
-                      color: "#0f172a",
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    আজীবন সদস্য
-                  </p>
-                  <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
-                    Lifetime members list — supports rich HTML formatting
-                  </p>
-                </div>
-              </div>
-              <div className="card-body">
-                <label className="field-label">
-                  Lifetime members content (HTML / rich text)
-                </label>
-                <div className="editor-wrap">
-                  <MiniToolbar editorRef={lifetimeMembersRef} />
-                  <div
-                    ref={lifetimeMembersRef}
-                    className="rich-area"
-                    contentEditable
-                    suppressContentEditableWarning
-                    data-placeholder="Enter lifetime members list…"
-                    style={{ minHeight: 120 }}
-                    onPaste={(e) => {
-                      e.preventDefault();
-                      const text = e.clipboardData.getData("text/plain");
-                      document.execCommand("insertText", false, text);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* ── Committee ── */}
-            <div className="section-card">
-              <div className="card-header">
-                <div
-                  className="card-icon"
-                  style={{ background: "#edfcf3", color: "#10b981" }}
-                >
-                  <Award />
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 800,
-                      color: "#0f172a",
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    কার্যনির্বাহী পরিষদ
-                  </p>
-                  <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
-                    Executive committee — supports rich HTML formatting
-                  </p>
-                </div>
-              </div>
-              <div className="card-body">
-                <label className="field-label">
-                  Committee content (HTML / rich text)
-                </label>
-                <div className="editor-wrap">
-                  <MiniToolbar editorRef={committeeRef} />
-                  <div
-                    ref={committeeRef}
-                    className="rich-area"
-                    contentEditable
-                    suppressContentEditableWarning
-                    data-placeholder="Enter committee list…"
-                    style={{ minHeight: 200 }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* ── Stats ── */}
-            <div className="section-card">
-              <div className="card-header">
-                <div
-                  className="card-icon"
-                  style={{ background: "#fff8ec", color: "#f59e0b" }}
-                >
-                  <TrendingUp />
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 800,
-                      color: "#0f172a",
-                      margin: "0 0 2px",
-                    }}
-                  >
-                    Stats
-                  </p>
-                  <p style={{ fontSize: 13, color: "#94a3b8", margin: 0 }}>
-                    Numbers displayed in the impact section
-                  </p>
-                </div>
-              </div>
-              <div className="card-body">
-                <label className="field-label">Format: value | label</label>
-                <textarea
-                  className="field-input"
-                  rows={4}
-                  value={statsText}
-                  onChange={(e) => handleStatsText(e.target.value)}
-                  placeholder={
-                    "100%|Transparent Operations\n24/7|Volunteer Coordination\n1k+|Community Reach"
-                  }
-                />
-                <div className="hint-row">
-                  <Info style={{ fontSize: 12 }} />
-                  <span>
-                    Example:{" "}
-                    <code
-                      style={{
-                        background: "#f1f5f9",
-                        padding: "1px 6px",
-                        borderRadius: 4,
-                        fontSize: 11,
-                      }}
-                    >
-                      100%|Transparent Operations
-                    </code>
-                  </span>
-                </div>
-
-                {stats.length > 0 && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: ".08em",
-                        textTransform: "uppercase",
-                        color: "#94a3b8",
-                        margin: "0 0 8px",
-                      }}
-                    >
-                      Preview
-                    </p>
-                    <div className="preview-grid">
-                      {stats.map((s, i) => (
-                        <div className="preview-stat" key={i}>
-                          <p
-                            style={{
-                              fontSize: 22,
-                              fontWeight: 800,
-                              color: "#3b4fd8",
-                              margin: "0 0 2px",
-                            }}
-                          >
-                            {s.value}
-                          </p>
-                          <p
-                            style={{
-                              fontSize: 12,
-                              color: "#64748b",
-                              margin: 0,
-                            }}
-                          >
-                            {s.label}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+           
 
             {/* ── Save ── */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>

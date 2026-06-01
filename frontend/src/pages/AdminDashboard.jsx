@@ -11,6 +11,7 @@ import {
   Tag,
   UserCheck,
   Users,
+  Award,
 } from "lucide-react";
 
 const sections = [
@@ -82,6 +83,14 @@ const sections = [
         to: "/admin/gallery",
         accent: "#0ea5e9",
         bg: "#f0f9ff",
+      },
+      {
+        title: "Executive Committee",
+        description: "Manage year-based executive committee members.",
+        icon: <Award />,
+        to: "/admin/executive",
+        accent: "#10b981",
+        bg: "#edfcf3",
       },
     ],
   },

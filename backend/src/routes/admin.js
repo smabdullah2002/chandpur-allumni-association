@@ -544,6 +544,7 @@ router.put("/about", async (req, res) => {
 
 // ==================== FEE CATEGORIES ====================
 const FeeCategory = require("../models/FeeCategory");
+const Executive = require("../models/Executive");
 
 // GET all categories
 router.get("/fee-categories", async (req, res) => {
@@ -593,6 +594,59 @@ router.delete("/fee-categories/:id", async (req, res) => {
     const category = await FeeCategory.findByIdAndDelete(req.params.id);
     if (!category) return res.status(404).json({ error: "Category not found" });
     res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==================== EXECUTIVE MANAGEMENT ====================
+
+// GET all executive years (admin)
+router.get('/executive', async (_req, res) => {
+  try {
+    const list = await Executive.find({}).sort({ year: -1 }).lean();
+    res.json({ list });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// CREATE executive year
+router.post('/executive', async (req, res) => {
+  try {
+    const { year, title, members } = req.body;
+    if (!year) return res.status(400).json({ error: 'Year is required' });
+    const existing = await Executive.findOne({ year });
+    if (existing) return res.status(400).json({ error: 'Year already exists' });
+    const doc = await Executive.create({ year, title: title || '', members: Array.isArray(members) ? members : []});
+    res.status(201).json(doc);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// UPDATE executive year
+router.put('/executive/:id', async (req, res) => {
+  try {
+    const { title, members, year } = req.body;
+    const update = {};
+    if (title !== undefined) update.title = title;
+    if (members !== undefined) update.members = Array.isArray(members) ? members : [];
+    if (year !== undefined) update.year = year;
+    const doc = await Executive.findByIdAndUpdate(req.params.id, update, { new: true });
+    if (!doc) return res.status(404).json({ error: 'Executive entry not found' });
+    res.json(doc);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE executive year
+router.delete('/executive/:id', async (req, res) => {
+  try {
+    const doc = await Executive.findByIdAndDelete(req.params.id);
+    if (!doc) return res.status(404).json({ error: 'Executive entry not found' });
+    res.json({ message: 'Deleted' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
